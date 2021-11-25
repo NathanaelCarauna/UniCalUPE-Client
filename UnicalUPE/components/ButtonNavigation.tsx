@@ -10,13 +10,12 @@ import { Text, View } from './Themed';
 
 export default function ButtonNavigation() {
     return (
-        <View style={styles.flex}>
-            <TouchableOpacity style={styles.navButton}>
-                    <Text>
-                        button
-                    </Text>
-            </TouchableOpacity>
-        </View>
+        <TouchableOpacity style={styles.navButton}>
+            <Text>
+                button
+            </Text>
+        </TouchableOpacity>
+
     )}
 
 
@@ -24,9 +23,8 @@ export default function ButtonNavigation() {
         navButton:{
             backgroundColor: Colors.Orange.background,
             alignItems: 'center',
-            justifyContent: 'center'
+            justifyContent: 'center',
+            padding: 10
+        
         },
-        flex:{
-            display: 'flex'
-        }
     })

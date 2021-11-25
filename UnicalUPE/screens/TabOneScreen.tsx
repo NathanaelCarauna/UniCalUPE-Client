@@ -12,7 +12,7 @@ export default function TabOneScreen({ navigation }: RootTabScreenProps<'TabOne'
       <Text style={styles.title}>Navegation</Text>
       <View style={styles.separator} lightColor="#eee" darkColor="rgba(255,255,255,0.1)" />
       <Text></Text>
-      <View style={styles.container}>
+      <View style={styles.flex_display}>
         <ButtonNavigation></ButtonNavigation>
         <ButtonNavigation></ButtonNavigation>
       </View>
@@ -35,4 +35,10 @@ const styles = StyleSheet.create({
     height: 1,
     width: '80%',
   },
+  flex_display:{
+    display: 'flex',
+    flexDirection: 'row',
+    alignItems: 'stretch',
+    alignContent: 'stretch',
+  }
 });
