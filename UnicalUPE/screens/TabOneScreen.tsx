@@ -5,6 +5,7 @@ import EditScreenInfo from '../components/EditScreenInfo';
 import { Text, View } from '../components/Themed';
 import { RootTabScreenProps } from '../types';
 import ButtonNavigation from '../components/ButtonNavigation'
+import Colors from '../constants/Colors';
 
 export default function TabOneScreen({ navigation }: RootTabScreenProps<'TabOne'>) {
   return (
@@ -13,8 +14,8 @@ export default function TabOneScreen({ navigation }: RootTabScreenProps<'TabOne'
       <View style={styles.separator} lightColor="#eee" darkColor="rgba(255,255,255,0.1)" />
       <Text></Text>
       <View style={styles.flex_display}>
-        <ButtonNavigation></ButtonNavigation>
-        <ButtonNavigation></ButtonNavigation>
+        <ButtonNavigation buttonText='Login'/>
+        <ButtonNavigation buttonText='Sobre' backColor={Colors.Red.background}/>
       </View>
     </View>
   );
@@ -36,9 +37,11 @@ const styles = StyleSheet.create({
     width: '80%',
   },
   flex_display:{
+    flex: 1,
     display: 'flex',
     flexDirection: 'row',
-    alignItems: 'stretch',
-    alignContent: 'stretch',
+    alignItems: 'flex-start',
+    justifyContent: 'space-around',
+    margin: 10,
   }
 });
