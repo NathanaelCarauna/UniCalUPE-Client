@@ -9,13 +9,15 @@ import Colors from '../constants/Colors';
 
 export default function TabOneScreen({ navigation }: RootTabScreenProps<'TabOne'>) {
   return (
-    <View style={styles.container}>
-      <Text style={styles.title}>Navegation</Text>
-      <View style={styles.separator} lightColor="#eee" darkColor="rgba(255,255,255,0.1)" />
-      <Text></Text>
-      <View style={styles.flex_display}>
-        <ButtonNavigation buttonText='Login'/>
-        <ButtonNavigation buttonText='Sobre' backColor={Colors.Red.background}/>
+    <View style={styles.back}>
+      <View style={styles.container}>
+        <View style={styles.flex_display}>
+          <ButtonNavigation buttonText='Login'/>
+          <ButtonNavigation buttonText='Sobre' backColor={Colors.Red.background}/>
+        </View>
+      </View>
+      <View style={styles.navegation}>
+
       </View>
     </View>
   );
@@ -23,9 +25,14 @@ export default function TabOneScreen({ navigation }: RootTabScreenProps<'TabOne'
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
+    flex: 10,
     alignItems: 'center',
     justifyContent: 'center',
+    borderRadius: 16,
+    borderTopStartRadius: 0,
+    borderTopEndRadius: 0,
+    //marginBottom: 20
+
   },
   title: {
     fontSize: 20,
@@ -43,5 +50,13 @@ const styles = StyleSheet.create({
     alignItems: 'flex-start',
     justifyContent: 'space-around',
     margin: 10,
+  },
+  back: {
+    flex:1,
+    backgroundColor: Colors.dark.background
+  },
+  navegation:{
+    flex:1,
+    backgroundColor: Colors.dark.background
   }
 });

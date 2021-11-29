@@ -13,6 +13,7 @@ import ButtonDetail from '../assets/images/ButtonDetail.svg';
 export default function ButtonNavigation(props) {    
     const buttonText = props.buttonText
     const backgroundColor = props.backColor || Colors.Orange.background
+    const details = props.detailColor
     return (
         <TouchableOpacity style={[styles.navButton, {backgroundColor: backgroundColor}]}>
             <ButtonDetail fill='#123' style={styles.buttonDetail} />
@@ -24,6 +25,9 @@ export default function ButtonNavigation(props) {
     )
 }
 
+function SetDetail(){
+
+}
 
 const styles = StyleSheet.create({
     navButton: {

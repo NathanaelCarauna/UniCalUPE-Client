@@ -30,6 +30,11 @@ const linking: LinkingOptions<RootStackParamList> = {
               TabThreeScreen: 'three',
             },
           },
+          Evento:{
+            screens:{
+              Evento: 'evento'
+            }
+          }
         },
       },
       Modal: 'modal',

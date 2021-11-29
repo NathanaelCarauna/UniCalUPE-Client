@@ -19,6 +19,7 @@ import TabTwoScreen from '../screens/TabTwoScreen';
 import TabThreeScreen from '../screens/TabThreeScreen';
 import { RootStackParamList, RootTabParamList, RootTabScreenProps } from '../types';
 import LinkingConfiguration from './LinkingConfiguration';
+import Evento from '../screens/Evento';
 
 export default function Navigation({ colorScheme }: { colorScheme: ColorSchemeName }) {
   return (
@@ -98,6 +99,14 @@ function BottomTabNavigator() {
         component={TabThreeScreen}
         options={{
           title: 'Tab Three',
+          tabBarIcon: ({ color }) => <TabBarIcon name="code" color={color} />,
+        }}
+      />
+      <BottomTab.Screen
+        name="Evento"
+        component={Evento}
+        options={{
+          title: 'Evento',
           tabBarIcon: ({ color }) => <TabBarIcon name="code" color={color} />,
         }}
       />
