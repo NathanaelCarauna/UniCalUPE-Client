@@ -6,7 +6,7 @@ import Colors from '../constants/Colors';
 import Layout from '../constants/Layout';
 import { MonoText } from './StyledText';
 import { Text, View } from './Themed';
-import ButtonDetail from '../assets/images/ButtonDetail.svg';
+import ButtonDetail from '../../assets/images/ButtonDetail.svg';
 import { RootStackParamList, RootTabParamList, RootTabScreenProps } from '../types';
 import { BottomTabNavigationProp } from '@react-navigation/bottom-tabs';
 import { CompositeNavigationProp } from '@react-navigation/native';
