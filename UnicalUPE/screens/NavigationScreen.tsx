@@ -13,10 +13,35 @@ export default function NavigationScreen({ navigation }: RootTabScreenProps<'Nav
     <View style={styles.back}>
       <View style={styles.container}>
         <View style={styles.flex_display}>
-          <ButtonNavigation buttonText='Login'/>
-          <ButtonNavigation buttonText='Sobre' destination='About'
-            backColor={Colors.Red.background}           
+          <ButtonNavigation buttonText='Login'
+            destination='Login'
+            navigation={navigation}
+            backColor=''
+            detailColor='yellow'
+          />
+           <ButtonNavigation buttonText='Perfil'
+            destination='Profile'
+            navigation={navigation}
+            backColor=''
+            detailColor='yellow'
+          />
+           <ButtonNavigation buttonText='Adicionar Evento'
+            destination='AddEvent'
+            navigation={navigation}
+            backColor='indigo'
+            detailColor='yellow'
+          />
+           <ButtonNavigation buttonText='Notificações'
+            destination='Notifications'
+            navigation={navigation}
+            backColor='yellow'
+            detailColor='yellow'
+          />
+          <ButtonNavigation buttonText='Sobre' 
+            destination='About'
             navigation={navigation} 
+            backColor={Colors.Red.background}  
+            detailColor='red'         
           />
         </View>
       </View>
