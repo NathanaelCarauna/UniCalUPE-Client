@@ -21,6 +21,11 @@ import EventsScreen from '../screens/EventsScreen';
 import { RootStackParamList, RootTabParamList, RootTabScreenProps } from '../types';
 import LinkingConfiguration from './LinkingConfiguration';
 import Evento from '../screens/Evento';
+import CalendarScreen from '../screens/CalendarScreen';
+import LoginScreen from '../screens/LoginScreen';
+import ProfileScreen from '../screens/ProfileScreen';
+import AddEventScreen from '../screens/AddEventScreen';
+import NotificationsScreen from '../screens/NotificationsScreen';
 
 export default function Navigation({ colorScheme }: { colorScheme: ColorSchemeName }) {
   return (
@@ -43,6 +48,10 @@ function RootNavigator() {
     <Stack.Navigator>
       <Stack.Screen name="Root" component={MyTabs} options={{ headerShown: false }} />
       <Stack.Screen name="About" component={AboutScreen} options={{ headerShown: true }} />
+      <Stack.Screen name="Login" component={LoginScreen} options={{ headerShown: true }} />
+      <Stack.Screen name="Profile" component={ProfileScreen} options={{ headerShown: true }} />
+      <Stack.Screen name="AddEvent" component={AddEventScreen} options={{ headerShown: true }} />
+      <Stack.Screen name="Notifications" component={NotificationsScreen} options={{ headerShown: true }} />
       <Stack.Screen name="NotFound" component={NotFoundScreen} options={{ title: 'Oops!' }} />
       <Stack.Group screenOptions={{ presentation: 'modal' }}>
         <Stack.Screen name="Modal" component={ModalScreen} />
@@ -66,7 +75,7 @@ function MyTabs() {
       tabBarActiveTintColor: Colors[colorScheme].tint,
     }}>    
       <Tab.Screen name="Navegação" component={NavigationScreen}/>
-      <Tab.Screen name="Calendário" component={AboutScreen} />
+      <Tab.Screen name="Calendário" component={CalendarScreen} />
       <Tab.Screen name="Eventos"   component={EventsScreen}/>
     </Tab.Navigator>
   );
