@@ -14,8 +14,14 @@ export default function ButtonNavigation(props) {
     const buttonText = props.buttonText
     const backgroundColor = props.backColor || Colors.Orange.background
     const details = props.detailColor
+    const navigate = () => {
+        props.navigation.navigate(props.destination)
+    }
     return (
-        <TouchableOpacity style={[styles.navButton, {backgroundColor: backgroundColor}]}>
+        <TouchableOpacity 
+            style={[styles.navButton, {backgroundColor: backgroundColor}]}
+            onPress={navigate}
+        >
             <ButtonDetail fill='#123' style={styles.buttonDetail} />
             <Text style={styles.buttonName}>
                 {buttonText}
