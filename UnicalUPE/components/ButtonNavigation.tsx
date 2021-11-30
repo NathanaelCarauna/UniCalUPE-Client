@@ -7,11 +7,14 @@ import Layout from '../constants/Layout';
 import { MonoText } from './StyledText';
 import { Text, View } from './Themed';
 import ButtonDetail from '../assets/images/ButtonDetail.svg';
-import { RootTabParamList, RootTabScreenProps } from '../types';
+import { RootStackParamList, RootTabParamList, RootTabScreenProps } from '../types';
+import { BottomTabNavigationProp } from '@react-navigation/bottom-tabs';
+import { CompositeNavigationProp } from '@react-navigation/native';
+import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 
 type PropsButton = {
     detailColor: string,
-    navigation: undefined
+    navigation: CompositeNavigationProp<BottomTabNavigationProp<RootTabParamList, "Navigation">, NativeStackNavigationProp<RootStackParamList, string>>
     buttonText: string,
     backColor: string,
     destination: string
