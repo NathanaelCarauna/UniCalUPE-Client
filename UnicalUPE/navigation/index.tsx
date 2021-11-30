@@ -15,9 +15,9 @@ import Colors from '../constants/Colors';
 import useColorScheme from '../hooks/useColorScheme';
 import ModalScreen from '../screens/ModalScreen';
 import NotFoundScreen from '../screens/NotFoundScreen';
-import TabOneScreen from '../screens/TabOneScreen';
-import TabTwoScreen from '../screens/TabTwoScreen';
-import TabThreeScreen from '../screens/TabThreeScreen';
+import NavigationScreen from '../screens/NavigationScreen';
+import AboutScreen from '../screens/AboutScreen';
+import EventsScreen from '../screens/EventsScreen';
 import { RootStackParamList, RootTabParamList, RootTabScreenProps } from '../types';
 import LinkingConfiguration from './LinkingConfiguration';
 import Evento from '../screens/Evento';
@@ -42,6 +42,7 @@ function RootNavigator() {
   return (
     <Stack.Navigator>
       <Stack.Screen name="Root" component={MyTabs} options={{ headerShown: false }} />
+      <Stack.Screen name="About" component={AboutScreen} options={{ headerShown: true }} />
       <Stack.Screen name="NotFound" component={NotFoundScreen} options={{ title: 'Oops!' }} />
       <Stack.Group screenOptions={{ presentation: 'modal' }}>
         <Stack.Screen name="Modal" component={ModalScreen} />
@@ -64,9 +65,9 @@ function MyTabs() {
     screenOptions={{
       tabBarActiveTintColor: Colors[colorScheme].tint,
     }}>    
-      <Tab.Screen name="Navegação" component={TabOneScreen}/>
-      <Tab.Screen name="Calendário" component={TabTwoScreen} />
-      <Tab.Screen name="Eventos"   component={TabThreeScreen}/>
+      <Tab.Screen name="Navegação" component={NavigationScreen}/>
+      <Tab.Screen name="Calendário" component={AboutScreen} />
+      <Tab.Screen name="Eventos"   component={EventsScreen}/>
     </Tab.Navigator>
   );
 }
@@ -82,17 +83,17 @@ function BottomTabNavigator() {
 
   return (
     <BottomTab.Navigator
-      initialRouteName="TabOne"
+      initialRouteName="Navigation"
       screenOptions={{
         tabBarActiveTintColor: Colors[colorScheme].tint,
       }}>
       <BottomTab.Screen
-        name="TabOne"
-        component={TabOneScreen}
+        name="Navigation"
+        component={NavigationScreen}
       />
       <BottomTab.Screen
         name="TabTwo"
-        component={TabTwoScreen}
+        component={AboutScreen}
         options={{
           title: 'Sobre',
           tabBarIcon: ({ color }) => <TabBarIcon name="code" color={color} />,
@@ -100,7 +101,7 @@ function BottomTabNavigator() {
       />
       <BottomTab.Screen
         name="TabThree"
-        component={TabThreeScreen}
+        component={EventsScreen}
         options={{
           title: 'Tab Three',
           tabBarIcon: ({ color }) => <TabBarIcon name="code" color={color} />,
