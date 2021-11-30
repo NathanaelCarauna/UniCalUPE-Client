@@ -7,13 +7,17 @@ import { RootTabScreenProps } from '../types';
 import ButtonNavigation from '../components/ButtonNavigation'
 import Colors from '../constants/Colors';
 
-export default function TabOneScreen({ navigation }: RootTabScreenProps<'TabOne'>) {
+export default function NavigationScreen({ navigation }: RootTabScreenProps<'Navigation'>) {
+
   return (
     <View style={styles.back}>
       <View style={styles.container}>
         <View style={styles.flex_display}>
           <ButtonNavigation buttonText='Login'/>
-          <ButtonNavigation buttonText='Sobre' backColor={Colors.Red.background}/>
+          <ButtonNavigation buttonText='Sobre' destination='About'
+            backColor={Colors.Red.background}           
+            navigation={navigation} 
+          />
         </View>
       </View>
       <View style={styles.navegation}>

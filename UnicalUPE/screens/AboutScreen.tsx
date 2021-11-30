@@ -6,7 +6,7 @@ import EditScreenInfo from '../components/EditScreenInfo';
 import { Text, View } from '../components/Themed';
 import Colors from '../constants/Colors';
 
-export default function TabTwoScreen() {
+export default function AboutScreen() {
   return (
     <ScrollView>
         <LinearGradient style = {styles.container} colors={["#ffffff","#FF7777"]}>
