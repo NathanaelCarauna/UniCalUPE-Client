@@ -7,10 +7,17 @@ import Layout from '../constants/Layout';
 import { MonoText } from './StyledText';
 import { Text, View } from './Themed';
 import ButtonDetail from '../assets/images/ButtonDetail.svg';
+import { RootTabParamList, RootTabScreenProps } from '../types';
 
+type PropsButton = {
+    detailColor: string,
+    navigation: undefined
+    buttonText: string,
+    backColor: string,
+    destination: string
+}
 
-
-export default function ButtonNavigation(props) {    
+export default function ButtonNavigation(props:PropsButton) {    
     const buttonText = props.buttonText
     const backgroundColor = props.backColor || Colors.Orange.background
     const details = props.detailColor
