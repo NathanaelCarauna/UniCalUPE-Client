@@ -6637,6 +6637,11 @@
   dependencies:
     "warn-once" "^0.1.0"
 
+"react-native-select-dropdown@^1.4.0":
+  "integrity" "sha512-CeiFQ8F3lI7SAB9l/uMbGUeJmslUkyz9Vv8DHutOjO1bJpP1/Kfu9lH6QYjJ41DXFGQzT1bw8EGHe8rz/eTC/A=="
+  "resolved" "https://registry.npmjs.org/react-native-select-dropdown/-/react-native-select-dropdown-1.4.0.tgz"
+  "version" "1.4.0"
+
 "react-native-svg-transformer@^0.14.3":
   "integrity" "sha512-agDGdMeeBAsWEgg/u7mjtR2Z3c8smGCLep/n3svwifut9dpswZCP+bSIrU8ekg6RNtxAJL+eGJbWjJ38vWxw6g=="
   "resolved" "https://registry.npmjs.org/react-native-svg-transformer/-/react-native-svg-transformer-0.14.3.tgz"

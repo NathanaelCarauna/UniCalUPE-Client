@@ -10,7 +10,6 @@ import useColorScheme from '../hooks/useColorScheme';
 import { LocaleConfig } from 'react-native-calendars';
 import calendar from 'react-native-calendars/src/calendar';
 
-
 LocaleConfig.locales['pt-br'] = {
   monthNames: ['Janeiro', 'Fevereiro', 'Março', 'Abril', 'Maio', 'Junho', 'Julho', 'Agosto', 'Setembro', 'Outubro', 'Novembro', 'Dezembro'],
   monthNamesShort: ['Jan.', 'Fev.', 'Mar', 'Abr', 'Mai', 'Jun', 'Jul.', 'Ago', 'Set.', 'Out.', 'Nov.', 'Dec.'],
@@ -20,15 +19,53 @@ LocaleConfig.locales['pt-br'] = {
 };
 LocaleConfig.defaultLocale = 'pt-br';
 
+import SelectDropdown from 'react-native-select-dropdown'
+import { FontAwesome } from '@expo/vector-icons';
+
+
+
+
 export default function CalendarScreen() {
+  //Fake data for calendar
   const vacation = { key: 'vacation', color: 'red', selectedDotColor: 'blue' };
   const massage = { key: 'massage', color: 'blue', selectedDotColor: 'red' };
   const workout = { key: 'workout', color: 'green' };
+
+  //fake data for dropdown
+  const filter = ["Eng. de Software", "Medicina", "Psicologia", "Lic. Computação"]
   return (
     <MainView>
       <View style={styles.titleContainer}>
         <Text style={styles.title}>Eventos do Mês</Text>
       </View>
+      <SelectDropdown
+        data={filter}
+        defaultButtonText={'Escolha um filtro'}
+        buttonStyle={styles.dropdownBtnStyle}
+        dropdownStyle={styles.dropdown}
+        buttonTextStyle={styles.dropdownBtnTxtStyle}
+        dropdownIconPosition={"right"}        
+        rowStyle={styles.dropdownRowStyle}
+        rowTextStyle={styles.dropdownRowTxtStyle}
+        renderDropdownIcon={() => {
+          return (
+            <FontAwesome name="chevron-down" color={"#FFF"} size={18} style={styles.dropdownIcon} />
+          );
+        }}
+        onSelect={(selectedItem, index) => {
+          console.log(selectedItem, index)
+        }}
+        buttonTextAfterSelection={(selectedItem, index) => {
+          // text represented after item is selected
+          // if data array is an array of objects then return selectedItem.property to render after item is selected
+          return selectedItem
+        }}
+        rowTextForSelection={(item, index) => {
+          // text represented for each item in dropdown
+          // if data array is an array of objects then return item.property to represent item in dropdown
+          return item
+        }}
+      />
       <Calendar
         current={'2021-12-12'}
         onDayPress={(day) => { console.log('selected day', day) }}
@@ -85,7 +122,36 @@ const styles = StyleSheet.create({
     color: Colors.dark.tint
   },
   calendar: {
-    marginTop: 15,
+    marginVertical: 15,
     marginHorizontal: 15,
+  },
+  dropdownBtnStyle: {    
+    margin: 15,
+    marginTop: 30,  
+    padding: 10,
+    backgroundColor: Colors.dark.tint,
+    paddingHorizontal: 0,
+    borderRadius: 10,
+    textAlign: "left",
+    height: 40,
+    width: '50%'
+  },
+  dropdownBtnTxtStyle: {
+    color: "#FFF",
+    fontSize: 14,        
+  },
+  dropdown: {        
+    borderRadius: 16,
+    backgroundColor: Colors.dark.tint,
+  },
+  dropdownRowStyle: {
+
+  },
+  dropdownRowTxtStyle: {
+    fontSize: 14,    
+    color: 'white',
+  },
+  dropdownIcon: {
+    marginHorizontal: 10
   }
 });
