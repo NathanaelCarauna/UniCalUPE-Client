@@ -50,6 +50,7 @@ function RootNavigator() {
       <Stack.Screen name="About" component={AboutScreen} options={{ headerShown: true }} />
       <Stack.Screen name="Login" component={LoginScreen} options={{ headerShown: true }} />
       <Stack.Screen name="Profile" component={ProfileScreen} options={{ headerShown: true }} />
+      <Stack.Screen name="Event" component={Evento} options={{ headerShown: true }} />
       <Stack.Screen name="AddEvent" component={AddEventScreen} options={{ headerShown: true }} />
       <Stack.Screen name="Notifications" component={NotificationsScreen} options={{ headerShown: true }} />
       <Stack.Screen name="NotFound" component={NotFoundScreen} options={{ title: 'Oops!' }} />

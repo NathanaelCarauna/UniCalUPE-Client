@@ -3,6 +3,7 @@ const tintColorDark = '#fff';
 const GreenBack = '#01949A';
 const Orange = '#FF7648';
 const Red = '#EA3636';
+const blue = '#004369';
 
 export default {
   light: {
@@ -30,6 +31,13 @@ export default {
     text: '#fff',
     background: Red,
     tint: GreenBack,
+    tabIconDefault: '#fff',
+    tabIconSelected: GreenBack,
+  },
+  blue: {
+    text: '#fff',
+    background: blue,
+    tint: 'white',
     tabIconDefault: '#fff',
     tabIconSelected: GreenBack,
   },

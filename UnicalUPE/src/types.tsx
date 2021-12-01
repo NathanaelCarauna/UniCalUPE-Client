@@ -22,6 +22,7 @@ export type RootStackParamList = {
   Profile: undefined;
   AddEvent: undefined;
   Notifications: undefined;
+  Event: undefined;
 };
 
 export type RootStackScreenProps<Screen extends keyof RootStackParamList> = NativeStackScreenProps<
