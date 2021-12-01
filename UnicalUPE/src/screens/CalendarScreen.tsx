@@ -21,6 +21,7 @@ LocaleConfig.defaultLocale = 'pt-br';
 
 import SelectDropdown from 'react-native-select-dropdown'
 import { FontAwesome } from '@expo/vector-icons';
+import TitleMainScreen from '../components/TitleMainScreen';
 
 
 
@@ -35,9 +36,7 @@ export default function CalendarScreen() {
   const filter = ["Eng. de Software", "Medicina", "Psicologia", "Lic. Computação"]
   return (
     <MainView>
-      <View style={styles.titleContainer}>
-        <Text style={styles.title}>Eventos do Mês</Text>
-      </View>
+      <TitleMainScreen title='Eventos do Mês'/>
       <SelectDropdown
         data={filter}
         defaultButtonText={'Escolha um filtro'}

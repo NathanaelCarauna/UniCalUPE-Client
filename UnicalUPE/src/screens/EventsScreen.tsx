@@ -2,15 +2,15 @@ import * as React from 'react';
 import { StyleSheet } from 'react-native';
 
 import EditScreenInfo from '../components/EditScreenInfo';
+import MainView from '../components/MainView';
 import { Text, View } from '../components/Themed';
+import TitleMainScreen from '../components/TitleMainScreen';
 
 export default function EventsScreen() {
   return (
-    <View style={styles.container}>
-      <Text style={styles.title}>Eventos diarios</Text>
-      <View style={styles.separator} lightColor="#eee" darkColor="rgba(255,255,255,0.1)" />
-      <EditScreenInfo path="/screens/TabThreeScreen.tsx" />
-    </View>
+    <MainView>
+       <TitleMainScreen title='Eventos do Dia'/>
+    </MainView>
   );
 }
 
