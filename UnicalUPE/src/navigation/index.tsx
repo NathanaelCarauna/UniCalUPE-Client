@@ -112,7 +112,7 @@ function BottomTabNavigator() {
         name="TabThree"
         component={EventsScreen}
         options={{
-          title: 'Tab Three',
+          title: 'Perfil',
           tabBarIcon: ({ color }) => <TabBarIcon name="code" color={color} />,
         }}
       />
