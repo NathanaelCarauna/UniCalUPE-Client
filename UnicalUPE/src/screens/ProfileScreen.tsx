@@ -1,16 +1,23 @@
 import * as React from 'react';
-import { StyleSheet } from 'react-native';
+import { ScrollView, StyleSheet } from 'react-native';
+import { LinearGradient } from 'expo-linear-gradient';
 
-import EditScreenInfo from '../components/EditScreenInfo';
 import { Text, View } from '../components/Themed';
+import Colors from '../constants/Colors';
+
 
 export default function CalendarScreen() {
   return (
-    <View style={styles.container}>
-      <Text style={styles.title}>Perfil</Text>
-      <View style={styles.separator} lightColor="#eee" darkColor="rgba(255,255,255,0.1)" />
-      <EditScreenInfo path="/screens/TabThreeScreen.tsx" />
-    </View>
+    <>
+      <LinearGradient style = {styles.container} colors={["#ffffff","#ffc278"]}>
+        <LinearGradient style={styles.bloco} colors={["#FF7648","#ffc278"]}>
+          <Text style={styles.normal}>Aluno Santos da Silva</Text>
+          <Text style={styles.normal}>Engenharia de Software</Text>
+          <Text style={styles.tipoLogin}>Estudante</Text>
+          </LinearGradient>
+      </LinearGradient>
+
+    </>
   );
 }
 
@@ -20,13 +27,21 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
   },
-  title: {
-    fontSize: 20,
-    fontWeight: 'bold',
+  normal: {
+    fontSize: 18,
+    textAlign: 'left',
+    color: 'white',
+    margin: 10,
   },
-  separator: {
-    marginVertical: 30,
-    height: 1,
-    width: '80%',
+  tipoLogin:{
+    marginTop: 10,
+    textAlign: 'right',
   },
+  bloco:{
+    backgroundColor: Colors.Orange.background,
+    margin: 10,
+    marginBottom: 300,
+    borderRadius: 16,
+    padding: 30,
+  }
 });
