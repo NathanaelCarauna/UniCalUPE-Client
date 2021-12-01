@@ -46,8 +46,8 @@ export default function NavigationScreen({ navigation }: RootTabScreenProps<'Nav
         </View>
       </View>
       <View style={styles.navegation}>
-
-      </View>
+    
+      </View>      
     </View>
   );
 }

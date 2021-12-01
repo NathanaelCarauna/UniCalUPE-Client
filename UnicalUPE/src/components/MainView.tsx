@@ -23,14 +23,10 @@ export default function NavigationScreen({ navigation, children }: RootTabScreen
 
 const styles = StyleSheet.create({
   container: {
-    flex: 10,
-    alignItems: 'center',
-    justifyContent: 'center',
+    flex: 10,    
     borderRadius: 16,
     borderTopStartRadius: 0,
-    borderTopEndRadius: 0,
-    //marginBottom: 20
-
+    borderTopEndRadius: 0,        
   },
   title: {
     fontSize: 20,
