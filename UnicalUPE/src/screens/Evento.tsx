@@ -17,7 +17,7 @@ export default function Evento() {
               <Text style={styles.sub_tittle}>Categoria</Text>
             </View>
             <View style={{display:'flex', flexDirection: 'row', alignItems:'baseline', marginTop: 10,  backgroundColor: 'transparent'}}>
-              <TabBarIcon name="circle" color={Colors.blue.background} />
+              <TabBarIcon name="user" color={Colors.blue.background} />
               <Text style={styles.text}>Apresentador</Text>
             </View>
             <View style={{display:'flex', flexDirection: 'row', alignItems:'baseline',  backgroundColor: 'transparent'}}>
