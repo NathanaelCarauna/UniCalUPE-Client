@@ -13,49 +13,49 @@ const filter = ["Enquete", "Palestra", "Curso", "Workshop"]
 export default function NotificationsScreen({ navigation }: RootTabScreenProps<'Navigation'>) {
   return (
     <ScrollView style={styles.container}>
-      <LinearGradient colors={["#fff","#A0FFA3"]}>
-      <View style={styles.header}>
-      <SelectDropdown
-        data={filter}
-        defaultButtonText={'Categoria'}
-        buttonStyle={styles.dropdownBtnStyle}
-        dropdownStyle={styles.dropdown}
-        buttonTextStyle={styles.dropdownBtnTxtStyle}
-        dropdownIconPosition={"right"}        
-        rowStyle={styles.dropdownRowStyle}
-        rowTextStyle={styles.dropdownRowTxtStyle}
-        renderDropdownIcon={() => {
-          return (
-            <FontAwesome name="chevron-down" color={"#FFF"} size={18} style={styles.dropdownIcon} />
-          );
-        }}
-        onSelect={(selectedItem, index) => {
-          console.log(selectedItem, index)
-        }}
-        buttonTextAfterSelection={(selectedItem, index) => {
-          // text represented after item is selected
-          // if data array is an array of objects then return selectedItem.property to render after item is selected
-          return selectedItem
-        }}
-        rowTextForSelection={(item, index) => {
-          // text represented for each item in dropdown
-          // if data array is an array of objects then return item.property to represent item in dropdown
-          return item
-        }}
-      />
-        <TouchableOpacity style={styles.filtrar}>
-          <Text style={styles.normal_n}>Filtrar</Text>
-        </TouchableOpacity>
-        <View style={styles.separator} lightColor="#004369" darkColor="rgba(0,67,105,0.1)"/>
-      </View>
-      <Notification Text = "Notificação" destination='Event' navigation={navigation}></Notification>
-      <Notification Text = "Notificação" destination='Event' navigation={navigation}></Notification>
-      <Notification Text = "Notificação" destination='Event' navigation={navigation}></Notification>
-      <Notification Text = "Notificação" destination='Event' navigation={navigation}></Notification>
-      <Notification Text = "Notificação" destination='Event' navigation={navigation}></Notification>
-      <Notification Text = "Notificação" destination='Event' navigation={navigation}></Notification>
-      <Notification Text = "Notificação" destination='Event' navigation={navigation}></Notification>
-      <Notification Text = "Notificação" destination='Event' navigation={navigation}></Notification>
+      <LinearGradient colors={["#fff", "#A0FFA3"]}>
+        <View style={styles.header}>
+          <SelectDropdown
+            data={filter}            
+            defaultButtonText={'Categoria'}
+            buttonStyle={styles.dropdownBtnStyle}
+            dropdownStyle={styles.dropdown}
+            buttonTextStyle={styles.dropdownBtnTxtStyle}
+            dropdownIconPosition={"right"}
+            rowStyle={styles.dropdownRowStyle}
+            rowTextStyle={styles.dropdownRowTxtStyle}
+            renderDropdownIcon={() => {
+              return (
+                <FontAwesome name="chevron-down" color={"#FFF"} size={18} style={styles.dropdownIcon} />
+              );
+            }}
+            onSelect={(selectedItem, index) => {
+              console.log(selectedItem, index)
+            }}
+            buttonTextAfterSelection={(selectedItem, index) => {
+              // text represented after item is selected
+              // if data array is an array of objects then return selectedItem.property to render after item is selected
+              return selectedItem
+            }}
+            rowTextForSelection={(item, index) => {
+              // text represented for each item in dropdown
+              // if data array is an array of objects then return item.property to represent item in dropdown
+              return item
+            }}
+          />
+          <TouchableOpacity style={styles.filtrar}>
+            <Text style={styles.normal_n}>Filtrar</Text>
+          </TouchableOpacity>
+        </View>
+        <View style={styles.separator} lightColor="#004369" darkColor="rgba(0,67,105,0.1)" />
+        <Notification Text="Notificação" destination='Event' navigation={navigation}></Notification>
+        <Notification Text="Notificação" destination='Event' navigation={navigation}></Notification>
+        <Notification Text="Notificação" destination='Event' navigation={navigation}></Notification>
+        <Notification Text="Notificação" destination='Event' navigation={navigation}></Notification>
+        <Notification Text="Notificação" destination='Event' navigation={navigation}></Notification>
+        <Notification Text="Notificação" destination='Event' navigation={navigation}></Notification>
+        <Notification Text="Notificação" destination='Event' navigation={navigation}></Notification>
+        <Notification Text="Notificação" destination='Event' navigation={navigation}></Notification>
       </LinearGradient>
     </ScrollView >
   );
@@ -70,9 +70,9 @@ function TabBarIcon(props: {
 const styles = StyleSheet.create({
   container: {
     display: 'flex',
-    flex:1,
-    backgroundColor: 'white'
-  
+    flex: 1,
+    backgroundColor: 'white',
+
   },
   title: {
     fontSize: 20,
@@ -81,48 +81,53 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
   },
   separator: {
+    alignSelf: 'center',
     marginVertical: 15,
     height: 1,
-    width: '80%',
-    color: "#004369",
+    width: '90%',
+    color: "#004369",    
   },
   normal: {
     fontSize: 15,
-    justifyContent:'center',
+    justifyContent: 'center',
     textAlign: 'left',
     color: 'white',
-    paddingEnd:20
+    paddingEnd: 20
   },
   normal_n: {
     fontSize: 15,
-    justifyContent:'center',
+    justifyContent: 'center',
     textAlign: 'left',
     color: 'white',
     paddingHorizontal: 5,
     fontWeight: 'bold'
-    
+
   },
-  header:{
-    alignItems:'center',
-    backgroundColor: 'transparent'
+  header: {
+    marginTop: 10,
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    backgroundColor: 'transparent',
+    marginHorizontal: 10,
   },
-  categoria:{
+  categoria: {
     backgroundColor: '#2AB75A',
     padding: 15,
-    alignSelf: 'flex-start',
-    margin:15,
-    marginBottom: 10,
+    // alignSelf: 'center',
+    // margin: 15,
+    // marginBottom: 10,
     borderRadius: 16
-    
+
   },
-  filtrar:{
-    backgroundColor:'#FFDD63',
-    padding: 15,
+  filtrar: {
+    backgroundColor: '#FFDD63',
+    padding: 10,
     borderRadius: 16,
-    alignSelf: 'flex-end',
-    marginEnd:20,
+    // alignSelf: 'center',
+    // marginEnd: 20,
   },
-  dropdownBtnStyle: {    
+  dropdownBtnStyle: {
     margin: 15,
     //marginTop: 30,  
     padding: 10,
@@ -137,9 +142,9 @@ const styles = StyleSheet.create({
   },
   dropdownBtnTxtStyle: {
     color: "#FFF",
-    fontSize: 14,        
+    fontSize: 16,
   },
-  dropdown: {        
+  dropdown: {
     borderRadius: 16,
     backgroundColor: '#2AB75A'
   },
@@ -147,7 +152,7 @@ const styles = StyleSheet.create({
 
   },
   dropdownRowTxtStyle: {
-    fontSize: 14,    
+    fontSize: 14,
     color: 'white',
   },
   dropdownIcon: {
