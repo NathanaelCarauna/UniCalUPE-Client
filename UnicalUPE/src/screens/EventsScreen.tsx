@@ -45,22 +45,15 @@ const fakeData = [
 
 export default function EventsScreen() {
   return (
-    <View style={styles.back}>
-      <View style={styles.container}>
-        <View>
-          <TitleMainScreen title='Eventos do Dia' />
-          <FlatList
-            data={fakeData}
-            keyExtractor={item => item.id}
-            renderItem={({ item }) => (<EventComponent event={item} />)}
-            style={styles.eventList}
-          />
-        </View>
-      </View>
-      <View style={styles.navigation}>
-
-      </View>
-    </View>      
+    <MainView>
+      <TitleMainScreen title='Eventos do Dia' />
+      <FlatList
+        data={fakeData}
+        keyExtractor={item => item.id}
+        renderItem={({ item }) => (<EventComponent event={item} />)}
+        style={styles.eventList}
+      />
+    </MainView >
   );
 }
 
@@ -81,8 +74,9 @@ const styles = StyleSheet.create({
     width: '80%',
   },
   eventList: {
+    flex: 1,
     margin: 10,
-    height: '85%',    
+    height: '85%',
   },
   back: {
     flex: 1,
