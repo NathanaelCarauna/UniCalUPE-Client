@@ -5,14 +5,15 @@ import { Text, View } from './Themed';
 import { RootTabScreenProps } from '../types';
 import Colors from '../constants/Colors';
 import { FontAwesome } from '@expo/vector-icons';
+import { LinearGradient } from 'expo-linear-gradient';
 
-export default function EventComponent({event }) {
+export default function EventComponent({ event }) {
     const getCategoryColor = (category) => {
         switch (category) {
             case 'COURSE':
                 return '#F9FA9B'
             case 'SURVEY':
-                return '#FF7777'                
+                return '#FF7777'
             case 'PUBLIC':
                 return '#CEECF0'
         }
@@ -22,7 +23,10 @@ export default function EventComponent({event }) {
     return (
         <View style={styles.container}>
             <View style={[styles.tagComponent, { backgroundColor: categoryColor }]}></View>
-            <View style={styles.eventContainer}>
+            <LinearGradient start={{ x: 0, y: 0 }} end={{ x: 1, y: 0 }}
+                style={styles.eventContainer}
+                colors={['#4c669f', '#3b5998', '#192f6a']}
+            >
                 <View style={styles.titleContainer}>
                     <Text style={styles.title}>{event.title}</Text>
                 </View>
@@ -35,7 +39,7 @@ export default function EventComponent({event }) {
                     <TabBarIcon name="user" color={'white'} style={styles.icon} />
                     <Text style={styles.detailsText}>{event.presentor}</Text>
                 </View>
-            </View>
+            </LinearGradient>
         </View>
     );
 }
@@ -48,12 +52,12 @@ function TabBarIcon(props: {
 }
 
 const styles = StyleSheet.create({
-    container: {        
+    container: {
         flexDirection: 'row',
         alignItems: 'center',
         justifyContent: 'space-between',
         marginTop: 15,
-        marginHorizontal: 20,        
+        marginHorizontal: 20,
     },
     titleContainer: {
         flexDirection: 'row',
