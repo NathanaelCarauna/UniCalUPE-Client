@@ -25,14 +25,14 @@ export default function NavigationScreen({ navigation }: RootTabScreenProps<'Nav
       buttonText: 'Perfil',
       destination: 'Profile',
       navigation: navigation,
-      backColor: '',
+      backColor: Colors.Yellow.background,
       detailColor: 'yellow',
     },
     {
       buttonText: 'Notificações',
       destination: 'Notifications',
       navigation: navigation,
-      backColor: '#2AB75A',
+      backColor: Colors.Green.background,
       detailColor: 'yellow',
     },
     {
@@ -46,7 +46,7 @@ export default function NavigationScreen({ navigation }: RootTabScreenProps<'Nav
       buttonText: 'Adicionar Evento',
       destination: 'AddEvent',
       navigation: navigation,
-      backColor: '#60D0D6',
+      backColor: Colors.Blue.background,
       detailColor: 'yellow',
     },
   ]
