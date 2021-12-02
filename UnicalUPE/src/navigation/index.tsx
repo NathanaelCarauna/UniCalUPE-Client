@@ -71,13 +71,21 @@ function MyTabs() {
   const colorScheme = useColorScheme();
   return (
     <Tab.Navigator
-    initialRouteName="Calendário"
-    screenOptions={{
-      tabBarActiveTintColor: Colors[colorScheme].tint,
-    }}>    
-      <Tab.Screen name="Navegação" component={NavigationScreen}/>
+      initialRouteName="Calendário"
+      tabBarPosition='bottom'
+      screenOptions={{
+        tabBarActiveTintColor: 'white',
+        tabBarIndicatorStyle: {
+          backgroundColor: 'white'
+        },
+        tabBarInactiveTintColor: 'lightgray',
+        tabBarStyle: {
+          backgroundColor: Colors.dark.background,          
+        }
+      }}>
+      <Tab.Screen name="Navegação" component={NavigationScreen} />
       <Tab.Screen name="Calendário" component={CalendarScreen} />
-      <Tab.Screen name="Eventos"   component={EventsScreen}/>
+      <Tab.Screen name="Eventos" component={EventsScreen} />
     </Tab.Navigator>
   );
 }
