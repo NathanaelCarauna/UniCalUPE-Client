@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { StyleSheet, Button, FlatList} from 'react-native';
+import { StyleSheet, Button, FlatList } from 'react-native';
 
 import EditScreenInfo from '../components/EditScreenInfo';
 import { Text, View } from '../components/Themed';
@@ -9,82 +9,77 @@ import Colors from '../constants/Colors';
 import { TabBarItem } from 'react-native-tab-view';
 import { isTemplateElement } from '@babel/types';
 import TitleMainScreen from '../components/TitleMainScreen';
+import MainView from '../components/MainView';
 
 export default function NavigationScreen({ navigation }: RootTabScreenProps<'Navigation'>) {
 
   const DATA = [
     {
       buttonText: 'Login',
-      destination:'Login',
+      destination: 'Login',
       navigation: navigation,
-      backColor:'',
-      detailColor:'yellow',
+      backColor: '',
+      detailColor: 'yellow',
     },
     {
-      buttonText:'Perfil',
-      destination:'Profile',
+      buttonText: 'Perfil',
+      destination: 'Profile',
       navigation: navigation,
-      backColor:'',
-      detailColor:'yellow',
+      backColor: '',
+      detailColor: 'yellow',
     },
     {
-      buttonText:'Notificações',
-      destination:'Notifications',
+      buttonText: 'Notificações',
+      destination: 'Notifications',
       navigation: navigation,
-      backColor:'#2AB75A',
-      detailColor:'yellow',
+      backColor: '#2AB75A',
+      detailColor: 'yellow',
     },
     {
-      buttonText:'Sobre', 
-      destination:'About',
+      buttonText: 'Sobre',
+      destination: 'About',
       navigation: navigation,
-      backColor: Colors.Red.background, 
-      detailColor:'red',
+      backColor: Colors.Red.background,
+      detailColor: 'red',
     },
     {
-      buttonText:'Adicionar Evento',
-      destination:'AddEvent',
+      buttonText: 'Adicionar Evento',
+      destination: 'AddEvent',
       navigation: navigation,
-      backColor:'#60D0D6',
-      detailColor:'yellow',
+      backColor: '#60D0D6',
+      detailColor: 'yellow',
     },
   ]
   return (
-    <View style={styles.back}>
-      <View style={styles.container}>
-      <TitleMainScreen title='Navegação'/>
-          <FlatList
-          key={'_'}
-          data={DATA}
-          horizontal={false}
-          renderItem={({item}) => (
-            <ButtonNavigation 
-              buttonText={item.buttonText}
-              destination={item.destination}
-              navigation={item.navigation}
-              backColor={item.backColor}
-              detailColor={item.detailColor}
-            />
-          )}
-          keyExtractor={(item) => item.buttonText}
-          numColumns = {2}
-          style={{
-            alignSelf:'stretch',
-            margin: 10,
-          }}
+    <MainView>
+      <TitleMainScreen title='Navegação' />
+      <FlatList
+        key={'_'}
+        data={DATA}
+        horizontal={false}
+        renderItem={({ item }) => (
+          <ButtonNavigation
+            buttonText={item.buttonText}
+            destination={item.destination}
+            navigation={item.navigation}
+            backColor={item.backColor}
+            detailColor={item.detailColor}
           />
-        </View>
-     
-      <View style={styles.navegation}>
-    
-      </View>      
-    </View>
+        )}
+        keyExtractor={(item) => item.buttonText}
+        numColumns={2}
+        style={{
+          alignSelf: 'stretch',
+          margin: 10,          
+        }}
+      />
+    </MainView>
   );
 }
 
 const styles = StyleSheet.create({
   container: {
-    flex: 10,
+    flex: 11,
     //alignItems: 'center',
     justifyContent: 'center',
     borderRadius: 16,
@@ -102,7 +97,7 @@ const styles = StyleSheet.create({
     height: 1,
     width: '80%',
   },
-  flex_display:{
+  flex_display: {
     flex: 1,
     display: 'flex',
     //flexDirection: 'row',
@@ -112,11 +107,7 @@ const styles = StyleSheet.create({
     margin: 10,
   },
   back: {
-    flex:1,
+    flex: 1,
     backgroundColor: Colors.dark.background
   },
-  navegation:{
-    flex:1,
-    backgroundColor: Colors.dark.background
-  }
 });
