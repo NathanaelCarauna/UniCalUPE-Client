@@ -6,6 +6,7 @@ import EditScreenInfo from '../components/EditScreenInfo';
 import { Text, View } from '../components/Themed';
 import Colors from '../constants/Colors';
 import { FontAwesome } from '@expo/vector-icons';
+import Layout from '../constants/Layout';
 
 export default function Evento() {
   return (
@@ -52,9 +53,10 @@ function TabBarIcon(props: {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    height: Layout.window.height - 80,
     alignSelf:'stretch',
     alignItems: 'center',
-    justifyContent: 'center',
+    //justifyContent: 'center',
   },
   title: {
     fontSize: 30,

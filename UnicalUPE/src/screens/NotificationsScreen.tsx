@@ -7,15 +7,42 @@ import { Text, View } from '../components/Themed';
 import Colors from '../constants/Colors';
 import Notification from '../components/Notification';
 import { FontAwesome } from '@expo/vector-icons';
+import SelectDropdown from 'react-native-select-dropdown';
 
+const filter = ["Enquete", "Palestra", "Curso", "Workshop"]
 export default function NotificationsScreen({ navigation }: RootTabScreenProps<'Navigation'>) {
   return (
     <ScrollView style={styles.container}>
       <LinearGradient colors={["#fff","#A0FFA3"]}>
       <View style={styles.header}>
-        <TouchableOpacity style={styles.categoria}>
-          <Text style={styles.normal}>Categoria</Text>
-        </TouchableOpacity>
+      <SelectDropdown
+        data={filter}
+        defaultButtonText={'Categoria'}
+        buttonStyle={styles.dropdownBtnStyle}
+        dropdownStyle={styles.dropdown}
+        buttonTextStyle={styles.dropdownBtnTxtStyle}
+        dropdownIconPosition={"right"}        
+        rowStyle={styles.dropdownRowStyle}
+        rowTextStyle={styles.dropdownRowTxtStyle}
+        renderDropdownIcon={() => {
+          return (
+            <FontAwesome name="chevron-down" color={"#FFF"} size={18} style={styles.dropdownIcon} />
+          );
+        }}
+        onSelect={(selectedItem, index) => {
+          console.log(selectedItem, index)
+        }}
+        buttonTextAfterSelection={(selectedItem, index) => {
+          // text represented after item is selected
+          // if data array is an array of objects then return selectedItem.property to render after item is selected
+          return selectedItem
+        }}
+        rowTextForSelection={(item, index) => {
+          // text represented for each item in dropdown
+          // if data array is an array of objects then return item.property to represent item in dropdown
+          return item
+        }}
+      />
         <TouchableOpacity style={styles.filtrar}>
           <Text style={styles.normal_n}>Filtrar</Text>
         </TouchableOpacity>
@@ -71,7 +98,8 @@ const styles = StyleSheet.create({
     justifyContent:'center',
     textAlign: 'left',
     color: 'white',
-    paddingHorizontal: 5
+    paddingHorizontal: 5,
+    fontWeight: 'bold'
     
   },
   header:{
@@ -93,5 +121,36 @@ const styles = StyleSheet.create({
     borderRadius: 16,
     alignSelf: 'flex-end',
     marginEnd:20,
+  },
+  dropdownBtnStyle: {    
+    margin: 15,
+    //marginTop: 30,  
+    padding: 10,
+    backgroundColor: '#2AB75A',
+    paddingHorizontal: 0,
+    borderRadius: 10,
+    textAlign: "left",
+    height: 40,
+    width: '50%',
+    alignSelf: 'flex-start'
+
+  },
+  dropdownBtnTxtStyle: {
+    color: "#FFF",
+    fontSize: 14,        
+  },
+  dropdown: {        
+    borderRadius: 16,
+    backgroundColor: '#2AB75A'
+  },
+  dropdownRowStyle: {
+
+  },
+  dropdownRowTxtStyle: {
+    fontSize: 14,    
+    color: 'white',
+  },
+  dropdownIcon: {
+    marginHorizontal: 10
   }
 });
