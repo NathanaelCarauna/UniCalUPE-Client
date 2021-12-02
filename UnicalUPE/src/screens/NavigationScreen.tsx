@@ -1,50 +1,80 @@
 import * as React from 'react';
-import { StyleSheet, Button} from 'react-native';
+import { StyleSheet, Button, FlatList} from 'react-native';
 
 import EditScreenInfo from '../components/EditScreenInfo';
 import { Text, View } from '../components/Themed';
 import { RootTabScreenProps } from '../types';
 import ButtonNavigation from '../components/ButtonNavigation'
 import Colors from '../constants/Colors';
+import { TabBarItem } from 'react-native-tab-view';
+import { isTemplateElement } from '@babel/types';
+import TitleMainScreen from '../components/TitleMainScreen';
 
 export default function NavigationScreen({ navigation }: RootTabScreenProps<'Navigation'>) {
 
+  const DATA = [
+    {
+      buttonText: 'Login',
+      destination:'Login',
+      navigation: navigation,
+      backColor:'',
+      detailColor:'yellow',
+    },
+    {
+      buttonText:'Perfil',
+      destination:'Profile',
+      navigation: navigation,
+      backColor:'',
+      detailColor:'yellow',
+    },
+    {
+      buttonText:'Notificações',
+      destination:'Notifications',
+      navigation: navigation,
+      backColor:'#2AB75A',
+      detailColor:'yellow',
+    },
+    {
+      buttonText:'Sobre', 
+      destination:'About',
+      navigation: navigation,
+      backColor: Colors.Red.background, 
+      detailColor:'red',
+    },
+    {
+      buttonText:'Adicionar Evento',
+      destination:'AddEvent',
+      navigation: navigation,
+      backColor:'#60D0D6',
+      detailColor:'yellow',
+    },
+  ]
   return (
     <View style={styles.back}>
       <View style={styles.container}>
-        <View style={styles.flex_display}>
-          <ButtonNavigation buttonText='Login'
-            destination='Login'
-            navigation={navigation}
-            backColor=''
-            detailColor='yellow'
-          />
-           <ButtonNavigation buttonText='Perfil'
-            destination='Profile'
-            navigation={navigation}
-            backColor=''
-            detailColor='yellow'
-          />
-           <ButtonNavigation buttonText='Adicionar Evento'
-            destination='AddEvent'
-            navigation={navigation}
-            backColor='indigo'
-            detailColor='yellow'
-          />
-           <ButtonNavigation buttonText='Notificações'
-            destination='Notifications'
-            navigation={navigation}
-            backColor='yellow'
-            detailColor='yellow'
-          />
-          <ButtonNavigation buttonText='Sobre' 
-            destination='About'
-            navigation={navigation} 
-            backColor={Colors.Red.background}  
-            detailColor='red'         
+      <TitleMainScreen title='Navegação'/>
+          <FlatList
+          key={'_'}
+          data={DATA}
+          horizontal={false}
+          renderItem={({item}) => (
+            <ButtonNavigation 
+              buttonText={item.buttonText}
+              destination={item.destination}
+              navigation={item.navigation}
+              backColor={item.backColor}
+              detailColor={item.detailColor}
+            />
+          )}
+          keyExtractor={(item) => item.buttonText}
+          numColumns = {2}
+          style={{
+            alignSelf:'stretch',
+            margin: 10,
+          }}
           />
         </View>
-      </View>
+     
       <View style={styles.navegation}>
     
       </View>      
@@ -55,7 +85,7 @@ export default function NavigationScreen({ navigation }: RootTabScreenProps<'Nav
 const styles = StyleSheet.create({
   container: {
     flex: 10,
-    alignItems: 'center',
+    //alignItems: 'center',
     justifyContent: 'center',
     borderRadius: 16,
     borderTopStartRadius: 0,
@@ -75,9 +105,10 @@ const styles = StyleSheet.create({
   flex_display:{
     flex: 1,
     display: 'flex',
-    flexDirection: 'row',
+    //flexDirection: 'row',
     alignItems: 'flex-start',
     justifyContent: 'space-around',
+    //flexWrap: 'wrap',
     margin: 10,
   },
   back: {

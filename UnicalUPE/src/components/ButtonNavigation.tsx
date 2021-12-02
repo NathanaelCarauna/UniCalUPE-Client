@@ -23,7 +23,7 @@ type PropsButton = {
 export default function ButtonNavigation(props:PropsButton) {    
     const buttonText = props.buttonText
     const backgroundColor = props.backColor || Colors.Orange.background
-    const details = props.detailColor
+    //const details = props.detailColor 
     const navigate = () => {
         props.navigation.navigate(props.destination)
     }
@@ -47,11 +47,12 @@ function SetDetail(){
 
 const styles = StyleSheet.create({
     navButton: {
-        flex: 1,
+        flex:1,
         backgroundColor: Colors.Orange.background,
         alignItems: 'center',
         justifyContent: 'flex-start',
-        height: Layout.window.width / 2.6,
+        height: 140,
+        width: 200,
         borderRadius: 16,
         margin: 10,
         overflow: 'hidden',
