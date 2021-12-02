@@ -18,11 +18,11 @@ export default function Evento() {
               <TextInput style={styles.text} placeholder="Categoria"/>
             </View>
             <View style={{display:'flex', flexDirection: 'row', alignItems:'baseline', marginTop: 10,  backgroundColor: 'transparent'}}>
-              <TabBarIcon name="circle" color={Colors.blue.background} />
+              <TabBarIcon name="circle" color={Colors.Blue.background} />
               <TextInput style={styles.text} placeholder="Apresentador"/>
             </View>
             <View style={{display:'flex', flexDirection: 'row', alignItems:'baseline',  backgroundColor: 'transparent'}}>
-              <TabBarIcon name="map-marker" color={Colors.blue.background} />
+              <TabBarIcon name="map-marker" color={Colors.Blue.background} />
               <TextInput style={styles.text} placeholder="Local"/>
             </View>
           </View>

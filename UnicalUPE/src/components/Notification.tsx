@@ -65,7 +65,7 @@ const styles = StyleSheet.create({
         alignSelf: 'flex-end',
         marginEnd: 20,
         marginBottom: 10,
-        color: Colors.blue.background
+        color: Colors.Blue.background
     },
     bloco: {
         alignSelf: 'stretch',
