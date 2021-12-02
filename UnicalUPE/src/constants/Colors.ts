@@ -3,7 +3,9 @@ const tintColorDark = '#fff';
 const GreenBack = '#01949A';
 const Orange = '#FF7648';
 const Red = '#EA3636';
-const blue = '#004369';
+const blue = '#8F98FF';
+const green = '#2AB75A';
+const yellow = '#FBD148';
 
 export default {
   light: {
@@ -34,9 +36,23 @@ export default {
     tabIconDefault: '#fff',
     tabIconSelected: GreenBack,
   },
-  blue: {
+  Blue: {
     text: '#fff',
     background: blue,
+    tint: 'white',
+    tabIconDefault: '#fff',
+    tabIconSelected: GreenBack,
+  },
+  Green: {
+    text: '#fff',
+    background: green,
+    tint: 'white',
+    tabIconDefault: '#fff',
+    tabIconSelected: GreenBack,
+  },
+  Yellow: {
+    text: '#fff',
+    background: yellow,
     tint: 'white',
     tabIconDefault: '#fff',
     tabIconSelected: GreenBack,
