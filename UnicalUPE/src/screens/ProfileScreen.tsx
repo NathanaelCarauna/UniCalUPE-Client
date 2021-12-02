@@ -24,8 +24,8 @@ export default function CalendarScreen() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    alignItems: 'center',
-    justifyContent: 'center',
+    // alignItems: 'center',
+    // justifyContent: 'center',
   },
   normal: {
     fontSize: 18,
@@ -39,9 +39,9 @@ const styles = StyleSheet.create({
   },
   bloco:{
     backgroundColor: Colors.Orange.background,
-    margin: 10,
-    marginBottom: 300,
+    margin: 20,
+    // marginBottom: 300,
     borderRadius: 16,
-    padding: 30,
+    padding: 20,
   }
 });
