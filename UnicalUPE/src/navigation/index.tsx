@@ -47,12 +47,53 @@ function RootNavigator() {
   return (
     <Stack.Navigator>
       <Stack.Screen name="Root" component={MyTabs} options={{ headerShown: false }} />
-      <Stack.Screen name="About" component={AboutScreen} options={{ headerShown: true }} />
-      <Stack.Screen name="Login" component={LoginScreen} options={{ headerShown: true }} />
-      <Stack.Screen name="Profile" component={ProfileScreen} options={{ headerShown: true }} />
-      <Stack.Screen name="Event" component={Evento} options={{ headerShown: true }} />
-      <Stack.Screen name="AddEvent" component={AddEventScreen} options={{ headerShown: true }} />
-      <Stack.Screen name="Notifications" component={NotificationsScreen} options={{ headerShown: true }} />
+      <Stack.Screen name="About" component={AboutScreen}
+        options={{
+          headerShown: true,
+          title: 'Sobre',
+          headerTintColor: 'white',
+          headerStyle: {backgroundColor: Colors.Red.background}
+        }}
+      />
+      <Stack.Screen name="Login" component={LoginScreen}
+        options={{
+          headerShown: true,
+          headerTintColor: 'white',
+          headerStyle: {backgroundColor: Colors.dark.background},          
+        }}
+      />
+      <Stack.Screen name="Profile" component={ProfileScreen}
+        options={{
+          headerShown: true,
+          title: 'Perfil',
+          headerTintColor: 'white',
+          headerStyle: {backgroundColor: Colors.Orange.background}
+        }}
+      />
+      <Stack.Screen name="Event" component={Evento}
+        options={{
+          headerShown: true,
+          title: 'Detalhes',
+          headerTintColor: 'white',
+          headerStyle: {backgroundColor: '#60D0D6'}
+        }}
+      />
+      <Stack.Screen name="AddEvent" component={AddEventScreen} 
+        options={{
+          headerShown: true,
+          title: 'Adicionar Evento',
+          headerTintColor: 'white',
+          headerStyle: {backgroundColor: '#8F98FF'}
+        }}
+      />
+      <Stack.Screen name="Notifications" component={NotificationsScreen} 
+        options={{
+          headerShown: true,
+          title: 'Notificações',
+          headerTintColor: 'white',
+          headerStyle: {backgroundColor: Colors.Green.background}
+        }}
+      />
       <Stack.Screen name="NotFound" component={NotFoundScreen} options={{ title: 'Oops!' }} />
       <Stack.Group screenOptions={{ presentation: 'modal' }}>
         <Stack.Screen name="Modal" component={ModalScreen} />
@@ -80,7 +121,7 @@ function MyTabs() {
         },
         tabBarInactiveTintColor: 'lightgray',
         tabBarStyle: {
-          backgroundColor: Colors.dark.background,          
+          backgroundColor: Colors.dark.background,
         }
       }}>
       <Tab.Screen name="Navegação" component={NavigationScreen} />
