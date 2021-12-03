@@ -25,6 +25,7 @@ const styles = StyleSheet.create({
     borderTopStartRadius: 0,
     borderTopEndRadius: 0,
     //marginBottom: 20
+    paddingTop: 15,
   },
   title: {
     fontSize: 20,
@@ -46,6 +47,7 @@ const styles = StyleSheet.create({
   },
   back: {
     flex: 1,
-    backgroundColor: Colors.dark.background
+    backgroundColor: Colors.dark.background,
+    
   },
 });
