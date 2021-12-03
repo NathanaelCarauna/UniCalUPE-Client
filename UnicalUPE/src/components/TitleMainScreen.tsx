@@ -5,7 +5,7 @@ import { Text, View } from '../components/Themed';
 import { RootTabScreenProps } from '../types';
 import Colors from '../constants/Colors';
 
-export default function TitleMainScreen({title}) {
+export default function TitleMainScreen({title} : {title: string}) {
 
     return (
         <View style={styles.titleContainer}>

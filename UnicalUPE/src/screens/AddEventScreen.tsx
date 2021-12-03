@@ -42,6 +42,7 @@ export default function Evento() {
 function TabBarIcon(props: {
   name: React.ComponentProps<typeof FontAwesome>['name'];
   color: string;
+  style: object
 }) {
   return <FontAwesome size={30}  {...props} />;
 }
@@ -111,7 +112,7 @@ const styles = StyleSheet.create({
     borderColor: 'white',
     borderWidth: 3
   },
-  buttonText: {    
+  buttonText: {
     fontWeight: 'bold',
     padding: 15,
     fontSize: 18,

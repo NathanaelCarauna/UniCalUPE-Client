@@ -5,7 +5,7 @@ import { Text, View } from '../components/Themed';
 import { RootTabScreenProps } from '../types';
 import Colors from '../constants/Colors';
 
-export default function NavigationScreen({ navigation, children }: RootTabScreenProps<'Navigation'>) {
+export default function NavigationScreen({ navigation, children }: {navigation: RootTabScreenProps<'Navigation'>,  children: React.ReactNode}) {
 
   return (
     <View style={styles.back}>

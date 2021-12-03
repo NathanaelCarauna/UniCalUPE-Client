@@ -1,15 +1,8 @@
 import * as WebBrowser from 'expo-web-browser';
 import React from 'react';
-import { Alert, Dimensions, StyleSheet, TouchableOpacity } from 'react-native';
+import { Alert, StyleSheet, TouchableOpacity } from 'react-native';
 
-import Colors from '../constants/Colors';
-import Layout from '../constants/Layout';
-import { MonoText } from './StyledText';
-import { Text, View } from './Themed';
-import { RootStackParamList, RootTabParamList, RootTabScreenProps } from '../types';
-import { BottomTabNavigationProp } from '@react-navigation/bottom-tabs';
-import { CompositeNavigationProp } from '@react-navigation/native';
-import { NativeStackNavigationProp } from '@react-navigation/native-stack';
+import { Text} from './Themed';
 import { LinearGradient } from 'expo-linear-gradient';
 
 type propsType = { day: string, date: string, selected: boolean }

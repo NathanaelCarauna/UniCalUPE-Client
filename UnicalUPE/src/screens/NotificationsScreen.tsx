@@ -48,14 +48,14 @@ export default function NotificationsScreen({ navigation }: RootTabScreenProps<'
           </TouchableOpacity>
         </View>
         <View style={styles.separator} lightColor="#004369" darkColor="rgba(0,67,105,0.1)" />
-        <Notification Text="Notificação" destination='Event' navigation={navigation}></Notification>
-        <Notification Text="Notificação" destination='Event' navigation={navigation}></Notification>
-        <Notification Text="Notificação" destination='Event' navigation={navigation}></Notification>
-        <Notification Text="Notificação" destination='Event' navigation={navigation}></Notification>
-        <Notification Text="Notificação" destination='Event' navigation={navigation}></Notification>
-        <Notification Text="Notificação" destination='Event' navigation={navigation}></Notification>
-        <Notification Text="Notificação" destination='Event' navigation={navigation}></Notification>
-        <Notification Text="Notificação" destination='Event' navigation={navigation}></Notification>
+        <Notification text="Notificação" destination='Event' navigation={navigation}></Notification>
+        <Notification text="Notificação" destination='Event' navigation={navigation}></Notification>
+        <Notification text="Notificação" destination='Event' navigation={navigation}></Notification>
+        <Notification text="Notificação" destination='Event' navigation={navigation}></Notification>
+        <Notification text="Notificação" destination='Event' navigation={navigation}></Notification>
+        <Notification text="Notificação" destination='Event' navigation={navigation}></Notification>
+        <Notification text="Notificação" destination='Event' navigation={navigation}></Notification>
+        <Notification text="Notificação" destination='Event' navigation={navigation}></Notification>
       </LinearGradient>
     </ScrollView >
   );

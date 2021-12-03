@@ -1,12 +1,8 @@
-import * as WebBrowser from 'expo-web-browser';
 import React from 'react';
-import { Dimensions, StyleSheet, TouchableOpacity } from 'react-native';
+import { StyleSheet, TouchableOpacity } from 'react-native';
 
 import Colors from '../constants/Colors';
-import Layout from '../constants/Layout';
-import { MonoText } from './StyledText';
 import { Text, View } from './Themed';
-//import ButtonDetail from '../../assets/images/ButtonDetail.svg';
 import { RootStackParamList, RootTabParamList, RootTabScreenProps } from '../types';
 import { BottomTabNavigationProp } from '@react-navigation/bottom-tabs';
 import { CompositeNavigationProp } from '@react-navigation/native';
@@ -17,14 +13,14 @@ import { FontAwesome } from '@expo/vector-icons';
 type PropsButton = {
 
     navigation: CompositeNavigationProp<BottomTabNavigationProp<RootTabParamList, "Navigation">, NativeStackNavigationProp<RootStackParamList, string>>
-    Text: string,
+    text: string,
     destination: string
 }
 
-export default function Notification(props: PropsButton) {
-    const buttonText = props.Text
+export default function Notification({text, destination, navigation} : PropsButton) {
+    const buttonText = text
     const navigate = () => {
-        props.navigation.navigate(props.destination)
+        navigation.navigate(destination)
     }
     return (
         <TouchableOpacity style={styles.bloco} onPress={navigate}>
@@ -46,8 +42,9 @@ export default function Notification(props: PropsButton) {
 function TabBarIcon(props: {
     name: React.ComponentProps<typeof FontAwesome>['name'];
     color: string;
+    style: object
 }) {
-    return <FontAwesome size={30} style={{ marginBottom: -3 }} {...props} />;
+    return <FontAwesome size={30} {...props} />;
 }
 
 const styles = StyleSheet.create({

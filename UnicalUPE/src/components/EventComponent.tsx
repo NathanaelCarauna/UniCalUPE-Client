@@ -2,13 +2,21 @@ import * as React from 'react';
 import { StyleSheet, Button } from 'react-native';
 
 import { Text, View } from './Themed';
-import { RootTabScreenProps } from '../types';
-import Colors from '../constants/Colors';
 import { FontAwesome } from '@expo/vector-icons';
 import { LinearGradient } from 'expo-linear-gradient';
 
-export default function EventComponent({ event }) {
-    const getCategoryColor = (category) => {
+type eventType = {
+    event: {
+        id: string,
+        title: string
+        local: string
+        presentor: string
+        course: string
+        category: string
+    }
+}
+export default function EventComponent({ event }: eventType) {
+    const getCategoryColor = (category: string) => {
         switch (category) {
             case 'COURSE':
                 return '#F9FA9B'
@@ -47,8 +55,9 @@ export default function EventComponent({ event }) {
 function TabBarIcon(props: {
     name: React.ComponentProps<typeof FontAwesome>['name'];
     color: string;
+    style: object
 }) {
-    return <FontAwesome size={20} style={{ marginBottom: -3 }} {...props} />;
+    return <FontAwesome size={20} {...props} />;
 }
 
 const styles = StyleSheet.create({

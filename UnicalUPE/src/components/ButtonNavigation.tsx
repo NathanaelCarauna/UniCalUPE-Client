@@ -1,10 +1,8 @@
 import * as WebBrowser from 'expo-web-browser';
 import React from 'react';
-import { Dimensions, StyleSheet, TouchableOpacity } from 'react-native';
+import { StyleSheet, TouchableOpacity } from 'react-native';
 
 import Colors from '../constants/Colors';
-import Layout from '../constants/Layout';
-import { MonoText } from './StyledText';
 import { Text, View } from './Themed';
 import ButtonDetail from '../../assets/images/ButtonDetail.svg';
 import ButtonDetailRed from '../../assets/images/ButtonDetailRed.svg';
