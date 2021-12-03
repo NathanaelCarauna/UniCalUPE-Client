@@ -1,5 +1,6 @@
 import * as React from 'react';
-import { FlatList, StyleSheet } from 'react-native';
+import { FlatList, ScrollView, StyleSheet } from 'react-native';
+import DateSquare from '../components/DateSquare';
 
 import EditScreenInfo from '../components/EditScreenInfo';
 import EventComponent from '../components/EventComponent';
@@ -43,17 +44,42 @@ const fakeData = [
   },
 ]
 
+const FakeDates = [
+  { day: 'Dom', date: '21', selected: false },
+  { day: 'Seg', date: '22', selected: false },
+  { day: 'Ter', date: '23', selected: false },
+  { day: 'Qua', date: '24', selected: true },
+  { day: 'Qui', date: '25', selected: false },
+  { day: 'Sex', date: '26', selected: false },
+  { day: 'Sab', date: '27', selected: false },
+]
+
 export default function EventsScreen() {
   return (
-    <MainView>
-      <TitleMainScreen title='Eventos do Dia' />
-      <FlatList
-        data={fakeData}
-        keyExtractor={item => item.id}
-        renderItem={({ item }) => (<EventComponent event={item} />)}
-        style={styles.eventList}
-      />
-    </MainView >
+    <>
+      <MainView>
+        <TitleMainScreen title='Eventos do Dia' />
+        <View style={styles.legendContainer}>
+          <Text style={styles.text}>Categoria</Text>
+          <Text style={styles.text}>Evento</Text>
+        </View>
+        <FlatList
+          data={fakeData}
+          keyExtractor={item => item.id}
+          renderItem={({ item }) => (<EventComponent event={item} />)}
+          style={styles.eventList}
+        />
+      </MainView >
+      <View style={styles.transparent}>
+        <FlatList
+          horizontal={true}
+          data={FakeDates}
+          style={styles.transparent}
+          keyExtractor={item => item.day}
+          renderItem={({ item }) => (<DateSquare day={item.day} date={item.date} selected={item.selected} />)}
+        />
+      </View>
+    </>
   );
 }
 
@@ -64,9 +90,14 @@ const styles = StyleSheet.create({
     borderTopStartRadius: 0,
     borderTopEndRadius: 0,
   },
-  title: {
-    fontSize: 20,
-    fontWeight: 'bold',
+  legendContainer: {
+    marginTop: 15,
+    flexDirection: 'row',
+  },
+  text: {
+    fontSize: 12,
+    color: 'gray',
+    marginStart: 25
   },
   separator: {
     marginVertical: 30,
@@ -75,7 +106,8 @@ const styles = StyleSheet.create({
   },
   eventList: {
     flex: 1,
-    margin: 10,
+    marginBottom: 10,
+    marginHorizontal: 10,
     height: '85%',
   },
   back: {
@@ -84,6 +116,9 @@ const styles = StyleSheet.create({
   },
   navigation: {
     flex: 1,
+    backgroundColor: Colors.dark.background
+  },
+  transparent: {
     backgroundColor: Colors.dark.background
   }
 });
