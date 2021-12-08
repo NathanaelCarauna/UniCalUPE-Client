@@ -1,7 +1,5 @@
 import React, { createContext, useState, useEffect } from 'react';
-// import * as auth from '../services/auth';
-// import * as userApi from '../services/userApi';
-// import api from '../services/api';
+import * as userApi from '../services/userApi';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 type user = { email: string, name: string, picture: string, id: number, accountType: string }
@@ -10,7 +8,7 @@ export const AppContext = createContext({
     signed: false,
     user: {},
     loading: false,
-    signIn: () => { }
+    handleUser: (email) => { }
 
 });
 
@@ -31,10 +29,28 @@ export const AppProvider = ({ children }: { children: React.ReactNode }) => {
         loadStorageData();
     }, [])
 
+    async function handleUser (email){
+        try{
+            await userApi.getUser(email)
+                .then(response => {
+                    if(response.status = 200){
+                        setUser(response.data)
+                        return true;
+                    }else{
+                        return false
+                    }
+                })
+        }catch(e){
+            console.log(e)
+            return false;
+        }
+
+    }
+
 
 
     return (
-        <AppContext.Provider value={{ signed: !!user, user, loading}}>
+        <AppContext.Provider value={{ signed: !!user, user, loading, handleUser}}>
             {children}
         </AppContext.Provider>
     )
