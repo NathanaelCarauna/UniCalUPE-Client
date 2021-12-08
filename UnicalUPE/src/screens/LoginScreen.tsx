@@ -5,7 +5,32 @@ import { StyleSheet, Image, Button, Alert, LogBox, TouchableOpacity } from 'reac
 import EditScreenInfo from '../components/EditScreenInfo';
 import { Text, View, } from '../components/Themed';
 import Colors from '../constants/Colors';
+import * as AuthSession from 'expo-auth-session';
+
+type AuthResponse = {
+  type: string;
+  params: {
+    access_token: string;
+  }
+}
+
 export default function LoginScreen() {
+  async function handleSignIn() {
+    const CLIENT_ID = '162955034296-ah2keq2dk20d7qvpm0qj4h9bi7iratcr.apps.googleusercontent.com'
+    const REDIRECT_URI = 'https://auth.expo.io/@dahisedias/UnicalUPE'
+    const RESPONSE_TYPE = 'token'
+    const SCOPE = encodeURI('profile email')
+
+    const authUrl = `https://accounts.google.com/o/oauth2/v2/auth?client_id=${CLIENT_ID}&redirect_uri=${REDIRECT_URI}&response_type=${RESPONSE_TYPE}&scope=${SCOPE}`
+    
+    const {type, params} = await AuthSession.startAsync({authUrl}) as AuthResponse
+
+    if(type === 'success'){
+      console.log(type)
+    }
+  
+  }
+
   return (
     <LinearGradient 
                 style={styles.container}
@@ -16,7 +41,7 @@ export default function LoginScreen() {
       <Text style={styles.title}>Login</Text>
       <TouchableOpacity
         style={styles.button}
-        onPress={() => Alert.alert('Logando com sua conta Google')}>
+        onPress={() => handleSignIn()}>
         <Text style={styles.buttonText}>Sign in with google</Text>
       </TouchableOpacity>
     </LinearGradient>
