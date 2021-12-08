@@ -6,6 +6,8 @@ import EditScreenInfo from '../components/EditScreenInfo';
 import { Text, View, } from '../components/Themed';
 import Colors from '../constants/Colors';
 import * as AuthSession from 'expo-auth-session';
+import { useNavigation } from '@react-navigation/native';
+import Navigation from '../navigation';
 
 type AuthResponse = {
   type: string;
@@ -15,6 +17,8 @@ type AuthResponse = {
 }
 
 export default function LoginScreen() {
+  const navigation = useNavigation();
+
   async function handleSignIn() {
     const CLIENT_ID = '162955034296-ah2keq2dk20d7qvpm0qj4h9bi7iratcr.apps.googleusercontent.com'
     const REDIRECT_URI = 'https://auth.expo.io/@dahisedias/UnicalUPE'
@@ -29,13 +33,14 @@ export default function LoginScreen() {
       console.log(type)
       loadProfile(params.access_token)
     }
-  
+    
   }
-
+  
   async function loadProfile(token: string) {
     const response = await fetch(`https://www.googleapis.com/oauth2/v2/userinfo?alt=json&access_token=${token}`)
     const userinfo = await response.json()
     console.log(userinfo)
+    navigation.navigate('Root')
   }
 
   return (
