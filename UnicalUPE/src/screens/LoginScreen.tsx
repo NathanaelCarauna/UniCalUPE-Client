@@ -27,8 +27,15 @@ export default function LoginScreen() {
 
     if(type === 'success'){
       console.log(type)
+      loadProfile(params.access_token)
     }
   
+  }
+
+  async function loadProfile(token: string) {
+    const response = await fetch(`https://www.googleapis.com/oauth2/v2/userinfo?alt=json&access_token=${token}`)
+    const userinfo = await response.json()
+    console.log(userinfo)
   }
 
   return (
