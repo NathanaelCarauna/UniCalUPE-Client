@@ -8,6 +8,7 @@ import Colors from '../constants/Colors';
 import * as AuthSession from 'expo-auth-session';
 import { useNavigation } from '@react-navigation/native';
 import Navigation from '../navigation';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 type AuthResponse = {
   type: string;
@@ -39,8 +40,10 @@ export default function LoginScreen() {
   async function loadProfile(token: string) {
     const response = await fetch(`https://www.googleapis.com/oauth2/v2/userinfo?alt=json&access_token=${token}`)
     const userinfo = await response.json()
-    console.log(userinfo)
     navigation.navigate('Root')
+    AsyncStorage.setItem("@TGAuth:user", JSON.stringify(userinfo));
+    const storagedUser = await AsyncStorage.getItem('@TGAuth:user');
+    console.log(storagedUser)
   }
 
   return (
