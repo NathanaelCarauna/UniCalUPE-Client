@@ -10,68 +10,93 @@ import { TabBarItem } from 'react-native-tab-view';
 import { isTemplateElement } from '@babel/types';
 import TitleMainScreen from '../components/TitleMainScreen';
 import MainView from '../components/MainView';
+import { useContext } from 'react';
+import AppContext from '../contexts/appContext';
+import { useEffect } from 'react';
+import { useState } from 'react';
 
 export default function NavigationScreen({ navigation }: RootTabScreenProps<'Navigation'>) {
+  const { user, signOut } = useContext(AppContext)
 
-  const DATA = [
+  const [buttons, setButtons] = useState([
     {
       buttonText: 'Login',
       destination: 'Login',
       navigation: navigation,
       backColor: '',
-      detailColor: 'yellow',
     },
     {
       buttonText: 'Perfil',
       destination: 'Profile',
       navigation: navigation,
       backColor: Colors.Yellow.background,
-      detailColor: 'yellow',
     },
     {
       buttonText: 'Notificações',
       destination: 'Notifications',
       navigation: navigation,
       backColor: Colors.Green.background,
-      detailColor: 'yellow',
     },
     {
       buttonText: 'Sobre',
       destination: 'About',
       navigation: navigation,
       backColor: Colors.Red.background,
-      detailColor: 'red',
     },
     {
       buttonText: 'Adicionar Evento',
       destination: 'AddEvent',
       navigation: navigation,
       backColor: Colors.Blue.background,
-      detailColor: 'yellow',
     },
-  ]
+    {
+      buttonText: 'Sair',
+      destination: signOut,
+      navigation: navigation,
+      backColor: Colors.Blue.background,
+    },
+  ])
+
+  useEffect(() => {
+    console.log('Filter buttons called')
+    console.log(user)
+    const originalList = buttons
+    if (!user) {
+      console.log('Teste')
+      const filteredButtons = buttons.filter(b => b.buttonText != 'Perfil'
+        && b.buttonText != 'Sair'
+        && b.buttonText != 'Notificações'
+      )
+      setButtons(filteredButtons)
+    } else {
+      setButtons(originalList)
+    }
+  }, [user])
+
   return (
     <MainView>
       <TitleMainScreen title='Navegação' />
       <FlatList
         key={'_'}
-        data={DATA}
+        data={buttons}
         horizontal={false}
-        renderItem={({ item }) => (
-          <ButtonNavigation
-            buttonText={item.buttonText}
-            destination={item.destination}
-            navigation={item.navigation}
-            backColor={item.backColor}
-            detailColor={item.detailColor}
-          />
-        )}
+        renderItem={({ item }) => {
+          return (
+            <ButtonNavigation
+              buttonText={item.buttonText}
+              destination={item.destination}
+              navigation={item.navigation}
+              backColor={item.backColor}
+            />
+          )
+        }}
         keyExtractor={(item) => item.buttonText}
         numColumns={2}
         style={{
           alignSelf: 'stretch',
-          margin: 10,          
+          margin: 10,
         }}
+
       />
     </MainView>
   );
