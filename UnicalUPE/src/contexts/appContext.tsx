@@ -9,8 +9,8 @@ export const AppContext = createContext({
     user: {},
     loading: false,
     handleUser: (email: email) => { },
-    createUser: (user: user) => { }
-
+    createUser: (user: user) => { },
+    signOut: () => {},
 });
 
 export const AppProvider = ({ children }: { children: React.ReactNode }) => {
@@ -73,8 +73,14 @@ export const AppProvider = ({ children }: { children: React.ReactNode }) => {
         
     }
 
+    function signOut() {
+        AsyncStorage.clear().then(() => {
+            setUser(null);
+        })
+    }   
+
     return (
-        <AppContext.Provider value={{ signed: !!user, user, loading, handleUser, createUser }}>
+        <AppContext.Provider value={{ signed: !!user, user, loading, handleUser, createUser, signOut }}>
             {children}
         </AppContext.Provider>
     )
