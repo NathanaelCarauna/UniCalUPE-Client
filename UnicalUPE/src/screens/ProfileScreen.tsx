@@ -17,7 +17,7 @@ export default function CalendarScreen() {
         </LinearGradient>
         <TouchableOpacity
         style={styles.button}
-        onPress={() => Alert.alert('teste teste')}>
+        onPress={() => Alert.alert('Go to EditProfileScreen')}>
         <Text style={styles.buttonText}>Editar Perfil</Text>
         </TouchableOpacity>
       </LinearGradient>
