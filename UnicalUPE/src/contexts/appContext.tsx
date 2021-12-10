@@ -3,12 +3,13 @@ import * as userApi from '../services/userApi';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 type user = { email: string, name: string, picture: string, id: number, accountType: string }
-
+type email = { email: string }
 export const AppContext = createContext({
     signed: false,
     user: {},
     loading: false,
-    handleUser: (email) => { }
+    handleUser: (email: email) => { },
+    createUser: (user: user) => { }
 
 });
 
@@ -29,28 +30,51 @@ export const AppProvider = ({ children }: { children: React.ReactNode }) => {
         loadStorageData();
     }, [])
 
-    async function handleUser (email){
-        try{
+    async function handleUser(email: email) {
+        setLoading(true);
+        try {
+            console.log('Requesting getUser')
             await userApi.getUser(email)
                 .then(response => {
-                    if(response.status = 200){
+                    console.log('GetUser requested')
+                    console.log(response.data)
+                    let result = false;
+                    if (response.status == 200) {                        
                         setUser(response.data)
-                        return true;
-                    }else{
-                        return false
-                    }
+                        result = true;
+                    }                   
+                    setLoading(false);
+                    return result
                 })
-        }catch(e){
+        } catch (e) {
             console.log(e)
             return false;
         }
-
+        setLoading(false);
     }
 
-
+    async function createUser(user: user) {
+        setLoading(true);
+        try {
+            await userApi.createUser(user)
+                .then(response => {                    
+                    let result = false;
+                    if (response.status = 200) {                        
+                        setUser(response.status)
+                        result = true;
+                    }                   
+                    setLoading(false);
+                    return result
+                })
+        } catch (e) {
+            console.log(e)
+            return false;
+        }
+        
+    }
 
     return (
-        <AppContext.Provider value={{ signed: !!user, user, loading, handleUser}}>
+        <AppContext.Provider value={{ signed: !!user, user, loading, handleUser, createUser }}>
             {children}
         </AppContext.Provider>
     )
