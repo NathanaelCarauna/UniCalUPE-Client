@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { ScrollView, StyleSheet } from 'react-native';
+import { ScrollView, StyleSheet, TouchableOpacity, Alert  } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
 
 import { Text, View } from '../components/Themed';
@@ -14,7 +14,12 @@ export default function CalendarScreen() {
           <Text style={styles.normal}>Aluno Santos da Silva</Text>
           <Text style={styles.normal}>Engenharia de Software</Text>
           <Text style={styles.tipoLogin}>Estudante</Text>
-          </LinearGradient>
+        </LinearGradient>
+        <TouchableOpacity
+        style={styles.button}
+        onPress={() => Alert.alert('teste teste')}>
+        <Text style={styles.buttonText}>Editar Perfil</Text>
+        </TouchableOpacity>
       </LinearGradient>
 
     </>
@@ -36,6 +41,21 @@ const styles = StyleSheet.create({
   tipoLogin:{
     marginTop: 10,
     textAlign: 'right',
+  },
+  button: {
+    margin: 40,
+    fontWeight: 'bold',
+    backgroundColor: 'orange',
+    borderRadius: 15
+  },
+  buttonText: {
+    // margin: 40,
+    fontWeight: 'bold',
+    padding: 15,
+    paddingHorizontal: 40,
+    textAlign: 'center',
+    color: '#ffffff'
+    
   },
   bloco:{
     backgroundColor: Colors.Orange.background,
