@@ -15,18 +15,22 @@ import { CompositeNavigationProp } from '@react-navigation/native';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 
 type PropsButton = {
-    detailColor: string,
     navigation: CompositeNavigationProp<BottomTabNavigationProp<RootTabParamList, "Navigation">, NativeStackNavigationProp<RootStackParamList, string>>
     buttonText: string,
     backColor: string,
-    destination: string
+    destination: string | Function
 }
 
-export default function ButtonNavigation(props: PropsButton) {
+export default function ButtonNavigation(props: PropsButton) {    
+
     const buttonText = props.buttonText
     const backgroundColor = props.backColor || Colors.Orange.background
     //const details = props.detailColor 
     const navigate = () => {
+        if (typeof props.destination == 'function') {
+            props.destination()
+            return
+        }
         props.navigation.navigate(props.destination)
     }
     return (
@@ -34,25 +38,25 @@ export default function ButtonNavigation(props: PropsButton) {
             style={[styles.navButton, { backgroundColor: backgroundColor }]}
             onPress={navigate}
         >
-            {props.backColor == Colors.Red.background 
-            ? <ButtonDetailRed fill='#123' style={styles.buttonDetail} /> 
-            : <></>
+            {props.backColor == Colors.Red.background
+                ? <ButtonDetailRed fill='#123' style={styles.buttonDetail} />
+                : <></>
             }
-            {props.backColor == Colors.Blue.background 
-            ? <ButtonDetailBlue fill='#123' style={styles.buttonDetail} /> 
-            : <></>
+            {props.backColor == Colors.Blue.background
+                ? <ButtonDetailBlue fill='#123' style={styles.buttonDetail} />
+                : <></>
             }
-            {props.backColor == '' 
-            ? <ButtonDetail fill='#123' style={styles.buttonDetail} /> 
-            : <></>
+            {props.backColor == ''
+                ? <ButtonDetail fill='#123' style={styles.buttonDetail} />
+                : <></>
             }
             {props.backColor == Colors.Green.background
-            ? <ButtonDetailGreen fill='#123' style={styles.buttonDetail} /> 
-            : <></>
+                ? <ButtonDetailGreen fill='#123' style={styles.buttonDetail} />
+                : <></>
             }
             {props.backColor == Colors.Yellow.background
-            ? <ButtonDetailYellow fill='#123' style={styles.buttonDetail} /> 
-            : <></>
+                ? <ButtonDetailYellow fill='#123' style={styles.buttonDetail} />
+                : <></>
             }
             <Text style={styles.buttonName}>
                 {buttonText}
