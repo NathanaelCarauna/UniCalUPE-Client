@@ -26,6 +26,7 @@ import LoginScreen from '../screens/LoginScreen';
 import ProfileScreen from '../screens/ProfileScreen';
 import AddEventScreen from '../screens/AddEventScreen';
 import NotificationsScreen from '../screens/NotificationsScreen';
+import ExpoNotification from '../screens/ExpoNotification';
 
 export default function Navigation({ colorScheme }: { colorScheme: ColorSchemeName }) {
   return (
@@ -90,6 +91,14 @@ function RootNavigator() {
         options={{
           headerShown: true,
           title: 'Notificações',
+          headerTintColor: 'white',
+          headerStyle: {backgroundColor: Colors.Green.background}
+        }}
+      />
+      <Stack.Screen name="ExpoNotification" component={ExpoNotification} 
+        options={{
+          headerShown: true,
+          title: 'ExpoNotification',
           headerTintColor: 'white',
           headerStyle: {backgroundColor: Colors.Green.background}
         }}

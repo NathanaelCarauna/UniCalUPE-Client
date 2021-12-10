@@ -49,6 +49,13 @@ export default function NavigationScreen({ navigation }: RootTabScreenProps<'Nav
       backColor: Colors.Blue.background,
       detailColor: 'yellow',
     },
+    {
+      buttonText: 'Enviar Notificação',
+      destination: 'ExpoNotification',
+      navigation: navigation,
+      backColor: Colors.Blue.background,
+      detailColor: 'yellow',
+    },
   ]
   return (
     <MainView>
