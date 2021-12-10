@@ -74,8 +74,10 @@ export const AppProvider = ({ children }: { children: React.ReactNode }) => {
     }
 
     function signOut() {
+        console.log('SignOut Called')
         AsyncStorage.clear().then(() => {
             setUser(null);
+            console.log('LocalStorage cleaned')
         })
     }   
 
