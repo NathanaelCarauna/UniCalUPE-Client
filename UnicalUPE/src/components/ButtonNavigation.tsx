@@ -72,12 +72,12 @@ function SetDetail() {
 
 const styles = StyleSheet.create({
     navButton: {
-        flex: 1,
+        // flex: 1,
         backgroundColor: Colors.Orange.background,
         alignItems: 'center',
         justifyContent: 'flex-start',
         height: 140,
-        width: 200,
+        width: 150,
         borderRadius: 16,
         margin: 10,
         overflow: 'hidden',
