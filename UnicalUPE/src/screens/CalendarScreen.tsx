@@ -22,11 +22,25 @@ LocaleConfig.defaultLocale = 'pt-br';
 import SelectDropdown from 'react-native-select-dropdown'
 import { FontAwesome } from '@expo/vector-icons';
 import TitleMainScreen from '../components/TitleMainScreen';
+import { useEffect } from 'react';
+import { useContext } from 'react';
+import AppContext from '../contexts/appContext';
 
 
 
 
-export default function CalendarScreen() {
+export default function CalendarScreen({ navigation }) {
+  const { user } = useContext(AppContext)
+
+  useEffect(() => {
+    console.log('Devia navegar para perfil')
+    if (user && !user.course) {
+      setTimeout(() => {
+        navigation.navigate('Profile')
+
+      }, 1000)
+    }
+  }, [user])
   //Fake data for calendar
   const vacation = { key: 'vacation', color: 'red', selectedDotColor: 'blue' };
   const massage = { key: 'massage', color: 'blue', selectedDotColor: 'red' };
@@ -36,14 +50,14 @@ export default function CalendarScreen() {
   const filter = ["Eng. de Software", "Medicina", "Psicologia", "Lic. Computação"]
   return (
     <MainView>
-      <TitleMainScreen title='Eventos do Mês'/>
+      <TitleMainScreen title='Eventos do Mês' />
       <SelectDropdown
         data={filter}
         defaultButtonText={'Escolha um filtro'}
         buttonStyle={styles.dropdownBtnStyle}
         dropdownStyle={styles.dropdown}
         buttonTextStyle={styles.dropdownBtnTxtStyle}
-        dropdownIconPosition={"right"}        
+        dropdownIconPosition={"right"}
         rowStyle={styles.dropdownRowStyle}
         rowTextStyle={styles.dropdownRowTxtStyle}
         renderDropdownIcon={() => {
@@ -124,9 +138,9 @@ const styles = StyleSheet.create({
     marginVertical: 15,
     marginHorizontal: 15,
   },
-  dropdownBtnStyle: {    
+  dropdownBtnStyle: {
     margin: 15,
-    marginTop: 30,  
+    marginTop: 30,
     padding: 10,
     backgroundColor: Colors.dark.tint,
     paddingHorizontal: 0,
@@ -137,9 +151,9 @@ const styles = StyleSheet.create({
   },
   dropdownBtnTxtStyle: {
     color: "#FFF",
-    fontSize: 14,        
+    fontSize: 14,
   },
-  dropdown: {        
+  dropdown: {
     borderRadius: 16,
     backgroundColor: Colors.dark.tint,
   },
@@ -147,7 +161,7 @@ const styles = StyleSheet.create({
 
   },
   dropdownRowTxtStyle: {
-    fontSize: 14,    
+    fontSize: 14,
     color: 'white',
   },
   dropdownIcon: {
