@@ -4,54 +4,19 @@ import { StyleSheet, Image, TouchableOpacity } from 'react-native';
 
 import { Text, View, } from '../components/Themed';
 import Colors from '../constants/Colors';
-import * as AuthSession from 'expo-auth-session';
+
 import { useNavigation } from '@react-navigation/native';
 import { useContext } from 'react';
 import AppContext from '../contexts/appContext';
 
-type AuthResponse = {
-  type: string;
-  params: {
-    access_token: string;
-  }
-}
 
-export default function LoginScreen() {
-  const navigation = useNavigation();
-  const { getUser } = useContext(AppContext)
+export default function LoginScreen({ navigation }) {
+  // const navigation = useNavigation();
+  const { handleSignIn } = useContext(AppContext)
 
-  async function handleSignIn() {
-    const CLIENT_ID = '162955034296-ah2keq2dk20d7qvpm0qj4h9bi7iratcr.apps.googleusercontent.com'
-    const REDIRECT_URI = 'https://auth.expo.io/@nathanaelcarauna/UnicalUPE'
-    const RESPONSE_TYPE = 'token'
-    const SCOPE = encodeURI('profile email')
 
-    const authUrl = `https://accounts.google.com/o/oauth2/v2/auth?client_id=${CLIENT_ID}&redirect_uri=${REDIRECT_URI}&response_type=${RESPONSE_TYPE}&scope=${SCOPE}`
 
-    const { type, params } = await AuthSession.startAsync({ authUrl }) as AuthResponse
-
-    if (type === 'success') {
-      console.log(type)
-      loadProfile(params.access_token)
-    }
-  }
-
-  async function loadProfile(token: string) {
-    const response = await fetch(`https://www.googleapis.com/oauth2/v2/userinfo?alt=json&access_token=${token}`)
-    const userinfo = await response.json()
-
-    console.log('User email: ' + userinfo.email)
-    const user = await getUser(userinfo.email)
-
-    console.log(user)
-    if (user) {
-      navigation.navigate('Root')
-    } else {
-      navigation.navigate('Profile')
-    }
-
-  }
-
+  // const testNavigation = () => { navigation.navigate('Profile') }
   return (
     <LinearGradient
       style={styles.container}
