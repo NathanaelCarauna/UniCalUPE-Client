@@ -1,14 +1,13 @@
 import { LinearGradient } from 'expo-linear-gradient';
 import * as React from 'react';
-import { StyleSheet, Image, Button, Alert, LogBox, TouchableOpacity } from 'react-native';
+import { StyleSheet, Image, TouchableOpacity } from 'react-native';
 
-import EditScreenInfo from '../components/EditScreenInfo';
 import { Text, View, } from '../components/Themed';
 import Colors from '../constants/Colors';
 import * as AuthSession from 'expo-auth-session';
 import { useNavigation } from '@react-navigation/native';
-import Navigation from '../navigation';
-import AsyncStorage from '@react-native-async-storage/async-storage';
+import { useContext } from 'react';
+import AppContext from '../contexts/appContext';
 
 type AuthResponse = {
   type: string;
@@ -19,38 +18,45 @@ type AuthResponse = {
 
 export default function LoginScreen() {
   const navigation = useNavigation();
+  const { getUser } = useContext(AppContext)
 
   async function handleSignIn() {
     const CLIENT_ID = '162955034296-ah2keq2dk20d7qvpm0qj4h9bi7iratcr.apps.googleusercontent.com'
-    const REDIRECT_URI = 'https://auth.expo.io/@dahisedias/UnicalUPE'
+    const REDIRECT_URI = 'https://auth.expo.io/@nathanaelcarauna/UnicalUPE'
     const RESPONSE_TYPE = 'token'
     const SCOPE = encodeURI('profile email')
 
     const authUrl = `https://accounts.google.com/o/oauth2/v2/auth?client_id=${CLIENT_ID}&redirect_uri=${REDIRECT_URI}&response_type=${RESPONSE_TYPE}&scope=${SCOPE}`
-    
-    const {type, params} = await AuthSession.startAsync({authUrl}) as AuthResponse
 
-    if(type === 'success'){
+    const { type, params } = await AuthSession.startAsync({ authUrl }) as AuthResponse
+
+    if (type === 'success') {
       console.log(type)
       loadProfile(params.access_token)
     }
-    
   }
-  
+
   async function loadProfile(token: string) {
     const response = await fetch(`https://www.googleapis.com/oauth2/v2/userinfo?alt=json&access_token=${token}`)
     const userinfo = await response.json()
-    navigation.navigate('Root')
-    AsyncStorage.setItem("@TGAuth:user", JSON.stringify(userinfo));
-    const storagedUser = await AsyncStorage.getItem('@TGAuth:user');
-    console.log(storagedUser)
+
+    console.log('User email: ' + userinfo.email)
+    const user = await getUser(userinfo.email)
+
+    console.log(user)
+    if (user) {
+      navigation.navigate('Root')
+    } else {
+      navigation.navigate('Profile')
+    }
+
   }
 
   return (
-    <LinearGradient 
-                style={styles.container}
-                colors={['#fff', Colors.dark.background]}
-            >
+    <LinearGradient
+      style={styles.container}
+      colors={['#fff', Colors.dark.background]}
+    >
       <Image source={require('./Unical-Logo.png')} style={styles.logo} />
       {/* <UnicalLogo style={styles.logo} /> */}
       <Text style={styles.title}>Login</Text>
@@ -87,7 +93,7 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     padding: 15,
     paddingHorizontal: 40,
-    
+
   },
   separator: {
     marginVertical: 30,
