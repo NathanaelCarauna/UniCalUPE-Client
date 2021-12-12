@@ -7,8 +7,17 @@ import { Text, View } from '../components/Themed';
 import Colors from '../constants/Colors';
 import { FontAwesome } from '@expo/vector-icons';
 import Layout from '../constants/Layout';
+import DateTimePicker from '@react-native-community/datetimepicker';
+import { useState } from 'react';
 
 export default function Evento() {
+  const [date, setDate] = useState(new Date(1598051730000));
+  const [show, setShow] = useState(false);
+
+  const showMode = () => {
+    setShow(!show);
+    console.log(date)
+  };
   return (
     <LinearGradient style={styles.container} colors={["#ffffff", "#8F98FF"]}>
       <ScrollView style={styles.scroll}>
@@ -23,6 +32,27 @@ export default function Evento() {
         <View style={styles.textView}>
           <TabBarIcon style={styles.icons} name="map-marker" color={Colors.Blue.background} />
           <TextInput style={styles.text} placeholder="Local" />
+        </View>
+        <View style={styles.textView}>
+          <TabBarIcon style={styles.icons} name="calendar" color={Colors.Blue.background} />
+          <TouchableOpacity onPress={
+            showMode
+          }>
+            <Text> data</Text>
+          </TouchableOpacity>
+          {show && (
+            <DateTimePicker
+              testID="dateTimePicker"
+              value={date}
+              is24Hour={true}
+              display="default"
+              onChange={() => {
+                setDate
+                setShow(!show)}
+              }
+            />
+          )}
+          
         </View>
 
         <View style={styles.separator} lightColor="#004369" darkColor="rgba(0,67,105,0.1)" />
