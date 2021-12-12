@@ -8,14 +8,15 @@ export const AppContext = createContext({
     signed: false,
     user: {},
     loading: false,
-    handleUser: (email: email) => { },
+    getUser: (email: email) => { },
     createUser: (user: user) => { },
-    signOut: () => {},
+    signOut: () => { },
 });
 
 export const AppProvider = ({ children }: { children: React.ReactNode }) => {
     const [loading, setLoading] = useState<boolean | undefined>()
-    const [user, setUser] = useState(null);
+    const [user, setUser] = useState();
+
 
     useEffect(() => {
         setLoading(true)
@@ -30,39 +31,45 @@ export const AppProvider = ({ children }: { children: React.ReactNode }) => {
         loadStorageData();
     }, [])
 
-    async function handleUser(email: email) {
+
+    async function getUser(email: email) {
         setLoading(true);
+        let localUser;
         try {
             console.log('Requesting getUser')
             await userApi.getUser(email)
                 .then(response => {
                     console.log('GetUser requested')
                     console.log(response.data)
-                    let result = false;
-                    if (response.status == 200) {                        
+                    if (response.status == 200) {
                         setUser(response.data)
-                        result = true;
-                    }                   
+                        localUser = response.data
+                        AsyncStorage.setItem("@TGAuth:user", JSON.stringify(response.data));
+                    }
                     setLoading(false);
-                    return result
+                })
+                .catch(err => {
+                    console.log(err)
+                    localUser = null
                 })
         } catch (e) {
             console.log(e)
-            return false;
+            localUser = null
         }
         setLoading(false);
+        return localUser
     }
 
     async function createUser(user: user) {
         setLoading(true);
         try {
             await userApi.createUser(user)
-                .then(response => {                    
+                .then(response => {
                     let result = false;
-                    if (response.status = 200) {                        
+                    if (response.status = 200) {
                         setUser(response.status)
                         result = true;
-                    }                   
+                    }
                     setLoading(false);
                     return result
                 })
@@ -70,7 +77,7 @@ export const AppProvider = ({ children }: { children: React.ReactNode }) => {
             console.log(e)
             return false;
         }
-        
+
     }
 
     function signOut() {
@@ -79,10 +86,10 @@ export const AppProvider = ({ children }: { children: React.ReactNode }) => {
             setUser(null);
             console.log('LocalStorage cleaned')
         })
-    }   
+    }
 
     return (
-        <AppContext.Provider value={{ signed: !!user, user, loading, handleUser, createUser, signOut }}>
+        <AppContext.Provider value={{ signed: !!user, user, loading, getUser, createUser, signOut }}>
             {children}
         </AppContext.Provider>
     )
