@@ -2,6 +2,7 @@ import { DarkTheme, DefaultTheme, NavigationContainer } from '@react-navigation/
 import { StatusBar } from 'expo-status-bar';
 import React from 'react';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
+import ExpoNotification from './src/screens/ExpoNotification';
 import { AppProvider } from './src/contexts/appContext';
 
 import useCachedResources from './src/hooks/useCachedResources';
