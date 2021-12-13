@@ -6,10 +6,14 @@ import { Text, View } from '../components/Themed';
 import Colors from '../constants/Colors';
 import AppContext from '../contexts/appContext';
 import { useContext } from 'react';
+import navigation from '../navigation';
 
 
-export default function CalendarScreen() {
+export default function ProfileScreen({ navigation}) {
   const {user} = useContext(AppContext)
+  const navigate = () => {
+    navigation.navigate('EditProfile')
+  }
   return (
     <>
       <LinearGradient style = {styles.container} colors={["#ffffff","#ffc278"]}>
@@ -21,7 +25,7 @@ export default function CalendarScreen() {
         </LinearGradient>
         <TouchableOpacity
         style={styles.button}
-        onPress={() => Alert.alert('Go to EditProfileScreen')}>
+        onPress={navigate}>
         <Text style={styles.buttonText}>Editar Perfil</Text>
         </TouchableOpacity>
       </LinearGradient>
