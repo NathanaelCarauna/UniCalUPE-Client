@@ -21,6 +21,7 @@ import NotificationsScreen from '../screens/NotificationsScreen';
 import { useContext } from 'react';
 import AppContext from '../contexts/appContext';
 import { View } from '../components/Themed';
+import EditProfileScreen from '../screens/EditProfileScreen';
 
 export default function Navigation({ colorScheme }: { colorScheme: ColorSchemeName }) {
   const { signed, loading } = useContext(AppContext)
@@ -67,6 +68,14 @@ function RootNavigator() {
         options={{
           headerShown: true,
           title: 'Perfil',
+          headerTintColor: 'white',
+          headerStyle: { backgroundColor: Colors.Orange.background }
+        }}
+      />
+      <Stack.Screen name="EditProfile" component={EditProfileScreen}
+        options={{
+          headerShown: true,
+          title: 'Editar Perfil',
           headerTintColor: 'white',
           headerStyle: { backgroundColor: Colors.Orange.background }
         }}
