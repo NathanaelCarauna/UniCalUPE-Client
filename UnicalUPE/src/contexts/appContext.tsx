@@ -26,6 +26,7 @@ export const AppContext = createContext({
 export const AppProvider = ({ children }: { children: React.ReactNode }) => {
     const [loading, setLoading] = useState<boolean | undefined>()
     const [user, setUser] = useState();
+    const [EventList, setEventList] = useState();
 
 
     useEffect(() => {
@@ -142,7 +143,7 @@ export const AppProvider = ({ children }: { children: React.ReactNode }) => {
                     console.log('Events requested')
                     console.log(response.data)
                     if (response.status == 200) {
-                        console.log("deu certo")
+                        setEventList(response.data)
                     }
                     setLoading(false);
                 })
