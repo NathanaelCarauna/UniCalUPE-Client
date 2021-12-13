@@ -158,5 +158,30 @@ export const AppProvider = ({ children }: { children: React.ReactNode }) => {
         }
         setLoading(false);
     }
+
+    async function getEventsByCategory(category : string) {
+        setLoading(true);
+        try {
+            console.log('Requesting getEvents')
+            await EventApi.getEventByCategory(category)
+                .then(response => {
+                    console.log('Events requested')
+                    console.log(response.data)
+                    if (response.status == 200) {
+                        setEventList(response.data)
+                    }
+                    setLoading(false);
+                })
+                .catch(err => {
+                    console.log(err)
+                    //localUser = null
+                    setLoading(false);
+                })
+        } catch (e) {
+            console.log(e)
+            
+        }
+        setLoading(false);
+    }
 }
 export default AppContext;
