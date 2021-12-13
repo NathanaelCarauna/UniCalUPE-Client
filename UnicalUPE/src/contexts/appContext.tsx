@@ -1,6 +1,14 @@
 import React, { createContext, useState, useEffect } from 'react';
 import * as userApi from '../services/userApi';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import * as AuthSession from 'expo-auth-session';
+
+type AuthResponse = {
+    type: string;
+    params: {
+        access_token: string;
+    }
+}
 
 type user = { email: string, name: string, picture: string, id: number, accountType: string }
 type email = { email: string }
@@ -11,6 +19,7 @@ export const AppContext = createContext({
     getUser: (email: email) => { },
     createUser: (user: user) => { },
     signOut: () => { },
+    handleSignIn: () => { }
 });
 
 export const AppProvider = ({ children }: { children: React.ReactNode }) => {
@@ -51,6 +60,7 @@ export const AppProvider = ({ children }: { children: React.ReactNode }) => {
                 .catch(err => {
                     console.log(err)
                     localUser = null
+                    setLoading(false);
                 })
         } catch (e) {
             console.log(e)
@@ -88,8 +98,34 @@ export const AppProvider = ({ children }: { children: React.ReactNode }) => {
         })
     }
 
+    async function handleSignIn() {
+        const CLIENT_ID = '162955034296-ah2keq2dk20d7qvpm0qj4h9bi7iratcr.apps.googleusercontent.com'
+        const REDIRECT_URI = 'https://auth.expo.io/@nathanaelcarauna/UnicalUPE'
+        const RESPONSE_TYPE = 'token'
+        const SCOPE = encodeURI('profile email')
+
+        const authUrl = `https://accounts.google.com/o/oauth2/v2/auth?client_id=${CLIENT_ID}&redirect_uri=${REDIRECT_URI}&response_type=${RESPONSE_TYPE}&scope=${SCOPE}`
+
+        const { type, params } = await AuthSession.startAsync({ authUrl }) as AuthResponse
+
+        if (type === 'success') {
+            console.log(type)
+            loadProfile(params.access_token)
+        }
+    }
+
+    async function loadProfile(token: string) {
+        setLoading(true)
+        const response = await fetch(`https://www.googleapis.com/oauth2/v2/userinfo?alt=json&access_token=${token}`)
+        const userinfo = await response.json()
+        // console.log(userinfo)
+        setUser({name: userinfo.name, email: userinfo.email})
+        console.log('User email: ' + userinfo.email)
+        await getUser(userinfo.email)
+        setLoading(false)
+    }
     return (
-        <AppContext.Provider value={{ signed: !!user, user, loading, getUser, createUser, signOut }}>
+        <AppContext.Provider value={{ signed: !!user, user, loading, getUser, createUser, signOut, handleSignIn }}>
             {children}
         </AppContext.Provider>
     )

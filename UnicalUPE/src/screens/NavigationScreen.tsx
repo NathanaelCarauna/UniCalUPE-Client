@@ -55,7 +55,7 @@ export default function NavigationScreen({ navigation }: RootTabScreenProps<'Nav
   useEffect(() => {
     console.log('Filter buttons called')
     const originalList = buttons
-    if (!user) {
+    if (!user.course) {
       console.log('Teste')
       const filteredButtons = buttons.filter(b => b.buttonText != 'Perfil'
         && b.buttonText != 'Sair'
