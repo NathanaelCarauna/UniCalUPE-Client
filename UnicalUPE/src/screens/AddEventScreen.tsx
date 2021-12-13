@@ -12,12 +12,28 @@ import { useState } from 'react';
 
 export default function Evento() {
   const [date, setDate] = useState(new Date(1598051730000));
-  const [show, setShow] = useState(false);
+  const [time, setTime] = useState(new Date(1598051730000));
+  const [showData, setShowData] = useState(false);
+  const [showTime, setShowTime] = useState(false);
 
-  const showMode = () => {
-    setShow(!show);
+  const showDataMode = () => {
+    setShowData(!showData);
     console.log(date)
   };
+  const showTimeMode = () => {
+    setShowTime(!showTime);
+    console.log(time)
+  };
+
+  const HandleDate =() =>{
+    setDate
+    setShowData(!showData)}
+  const HandleTime =() =>{
+    setTime
+    setShowTime(!showTime)}
+
+
+
   return (
     <LinearGradient style={styles.container} colors={["#ffffff", "#8F98FF"]}>
       <ScrollView style={styles.scroll}>
@@ -35,21 +51,37 @@ export default function Evento() {
         </View>
         <View style={styles.textView}>
           <TabBarIcon style={styles.icons} name="calendar" color={Colors.Blue.background} />
-          <TouchableOpacity onPress={
-            showMode
+          <TouchableOpacity style= {styles.calendar} onPress={
+            showDataMode
           }>
-            <Text> data</Text>
-          </TouchableOpacity>
-          {show && (
+            <Text style= {styles.Text_Normal}> {date.getUTCDate()}</Text>
+          </TouchableOpacity >
+          {showData && (
             <DateTimePicker
               testID="dateTimePicker"
               value={date}
               is24Hour={true}
               display="default"
-              onChange={() => {
-                setDate
-                setShow(!show)}
-              }
+              onChange={HandleDate}
+            />
+          )}
+          
+        </View>
+        <View style={styles.textView}>
+          <TabBarIcon style={styles.icons} name="clock-o" color={Colors.Blue.background} />
+          <TouchableOpacity style= {styles.calendar} onPress={
+            showTimeMode
+          }>
+            <Text style= {styles.Text_Normal}> {time.getHours()}</Text>
+          </TouchableOpacity >
+          {showTime && (
+            <DateTimePicker
+              testID="dateTimePicker"
+              mode="time"
+              value={time}
+              is24Hour={true}
+              display="default"
+              onChange={HandleTime}
             />
           )}
           
@@ -147,5 +179,22 @@ const styles = StyleSheet.create({
     padding: 15,
     fontSize: 18,
     color: 'white'
+  },
+  calendar:{
+    fontSize: 18,
+    //marginStart: 10,
+    marginVertical: 5,
+    padding: 12,
+    color: 'gray',
+    backgroundColor: '#E9E9E9',
+    borderRadius: 16,
+    alignSelf: 'stretch',
+    textAlign: 'center',
+    borderColor: 'white',
+    borderWidth: 3
+  },
+  Text_Normal:{
+    fontSize: 18,
+    color: 'gray',
   },
 });
