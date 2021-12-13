@@ -53,7 +53,7 @@ const styles = StyleSheet.create({
   button: {
     margin: 40,
     fontWeight: 'bold',
-    backgroundColor: 'orange',
+    backgroundColor: Colors.Orange.background,
     borderRadius: 15
   },
   buttonText: {
