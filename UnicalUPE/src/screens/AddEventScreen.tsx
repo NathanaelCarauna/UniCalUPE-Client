@@ -28,10 +28,12 @@ export default function Evento() {
   const HandleDate =() =>{
     setDate
     setShowData(!showData)}
+
   const HandleTime =() =>{
     setTime
     setShowTime(!showTime)}
 
+    React.useEffect(()=>{}, [date])
 
 
   return (

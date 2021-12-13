@@ -1,5 +1,6 @@
 import React, { createContext, useState, useEffect } from 'react';
 import * as userApi from '../services/userApi';
+import * as EventApi from '../services/EventApi';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import * as AuthSession from 'expo-auth-session';
 
@@ -129,5 +130,32 @@ export const AppProvider = ({ children }: { children: React.ReactNode }) => {
             {children}
         </AppContext.Provider>
     )
+
+    // --------------------------------------------//Events//------------------------------------------------------------
+
+    async function getEventsAll() {
+        setLoading(true);
+        try {
+            console.log('Requesting getEvents')
+            await EventApi.getAllEvents()
+                .then(response => {
+                    console.log('Events requested')
+                    console.log(response.data)
+                    if (response.status == 200) {
+                        console.log("deu certo")
+                    }
+                    setLoading(false);
+                })
+                .catch(err => {
+                    console.log(err)
+                    //localUser = null
+                    setLoading(false);
+                })
+        } catch (e) {
+            console.log(e)
+            
+        }
+        setLoading(false);
+    }
 }
 export default AppContext;
