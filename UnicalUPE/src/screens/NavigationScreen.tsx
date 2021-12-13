@@ -3,71 +3,28 @@ import { StyleSheet, FlatList } from 'react-native';
 
 import { RootTabScreenProps } from '../types';
 import ButtonNavigation from '../components/ButtonNavigation'
-import Colors from '../constants/Colors';
 import TitleMainScreen from '../components/TitleMainScreen';
 import MainView from '../components/MainView';
 import { useContext } from 'react';
 import AppContext from '../contexts/appContext';
 import { useEffect } from 'react';
 import { useState } from 'react';
-
+import { anonymousButtons, studentButtons, adminButtons} from '../constants/NavigationButtons';
 export default function NavigationScreen({ navigation }: RootTabScreenProps<'Navigation'>) {
   const { user, signOut } = useContext(AppContext)
-  const [buttons, setButtons] = useState([
-    {
-      buttonText: 'Login',
-      destination: 'Login',
-      navigation: navigation,
-      backColor: '',
-    },
-    {
-      buttonText: 'Perfil',
-      destination: 'Profile',
-      navigation: navigation,
-      backColor: Colors.Yellow.background,
-    },
-    {
-      buttonText: 'Notificações',
-      destination: 'Notifications',
-      navigation: navigation,
-      backColor: Colors.Green.background,
-    },
-    {
-      buttonText: 'Sobre',
-      destination: 'About',
-      navigation: navigation,
-      backColor: Colors.Red.background,
-    },
-    {
-      buttonText: 'Adicionar Evento',
-      destination: 'AddEvent',
-      navigation: navigation,
-      backColor: Colors.Blue.background,
-    },
-    {
-      buttonText: 'Sair',
-      destination: signOut,
-      navigation: navigation,
-      backColor: Colors.Blue.background,
-    },
-  ])
+  const [buttons, setButtons] = useState()
 
   useEffect(() => {
     console.log('Filter buttons called')
-    const originalList = buttons
     if (user) {
-      if (!user.course) {
-        console.log('Usuário não tem curso')
-        const filteredButtons = buttons.filter(b => b.buttonText != 'Perfil'
-          && b.buttonText != 'Sair'
-          && b.buttonText != 'Notificações'
-        )
-        setButtons(filteredButtons)
-      } else {
-        setButtons(originalList)
-      }
+      if(user.accountType == 'STUDENT')
+        setButtons(studentButtons(navigation, signOut))
+      else if(user.accountType == 'ADM')
+        setButtons(adminButtons(navigation, signOut))
+      else
+        setButtons(anonymousButtons(navigation, signOut))      
     } else {
-      setButtons(originalList)
+      setButtons(anonymousButtons(navigation, signOut))
     }
   }, [user])
 
