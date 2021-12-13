@@ -10,14 +10,29 @@ import { FontAwesome } from '@expo/vector-icons';
 
 
 export default function EditProfileScreen({ navigation }) {
-  const { user, createUser } = React.useContext(AppContext)
+  const { user, saveUser } = React.useContext(AppContext)
   const filter = ["Eng. de Software", "Medicina", "Psicologia", "Lic. Computação"]
+  const checkId = () => {
+    return typeof user.id == 'number' ? user.id : null
+  }
+  const [userData, setUserData] = React.useState({ name: user.name, email: user.email, accountType: 'STUDENT', id: checkId(), course: null });
+
+  const handleSubmit = () => {
+    
+    if(saveUser(userData)){
+      console.log('User data saved')
+      navigation.navigate('Root')
+    }
+  }
   return (
     <>
       <LinearGradient style={styles.container} colors={["#ffffff", "#ffc278"]}>
 
 
-        <TextInput style={styles.text} placeholder={user.name} />
+        <TextInput style={styles.text} placeholder={user.name}
+          onChangeText={(value) => setUserData({ name: value })}
+          value={userData.name}
+        />
         <SelectDropdown
           data={filter}
           defaultButtonText={'Selecione o seu curso'}
@@ -34,6 +49,7 @@ export default function EditProfileScreen({ navigation }) {
           }}
           onSelect={(selectedItem, index) => {
             console.log(selectedItem, index)
+            setUserData({ course: selectedItem })
           }}
           buttonTextAfterSelection={(selectedItem, index) => {
             // text represented after item is selected
@@ -50,7 +66,7 @@ export default function EditProfileScreen({ navigation }) {
 
         <TouchableOpacity
           style={styles.button}
-          onPress={() => Alert.alert('Edição feita com sucesso')}>
+          onPress={handleSubmit}>
           <Text style={styles.buttonText}>Salvar</Text>
         </TouchableOpacity>
       </LinearGradient>
@@ -124,7 +140,7 @@ const styles = StyleSheet.create({
     fontSize: 18,
     alignSelf: 'stretch',
     color: 'gray',
-    
+
   },
   dropdown: {
     borderRadius: 16,
