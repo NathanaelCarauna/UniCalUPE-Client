@@ -1,26 +1,58 @@
 import * as React from 'react';
-import { ScrollView, StyleSheet, TouchableOpacity, Alert, TextInput  } from 'react-native';
+import { ScrollView, StyleSheet, TouchableOpacity, Alert, TextInput } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
 
 import { Text, View } from '../components/Themed';
 import Colors from '../constants/Colors';
+import AppContext from '../contexts/appContext';
+import SelectDropdown from 'react-native-select-dropdown';
+import { FontAwesome } from '@expo/vector-icons';
 
 
-export default function EditProfileScreen() {
+export default function EditProfileScreen({ navigation }) {
+  const { user, createUser } = React.useContext(AppContext)
+  const filter = ["Eng. de Software", "Medicina", "Psicologia", "Lic. Computação"]
   return (
     <>
-      <LinearGradient style = {styles.container} colors={["#ffffff","#ffc278"]}>
-      
-      
-      <TextInput style={styles.text} placeholder="Nome do Usuário" />
-      <TextInput style={styles.text} placeholder="Curso" />
-      <View style={styles.separator} lightColor="#004369" darkColor="rgba(0,67,105,0.1)" />
+      <LinearGradient style={styles.container} colors={["#ffffff", "#ffc278"]}>
 
-      <TouchableOpacity
+
+        <TextInput style={styles.text} placeholder={user.name} />
+        <SelectDropdown
+          data={filter}
+          defaultButtonText={'Selecione o seu curso'}
+          buttonStyle={styles.dropdownBtnStyle}
+          dropdownStyle={styles.dropdown}
+          buttonTextStyle={styles.dropdownBtnTxtStyle}
+          dropdownIconPosition={"right"}
+          rowStyle={styles.dropdownRowStyle}
+          rowTextStyle={styles.dropdownRowTxtStyle}
+          renderDropdownIcon={() => {
+            return (
+              <FontAwesome name="chevron-down" color={"#FFF"} size={18} style={styles.dropdownIcon} />
+            );
+          }}
+          onSelect={(selectedItem, index) => {
+            console.log(selectedItem, index)
+          }}
+          buttonTextAfterSelection={(selectedItem, index) => {
+            // text represented after item is selected
+            // if data array is an array of objects then return selectedItem.property to render after item is selected
+            return selectedItem
+          }}
+          rowTextForSelection={(item, index) => {
+            // text represented for each item in dropdown
+            // if data array is an array of objects then return item.property to represent item in dropdown
+            return item
+          }}
+        />
+        <View style={styles.separator} lightColor="#004369" darkColor="rgba(0,67,105,0.1)" />
+
+        <TouchableOpacity
           style={styles.button}
           onPress={() => Alert.alert('Edição feita com sucesso')}>
           <Text style={styles.buttonText}>Salvar</Text>
-      </TouchableOpacity>
+        </TouchableOpacity>
       </LinearGradient>
 
     </>
@@ -37,7 +69,7 @@ const styles = StyleSheet.create({
   },
   separator: {
     margin: 15,
-    marginTop:30,
+    marginTop: 30,
     height: 1,
     alignSelf: 'stretch',
     //width: '80%',
@@ -46,7 +78,7 @@ const styles = StyleSheet.create({
   button: {
     margin: 40,
     fontWeight: 'bold',
-    backgroundColor: 'orange',
+    backgroundColor: Colors.Orange.background,
     borderRadius: 15
   },
   buttonText: {
@@ -55,7 +87,7 @@ const styles = StyleSheet.create({
     padding: 15,
     paddingHorizontal: 40,
     textAlign: 'center',
-    color: '#ffffff' 
+    color: '#ffffff'
   },
   text: {
     fontSize: 18,
@@ -70,11 +102,42 @@ const styles = StyleSheet.create({
     borderColor: 'white',
     borderWidth: 3
   },
-  bloco:{
+  bloco: {
     backgroundColor: Colors.Orange.background,
     margin: 20,
     // marginBottom: 300,
     borderRadius: 16,
     padding: 20,
+  },
+  dropdownBtnStyle: {
+    //marginStart: 10,
+    marginVertical: 5,
+    padding: 12,
+    backgroundColor: '#E9E9E9',
+    borderRadius: 16,
+    textAlign: 'center',
+    borderColor: 'white',
+    borderWidth: 3,
+    width: '100%'
+  },
+  dropdownBtnTxtStyle: {
+    fontSize: 18,
+    alignSelf: 'stretch',
+    color: 'gray',
+    
+  },
+  dropdown: {
+    borderRadius: 16,
+    backgroundColor: Colors.Orange.background,
+  },
+  dropdownRowStyle: {
+
+  },
+  dropdownRowTxtStyle: {
+    fontSize: 14,
+    color: 'white',
+  },
+  dropdownIcon: {
+    marginHorizontal: 10
   }
 });
