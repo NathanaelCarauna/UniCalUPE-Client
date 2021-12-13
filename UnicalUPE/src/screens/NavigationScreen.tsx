@@ -24,7 +24,7 @@ export default function NavigationScreen({ navigation }: RootTabScreenProps<'Nav
       buttonText: 'Perfil',
       destination: 'Profile',
       navigation: navigation,
-      backColor: Colors.Yellow.background, 
+      backColor: Colors.Yellow.background,
     },
     {
       buttonText: 'Notificações',
@@ -55,13 +55,17 @@ export default function NavigationScreen({ navigation }: RootTabScreenProps<'Nav
   useEffect(() => {
     console.log('Filter buttons called')
     const originalList = buttons
-    if (!user.course) {
-      console.log('Teste')
-      const filteredButtons = buttons.filter(b => b.buttonText != 'Perfil'
-        && b.buttonText != 'Sair'
-        && b.buttonText != 'Notificações'
-      )
-      setButtons(filteredButtons)
+    if (user) {
+      if (!user.course) {
+        console.log('Usuário não tem curso')
+        const filteredButtons = buttons.filter(b => b.buttonText != 'Perfil'
+          && b.buttonText != 'Sair'
+          && b.buttonText != 'Notificações'
+        )
+        setButtons(filteredButtons)
+      } else {
+        setButtons(originalList)
+      }
     } else {
       setButtons(originalList)
     }

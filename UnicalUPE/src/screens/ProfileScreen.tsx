@@ -15,7 +15,7 @@ export default function CalendarScreen() {
       <LinearGradient style = {styles.container} colors={["#ffffff","#ffc278"]}>
         <LinearGradient style={styles.bloco} colors={["#FF7648","#ffc278"]}>
           <Text style={styles.normal}>{user.name}</Text>
-          <Text style={styles.normal}>{user.course.name}</Text>
+          {/* <Text style={styles.normal}>{user.course.name}</Text> */}
           <Text style={styles.tipoLogin}>{user.accountType}</Text>
           </LinearGradient>
       </LinearGradient>
