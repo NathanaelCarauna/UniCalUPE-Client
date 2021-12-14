@@ -84,13 +84,14 @@ export const AppProvider = ({ children }: { children: React.ReactNode }) => {
             await userApi.saveUser(user)
                 .then(response => {
                     if (response.status = 200) {
-                        setUser(response.status)
+                        setUser(response.data)
                         result = true;
                     }
                     setLoading(false);
                 })
         } catch (e) {
             console.log(e)
+            setLoading(false);
             return false;
         }
         return result
