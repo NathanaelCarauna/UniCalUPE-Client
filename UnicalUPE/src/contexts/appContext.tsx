@@ -17,8 +17,8 @@ type email = { email: string }
 export const AppContext = createContext({
     signed: false,
     user: {},
-    events:{},
-    courses:{},
+    eventsList:{},
+    coursesList:{},
     loading: false,
     getUser: (email: email) => { },
     saveUser: (user: user) => { },
@@ -29,8 +29,8 @@ export const AppContext = createContext({
 export const AppProvider = ({ children }: { children: React.ReactNode }) => {
     const [loading, setLoading] = useState<boolean | undefined>()
     const [user, setUser] = useState();
-    const [EventList, setEventList] = useState();
-    const [CoursesList, setCoursesList] = useState();
+    const [eventsList, setEventList] = useState();
+    const [coursesList, setCoursesList] = useState();
 
 
     useEffect(() => {
@@ -132,12 +132,7 @@ export const AppProvider = ({ children }: { children: React.ReactNode }) => {
         console.log('User email: ' + userinfo.email)
         await getUser(userinfo.email)
         setLoading(false)
-    }
-    return (
-        <AppContext.Provider value={{ signed: !!user, user, loading, getUser, saveUser, signOut, handleSignIn }}>
-            {children}
-        </AppContext.Provider>
-    )
+    }   
 
     // --------------------------------------------//Events//------------------------------------------------------------
 
@@ -216,6 +211,12 @@ export const AppProvider = ({ children }: { children: React.ReactNode }) => {
         }
         setLoading(false);
     }
+
+    return (
+        <AppContext.Provider value={{ signed: !!user, user, loading, getUser, saveUser, signOut, handleSignIn, coursesList, eventsList }}>
+            {children}
+        </AppContext.Provider>
+    )
 
 }
 export default AppContext;
