@@ -57,11 +57,11 @@ const FakeDates = [
 ]
 
 export default function EventsScreen() {
-  const { courses } = useContext(AppContext)
+  const { eventsList } = useContext(AppContext)
 
   useEffect(() => {
     console.log('tela de eventos')
-    console.log(courses)
+    console.log(eventsList)
   })
   return (
     <>
