@@ -18,7 +18,7 @@ export const AppContext = createContext({
     signed: false,
     user: {},
     eventsList:{},
-    coursesList:{},
+    coursesList:[],
     loading: false,
     getUser: (email: email) => { },
     saveUser: (user: user) => { },

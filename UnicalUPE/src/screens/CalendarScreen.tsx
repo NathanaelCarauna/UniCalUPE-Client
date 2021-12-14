@@ -30,9 +30,11 @@ import AppContext from '../contexts/appContext';
 
 
 export default function CalendarScreen({ navigation }) {
-  const { user } = useContext(AppContext)
+  const { user, coursesList } = useContext(AppContext)
 
   useEffect(() => {
+    console.log("cursos")
+    console.log(coursesList)
     console.log('Devia navegar para perfil')
     if (user && !user.course) {
       setTimeout(() => {
@@ -47,12 +49,12 @@ export default function CalendarScreen({ navigation }) {
   const workout = { key: 'workout', color: 'green' };
 
   //fake data for dropdown
-  const filter = ["Eng. de Software", "Medicina", "Psicologia", "Lic. Computação"]
+  const filter = ["Eng. de Software", "teste", "Psicologia", "Lic. Computação"]
   return (
     <MainView>
       <TitleMainScreen title='Eventos do Mês' />
       <SelectDropdown
-        data={filter}
+        data={coursesList}
         defaultButtonText={'Escolha um filtro'}
         buttonStyle={styles.dropdownBtnStyle}
         dropdownStyle={styles.dropdown}
@@ -71,12 +73,12 @@ export default function CalendarScreen({ navigation }) {
         buttonTextAfterSelection={(selectedItem, index) => {
           // text represented after item is selected
           // if data array is an array of objects then return selectedItem.property to render after item is selected
-          return selectedItem
+          return selectedItem.name
         }}
         rowTextForSelection={(item, index) => {
           // text represented for each item in dropdown
           // if data array is an array of objects then return item.property to represent item in dropdown
-          return item
+          return item.name
         }}
       />
       <Calendar

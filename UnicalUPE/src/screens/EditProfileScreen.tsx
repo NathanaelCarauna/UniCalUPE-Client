@@ -11,25 +11,7 @@ import { useEffect, useContext } from 'react';
 
 
 export default function EditProfileScreen({ navigation }) {
-  const { user, saveUser } = React.useContext(AppContext)
-  const filter = [
-    {
-      "id": 2,
-      "name": "Engenharia de Software"
-    },
-    {
-      "id": 10,
-      "name": "Licenciatura em Computação"
-    },
-    {
-      "id": 4,
-      "name": "Medicina"
-    },
-    {
-      "id": 5,
-      "name": "Psicologia"
-    }
-  ]
+  const { user, saveUser, coursesList} = React.useContext(AppContext)
   const checkId = () => {
     return typeof user.id == 'number' ? user.id : null
   }
@@ -52,7 +34,7 @@ export default function EditProfileScreen({ navigation }) {
           value={userData.name}
         />
         <SelectDropdown
-          data={filter}
+          data={coursesList}
           defaultButtonText={'Selecione o seu curso'}
           buttonStyle={styles.dropdownBtnStyle}
           dropdownStyle={styles.dropdown}
