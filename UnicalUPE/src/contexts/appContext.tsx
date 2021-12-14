@@ -1,5 +1,6 @@
 import React, { createContext, useState, useEffect } from 'react';
 import * as userApi from '../services/userApi';
+import * as EventApi from '../services/EventApi';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import * as AuthSession from 'expo-auth-session';
 
@@ -25,6 +26,7 @@ export const AppContext = createContext({
 export const AppProvider = ({ children }: { children: React.ReactNode }) => {
     const [loading, setLoading] = useState<boolean | undefined>()
     const [user, setUser] = useState();
+    const [EventList, setEventList] = useState();
 
 
     useEffect(() => {
@@ -130,5 +132,57 @@ export const AppProvider = ({ children }: { children: React.ReactNode }) => {
             {children}
         </AppContext.Provider>
     )
+
+    // --------------------------------------------//Events//------------------------------------------------------------
+
+    async function getEventsAll() {
+        setLoading(true);
+        try {
+            console.log('Requesting getEvents')
+            await EventApi.getAllEvents()
+                .then(response => {
+                    console.log('Events requested')
+                    console.log(response.data)
+                    if (response.status == 200) {
+                        setEventList(response.data)
+                    }
+                    setLoading(false);
+                })
+                .catch(err => {
+                    console.log(err)
+                    //localUser = null
+                    setLoading(false);
+                })
+        } catch (e) {
+            console.log(e)
+            
+        }
+        setLoading(false);
+    }
+
+    async function getEventsByCategory(category : string) {
+        setLoading(true);
+        try {
+            console.log('Requesting getEvents')
+            await EventApi.getEventByCategory(category)
+                .then(response => {
+                    console.log('Events requested')
+                    console.log(response.data)
+                    if (response.status == 200) {
+                        setEventList(response.data)
+                    }
+                    setLoading(false);
+                })
+                .catch(err => {
+                    console.log(err)
+                    //localUser = null
+                    setLoading(false);
+                })
+        } catch (e) {
+            console.log(e)
+            
+        }
+        setLoading(false);
+    }
 }
 export default AppContext;
