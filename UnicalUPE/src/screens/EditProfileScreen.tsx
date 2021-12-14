@@ -32,7 +32,7 @@ export default function EditProfileScreen({ navigation }) {
   const checkId = () => {
     return typeof user.id == 'number' ? user.id : null
   }
-  const [userData, setUserData] = React.useState({ name: user.name, email: user.email, accountType: 'STUDENT', id: checkId(), course: null });
+  const [userData, setUserData] = React.useState({ name: user.name, email: user.email, accountType: 'STUDENT', id: checkId()});
 
   const handleSubmit = () => {
     
@@ -47,7 +47,7 @@ export default function EditProfileScreen({ navigation }) {
 
 
         <TextInput style={styles.text} placeholder={user.name}
-          onChangeText={(value) => setUserData({ name: value })}
+          onChangeText={(value) => setUserData({ ...userData, name: value })}
           value={userData.name}
         />
         <SelectDropdown
