@@ -17,7 +17,7 @@ export default function EditProfileScreen({ navigation }) {
       "name": "Engenharia de Software"
     },
     {
-      "id": 3,
+      "id": 10,
       "name": "Licenciatura em Computação"
     },
     {
