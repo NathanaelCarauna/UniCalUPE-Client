@@ -36,7 +36,7 @@ export default function CalendarScreen({ navigation }) {
     console.log('Devia navegar para perfil')
     if (user && !user.course) {
       setTimeout(() => {
-        navigation.navigate('Profile')
+        navigation.navigate('EditProfile')
 
       }, 1000)
     }

@@ -11,14 +11,14 @@ type AuthResponse = {
     }
 }
 
-type user = { email: string, name: string, picture: string, id: number, accountType: string }
+type user = { email: string, name: string, id: number, accountType: string }
 type email = { email: string }
 export const AppContext = createContext({
     signed: false,
     user: {},
     loading: false,
     getUser: (email: email) => { },
-    createUser: (user: user) => { },
+    saveUser: (user: user) => { },
     signOut: () => { },
     handleSignIn: () => { }
 });
@@ -72,23 +72,23 @@ export const AppProvider = ({ children }: { children: React.ReactNode }) => {
         return localUser
     }
 
-    async function createUser(user: user) {
+    async function saveUser(user: user) {
         setLoading(true);
+        let result = false;
         try {
-            await userApi.createUser(user)
+            await userApi.saveUser(user)
                 .then(response => {
-                    let result = false;
                     if (response.status = 200) {
                         setUser(response.status)
                         result = true;
                     }
                     setLoading(false);
-                    return result
                 })
         } catch (e) {
             console.log(e)
             return false;
         }
+        return result
 
     }
 
@@ -121,13 +121,13 @@ export const AppProvider = ({ children }: { children: React.ReactNode }) => {
         const response = await fetch(`https://www.googleapis.com/oauth2/v2/userinfo?alt=json&access_token=${token}`)
         const userinfo = await response.json()
         // console.log(userinfo)
-        setUser({name: userinfo.name, email: userinfo.email})
+        setUser({ name: userinfo.name, email: userinfo.email })
         console.log('User email: ' + userinfo.email)
         await getUser(userinfo.email)
         setLoading(false)
     }
     return (
-        <AppContext.Provider value={{ signed: !!user, user, loading, getUser, createUser, signOut, handleSignIn }}>
+        <AppContext.Provider value={{ signed: !!user, user, loading, getUser, saveUser, signOut, handleSignIn }}>
             {children}
         </AppContext.Provider>
     )
