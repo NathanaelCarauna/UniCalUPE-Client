@@ -85,6 +85,7 @@ export const AppProvider = ({ children }: { children: React.ReactNode }) => {
                 .then(response => {
                     if (response.status = 200) {
                         setUser(response.data)
+                        console.log("User that came from back after save:", response.data)
                         result = true;
                     }
                     setLoading(false);
