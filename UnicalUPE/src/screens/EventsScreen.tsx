@@ -8,6 +8,8 @@ import MainView from '../components/MainView';
 import { Text, View } from '../components/Themed';
 import TitleMainScreen from '../components/TitleMainScreen';
 import Colors from '../constants/Colors';
+import { useEffect, useContext } from 'react';
+import AppContext from '../contexts/appContext';
 
 const fakeData = [
   {
@@ -55,6 +57,12 @@ const FakeDates = [
 ]
 
 export default function EventsScreen() {
+  const { courses } = useContext(AppContext)
+
+  useEffect(() => {
+    console.log('tela de eventos')
+    console.log(courses)
+  })
   return (
     <>
       <MainView>

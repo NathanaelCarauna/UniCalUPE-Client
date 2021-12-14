@@ -1,6 +1,7 @@
 import React, { createContext, useState, useEffect } from 'react';
 import * as userApi from '../services/userApi';
 import * as EventApi from '../services/EventApi';
+import * as CoursesApi from '../services/CoursesApi';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import * as AuthSession from 'expo-auth-session';
 
@@ -16,6 +17,8 @@ type email = { email: string }
 export const AppContext = createContext({
     signed: false,
     user: {},
+    events:{},
+    courses:{},
     loading: false,
     getUser: (email: email) => { },
     saveUser: (user: user) => { },
@@ -27,11 +30,13 @@ export const AppProvider = ({ children }: { children: React.ReactNode }) => {
     const [loading, setLoading] = useState<boolean | undefined>()
     const [user, setUser] = useState();
     const [EventList, setEventList] = useState();
+    const [CoursesList, setCoursesList] = useState();
 
 
     useEffect(() => {
         setLoading(true)
         async function loadStorageData() {
+            getAllCourses()
             const storagedUser = await AsyncStorage.getItem('@TGAuth:user');
 
             if (storagedUser) {
@@ -102,7 +107,7 @@ export const AppProvider = ({ children }: { children: React.ReactNode }) => {
 
     async function handleSignIn() {
         const CLIENT_ID = '162955034296-ah2keq2dk20d7qvpm0qj4h9bi7iratcr.apps.googleusercontent.com'
-        const REDIRECT_URI = 'https://auth.expo.io/@nathanaelcarauna/UnicalUPE'
+        const REDIRECT_URI = 'https://auth.expo.io/@dahisedias/UnicalUPE'
         const RESPONSE_TYPE = 'token'
         const SCOPE = encodeURI('profile email')
 
@@ -183,5 +188,32 @@ export const AppProvider = ({ children }: { children: React.ReactNode }) => {
         }
         setLoading(false);
     }
+
+     // --------------------------------------------//Courses//------------------------------------------------------------
+
+     async function getAllCourses() {
+        setLoading(true);
+        try {
+            console.log('Requesting getAllCourses')
+            await CoursesApi.getAllCourses()
+                .then(response => {
+                    console.log('Courses requested')
+                    console.log(response.data)
+                    if (response.status == 200) {
+                        setCoursesList(response.data)
+                    }
+                    setLoading(false);
+                })
+                .catch(err => {
+                    console.log(err)
+                    setLoading(false);
+                })
+        } catch (e) {
+            console.log(e)
+            
+        }
+        setLoading(false);
+    }
+
 }
 export default AppContext;

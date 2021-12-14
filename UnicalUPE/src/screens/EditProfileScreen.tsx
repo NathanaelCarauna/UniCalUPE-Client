@@ -7,11 +7,11 @@ import Colors from '../constants/Colors';
 import AppContext from '../contexts/appContext';
 import SelectDropdown from 'react-native-select-dropdown';
 import { FontAwesome } from '@expo/vector-icons';
+import { useEffect, useContext } from 'react';
 
 
 export default function EditProfileScreen({ navigation }) {
-  const { user, saveUser } = React.useContext(AppContext)
-  const filter = ["Eng. de Software", "Medicina", "Psicologia", "Lic. Computação"]
+  const { user, saveUser, courses } = React.useContext(AppContext)
   const checkId = () => {
     return typeof user.id == 'number' ? user.id : null
   }
@@ -34,7 +34,12 @@ export default function EditProfileScreen({ navigation }) {
           value={userData.name}
         />
         <SelectDropdown
-          data={filter}
+          data={() =>{
+            var list = []
+            courses.forEach(element => {
+              list.push(element.name)
+            });
+          }}
           defaultButtonText={'Selecione o seu curso'}
           buttonStyle={styles.dropdownBtnStyle}
           dropdownStyle={styles.dropdown}
