@@ -11,7 +11,24 @@ import { FontAwesome } from '@expo/vector-icons';
 
 export default function EditProfileScreen({ navigation }) {
   const { user, saveUser } = React.useContext(AppContext)
-  const filter = ["Eng. de Software", "Medicina", "Psicologia", "Lic. Computação"]
+  const filter = [
+    {
+      "id": 2,
+      "name": "Engenharia de Software"
+    },
+    {
+      "id": 3,
+      "name": "Licenciatura em Computação"
+    },
+    {
+      "id": 4,
+      "name": "Medicina"
+    },
+    {
+      "id": 5,
+      "name": "Psicologia"
+    }
+  ]
   const checkId = () => {
     return typeof user.id == 'number' ? user.id : null
   }
@@ -49,17 +66,17 @@ export default function EditProfileScreen({ navigation }) {
           }}
           onSelect={(selectedItem, index) => {
             console.log(selectedItem, index)
-            setUserData({ course: selectedItem })
+            setUserData({ ...userData, course: {id: selectedItem.id} })
           }}
           buttonTextAfterSelection={(selectedItem, index) => {
             // text represented after item is selected
             // if data array is an array of objects then return selectedItem.property to render after item is selected
-            return selectedItem
+            return selectedItem.name
           }}
           rowTextForSelection={(item, index) => {
             // text represented for each item in dropdown
             // if data array is an array of objects then return item.property to represent item in dropdown
-            return item
+            return item.name
           }}
         />
         <View style={styles.separator} lightColor="#004369" darkColor="rgba(0,67,105,0.1)" />
