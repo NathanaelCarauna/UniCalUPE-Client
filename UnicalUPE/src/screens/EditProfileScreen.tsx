@@ -52,12 +52,7 @@ export default function EditProfileScreen({ navigation }) {
           value={userData.name}
         />
         <SelectDropdown
-          data={() =>{
-            var list = []
-            courses.forEach(element => {
-              list.push(element.name)
-            });
-          }}
+          data={filter}
           defaultButtonText={'Selecione o seu curso'}
           buttonStyle={styles.dropdownBtnStyle}
           dropdownStyle={styles.dropdown}
