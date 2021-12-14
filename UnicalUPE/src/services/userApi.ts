@@ -6,5 +6,5 @@ export function getUser(email){
 
 export function saveUser(user){
     console.log(user);
-    return new api.put(`/user/${user.email}`, user)
+    return new api.put(`/user/`, user)
 }
