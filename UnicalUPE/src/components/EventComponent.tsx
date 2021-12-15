@@ -4,6 +4,7 @@ import { StyleSheet, Button } from 'react-native';
 import { Text, View } from './Themed';
 import { FontAwesome } from '@expo/vector-icons';
 import { LinearGradient } from 'expo-linear-gradient';
+import Colors from '../constants/Colors'
 
 type eventType = {
     event: {
@@ -19,9 +20,11 @@ export default function EventComponent({ event }: eventType) {
     const getCategoryColor = (category: string) => {
         switch (category) {
             case 'COURSE':
-                return '#F9FA9B'
+                return '##FF7777'
+            case 'EVENT':
+                return Colors.Orange.background
             case 'SURVEY':
-                return '#FF7777'
+                return '#F9FA9B'
             case 'PUBLIC':
                 return '#CEECF0'
         }
@@ -63,14 +66,14 @@ function TabBarIcon(props: {
 const styles = StyleSheet.create({
     container: {
         flexDirection: 'row',
-        alignItems: 'center',
-        justifyContent: 'space-between',
+        //alignItems: 'stretch',
+        //justifyContent: 'space-around',
         marginTop: 15,
         marginHorizontal: 20,
     },
     titleContainer: {
         flexDirection: 'row',
-        justifyContent: 'space-between',
+        //justifyContent: 'space-between',
         backgroundColor: 'transparent',
     },
     title: {
@@ -89,8 +92,11 @@ const styles = StyleSheet.create({
         borderRadius: 20,
         padding: 12,
         paddingLeft: 16,
+        marginLeft: 10,
         backgroundColor: '#004369',
-        width: 230,
+        flex: 1,
+        //alignSelf:"stretch",
+        //width: 230,
     },
     localContainer: {
         flexDirection: 'row',
