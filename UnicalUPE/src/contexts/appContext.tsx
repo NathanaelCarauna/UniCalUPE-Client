@@ -37,6 +37,7 @@ export const AppProvider = ({ children }: { children: React.ReactNode }) => {
         setLoading(true)
         async function loadStorageData() {
             getAllCourses()
+            getEventsAll();
             const storagedUser = await AsyncStorage.getItem('@TGAuth:user');
 
             if (storagedUser) {
@@ -109,7 +110,7 @@ export const AppProvider = ({ children }: { children: React.ReactNode }) => {
 
     async function handleSignIn() {
         const CLIENT_ID = '162955034296-ah2keq2dk20d7qvpm0qj4h9bi7iratcr.apps.googleusercontent.com'
-        const REDIRECT_URI = 'https://auth.expo.io/@nathanaelcarauna/UnicalUPE'
+        const REDIRECT_URI = 'https://auth.expo.io/@dahisedias/UnicalUPE'
         const RESPONSE_TYPE = 'token'
         const SCOPE = encodeURI('profile email')
 

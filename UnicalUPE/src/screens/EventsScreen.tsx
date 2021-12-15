@@ -72,7 +72,7 @@ export default function EventsScreen() {
           <Text style={styles.text}>Evento</Text>
         </View>
         <FlatList
-          data={fakeData}
+          data={eventsList}
           keyExtractor={item => item.id}
           renderItem={({ item }) => (<EventComponent event={item} />)}
           style={styles.eventList}
