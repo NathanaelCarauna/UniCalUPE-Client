@@ -18,7 +18,7 @@ export const AppContext = createContext({
     signed: false,
     user: {},
     eventsList:{},
-    coursesList:[],
+    coursesList:{},
     loading: false,
     getUser: (email: email) => { },
     saveUser: (user: user) => { },
@@ -29,8 +29,8 @@ export const AppContext = createContext({
 export const AppProvider = ({ children }: { children: React.ReactNode }) => {
     const [loading, setLoading] = useState<boolean | undefined>()
     const [user, setUser] = useState();
-    const [eventsList, setEventList] = useState();
-    const [coursesList, setCoursesList] = useState();
+    const [eventsList, setEventList] = useState([]);
+    const [coursesList, setCoursesList] = useState([]);
 
 
     useEffect(() => {
@@ -109,7 +109,7 @@ export const AppProvider = ({ children }: { children: React.ReactNode }) => {
 
     async function handleSignIn() {
         const CLIENT_ID = '162955034296-ah2keq2dk20d7qvpm0qj4h9bi7iratcr.apps.googleusercontent.com'
-        const REDIRECT_URI = 'https://auth.expo.io/@dahisedias/UnicalUPE'
+        const REDIRECT_URI = 'https://auth.expo.io/@nathanaelcarauna/UnicalUPE'
         const RESPONSE_TYPE = 'token'
         const SCOPE = encodeURI('profile email')
 
