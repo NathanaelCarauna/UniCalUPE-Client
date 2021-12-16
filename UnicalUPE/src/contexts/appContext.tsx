@@ -111,7 +111,6 @@ export const AppProvider = ({ children }: { children: React.ReactNode }) => {
                     console.log(response.data)
                     if (response.status == 200) {
                         signOut()
-                        // AsyncStorage.setItem("@TGAuth:user", JSON.stringify(response.data));
                     }
                     setLoading(false);
                 })

@@ -14,6 +14,10 @@ export default function ProfileScreen({ navigation}) {
   const navigate = () => {
     navigation.navigate('EditProfile')
   }
+  const calldelete = () => {
+    deleteUser(user.email)
+    // navigation.navigate('EditProfile')
+  }
   return (
     <>
       <LinearGradient style = {styles.container} colors={["#ffffff","#ffc278"]}>
@@ -30,7 +34,7 @@ export default function ProfileScreen({ navigation}) {
         </TouchableOpacity>
         <TouchableOpacity
         style={styles.buttonDelete}
-        onPress={deleteUser}>
+        onPress={calldelete}>
         <Text style={styles.buttonTextDelete}>Deletar Perfil</Text>
         </TouchableOpacity>
       </LinearGradient>

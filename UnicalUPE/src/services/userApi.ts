@@ -9,7 +9,6 @@ export function saveUser(user){
     return new api.put(`/user/`, user)
 }
 
-export function deleteUser(user){
-    console.log(user);
-    return new api.delete(`/user/`, user)
+export function deleteUser(email){
+    return new api.delete(`/user/${email}`)
 }
