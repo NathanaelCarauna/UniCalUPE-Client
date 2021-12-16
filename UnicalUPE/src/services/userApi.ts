@@ -8,3 +8,8 @@ export function saveUser(user){
     console.log(user);
     return new api.put(`/user/`, user)
 }
+
+export function deleteUser(user){
+    console.log(user);
+    return new api.delete(`/user/`, user)
+}
