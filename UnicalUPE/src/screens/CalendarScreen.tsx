@@ -30,7 +30,7 @@ import AppContext from '../contexts/appContext';
 
 
 export default function CalendarScreen({ navigation }) {
-  const { user, coursesList } = useContext(AppContext)
+  const { user, coursesList, EventsCalendar } = useContext(AppContext)
 
   useEffect(() => {
     console.log("cursos")
@@ -98,10 +98,7 @@ export default function CalendarScreen({ navigation }) {
         // renderHeader={(date) => {<Text>Teste</Text> }}
         enableSwipeMonths={true}
         markingType={'multi-dot'}
-        markedDates={{
-          '2021-12-25': { dots: [vacation, massage, workout], selected: true, selectedColor: Colors.dark.tint },
-          '2021-12-26': { dots: [massage, workout], disabled: true }
-        }}
+        markedDates={EventsCalendar}
         style={styles.calendar}
 
         theme={{
