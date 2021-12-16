@@ -20,6 +20,7 @@ export const AppContext = createContext({
     eventsList:{},
     coursesList:{},
     loading: false,
+    EventsCalendar: {},
     getUser: (email: email) => { },
     saveUser: (user: user) => { },
     signOut: () => { },
@@ -31,6 +32,7 @@ export const AppProvider = ({ children }: { children: React.ReactNode }) => {
     const [user, setUser] = useState();
     const [eventsList, setEventList] = useState([]);
     const [coursesList, setCoursesList] = useState([]);
+    const [EventsCalendar, SetEventsCalendar] = useState([]);
 
 
     useEffect(() => {
@@ -146,7 +148,11 @@ export const AppProvider = ({ children }: { children: React.ReactNode }) => {
                     console.log('Events requested')
                     console.log(response.data)
                     if (response.status == 200) {
+                        let processedList = processEventsCalendar(response.data)
+                        console.log("############### Lista processada ############")
+                        console.log(JSON.stringify(processedList))
                         setEventList(response.data)
+                        SetEventsCalendar(processedList)
                     }
                     setLoading(false);
                 })
@@ -187,6 +193,61 @@ export const AppProvider = ({ children }: { children: React.ReactNode }) => {
         setLoading(false);
     }
 
+    // {
+    //     '2021-12-25': { dots: [vacation, massage, workout], selected: true, selectedColor: Colors.dark.tint },
+    //     '2021-12-26': { dots: [massage, workout], disabled: true }
+    // }
+
+    // const vacation = { key: 'vacation', color: 'red', selectedDotColor: 'blue' };
+    // const massage = { key: 'massage', color: 'blue', selectedDotColor: 'red' };
+    // const workout = { key: 'workout', color: 'green' };
+
+    function createEventsJsonKeys(events){
+        console.log("Create Json")
+        var list = events.reduce((json, item, i) => {
+            console.log("Json: :", json)
+            console.log("Item: ", item)
+            if(!json.hasOwnProperty(item.startDate)){
+                json[item.startDate] = {dots: []}
+                console.log("Prop added: ", json[item.startDate])
+            }
+            return json
+        }, {})
+        console.log("Json created: ", list)
+        return list;
+    }
+
+    function processEventsCalendar(events){
+        console.log('Process events started')
+        let eventJson = createEventsJsonKeys(events);
+        console.log("Json received from creation: ", eventJson)
+
+        console.log("Starting adding object to dots")
+        events.forEach(element => {
+            console.log("Element: ", element)
+            eventJson[element.startDate].dots.push({ key: element.title, color: setCategoryColor(element.course ? element.course.name : "a")}) 
+            console.log("object added: ", eventJson[element.startDate])
+        });
+        console.log("Final list json: ", eventJson)
+        return eventJson
+    }
+
+    
+
+    function setCategoryColor(courseName){
+        switch(courseName){
+            case 'Engenharia de Software': 
+                return 'blue'
+            case 'Psicologia':
+                return 'red'
+            case 'Medicina':
+                return 'green'
+            case 'Licenciatura em Computação':
+                return 'yellow'
+            default: return 'gray'
+        }        
+    }
+
      // --------------------------------------------//Courses//------------------------------------------------------------
 
      async function getAllCourses() {
@@ -214,7 +275,7 @@ export const AppProvider = ({ children }: { children: React.ReactNode }) => {
     }
 
     return (
-        <AppContext.Provider value={{ signed: !!user, user, loading, getUser, saveUser, signOut, handleSignIn, coursesList, eventsList }}>
+        <AppContext.Provider value={{ signed: !!user, user, loading, EventsCalendar, getUser, saveUser, signOut, handleSignIn, coursesList, eventsList }}>
             {children}
         </AppContext.Provider>
     )
