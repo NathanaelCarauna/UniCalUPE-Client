@@ -10,7 +10,7 @@ import navigation from '../navigation';
 
 
 export default function ProfileScreen({ navigation}) {
-  const {user} = useContext(AppContext)
+  const {user, deleteUser} = useContext(AppContext)
   const navigate = () => {
     navigation.navigate('EditProfile')
   }
@@ -30,7 +30,7 @@ export default function ProfileScreen({ navigation}) {
         </TouchableOpacity>
         <TouchableOpacity
         style={styles.buttonDelete}
-        onPress={navigate}>
+        onPress={deleteUser}>
         <Text style={styles.buttonTextDelete}>Deletar Perfil</Text>
         </TouchableOpacity>
       </LinearGradient>

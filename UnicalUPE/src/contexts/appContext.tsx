@@ -22,6 +22,7 @@ export const AppContext = createContext({
     loading: false,
     getUser: (email: email) => { },
     saveUser: (user: user) => { },
+    deleteUser: (email: email) => { },
     signOut: () => { },
     handleSignIn: () => { }
 });
@@ -97,6 +98,34 @@ export const AppProvider = ({ children }: { children: React.ReactNode }) => {
         }
         return result
 
+    }
+
+    async function deleteUser(email: email) {
+        setLoading(true);
+        let localUser;
+        try {
+            console.log('Requesting deleteUser')
+            await userApi.deleteUser(email)
+                .then(response => {
+                    console.log('DeleteUser requested')
+                    console.log(response.data)
+                    if (response.status == 200) {
+                        signOut()
+                        // AsyncStorage.setItem("@TGAuth:user", JSON.stringify(response.data));
+                    }
+                    setLoading(false);
+                })
+                .catch(err => {
+                    console.log(err)
+                    localUser = null
+                    setLoading(false);
+                })
+        } catch (e) {
+            console.log(e)
+            localUser = null
+        }
+        setLoading(false);
+        return localUser
     }
 
     function signOut() {
@@ -213,7 +242,7 @@ export const AppProvider = ({ children }: { children: React.ReactNode }) => {
     }
 
     return (
-        <AppContext.Provider value={{ signed: !!user, user, loading, getUser, saveUser, signOut, handleSignIn, coursesList, eventsList }}>
+        <AppContext.Provider value={{ signed: !!user, user, loading, getUser, saveUser, deleteUser, signOut, handleSignIn, coursesList, eventsList }}>
             {children}
         </AppContext.Provider>
     )
