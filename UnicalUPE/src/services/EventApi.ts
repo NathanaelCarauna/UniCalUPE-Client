@@ -13,7 +13,7 @@ export function getEventByCategory(category : { category: string}) {
 }
 
 export function getEventByDate(date: { date: string }) {
-    return new api.get(`/event/findbyDate/${date}`)
+    return new api.get(`/event/findByDate/${date}`)
 }
 
 export function getEventById(id: { id: number }) {
