@@ -22,18 +22,22 @@ export const AppContext = createContext({
     coursesList: {},
     loading: false,
     EventsCalendar: {},
-    setLoading: () => {},
+    eventByDateRequested: false,
+    setLoading: () => { },
     getUser: (email: email) => { },
     saveUser: (user: user) => { },
     deleteUser: (email: email) => { },
     signOut: () => { },
     handleSignIn: () => { },
     getEventsByCourse: () => { },
-    getEventsAll: () => {},
+    getEventsAll: () => { },
+    getEventsByDate: () => { },
+    setEventByDateRequested: () => {}
 });
 
 export const AppProvider = ({ children }: { children: React.ReactNode }) => {
     const [loading, setLoading] = useState<boolean | undefined>()
+    const [eventByDateRequested, setEventByDateRequested] = useState<boolean | undefined>()
     const [user, setUser] = useState();
     const [eventsList, setEventList] = useState([]);
     const [coursesList, setCoursesList] = useState([]);
@@ -62,7 +66,7 @@ export const AppProvider = ({ children }: { children: React.ReactNode }) => {
         try {
             console.log('Requesting getUser')
             await userApi.getUser(email)
-                .then( (response: AxiosResponse) => {
+                .then((response: AxiosResponse) => {
                     console.log('GetUser requested')
                     console.log(response.data)
                     if (response.status == 200) {
@@ -230,6 +234,31 @@ export const AppProvider = ({ children }: { children: React.ReactNode }) => {
         setLoading(false);
     }
 
+    async function getEventsByDate(date: { date: string }) {
+        setLoading(true);
+        try {
+            console.log('Requesting getEventsByDate')
+            return EventApi.getEventByDate(date)
+                .then((response: AxiosResponse) => {
+                    console.log('Events by date requested')
+                    console.log(response.data)
+                    if (response.status == 200) {
+                        console.log("EVENTS BY DATE:", response.data)
+                        setEventList(response.data)  
+                        setEventByDateRequested(true);
+                    }
+                    setLoading(false);
+                })                
+                .catch(err => {
+                    console.log(err)
+                    setLoading(false);
+                })
+        } catch (e) {
+            console.log(e)
+        }
+        setLoading(false);
+    }
+
     async function getEventsByCategory(category: string) {
         setLoading(true);
         try {
@@ -312,7 +341,7 @@ export const AppProvider = ({ children }: { children: React.ReactNode }) => {
                     console.log('Courses requested')
                     // console.log(response.data)
                     if (response.status == 200) {
-                        setCoursesList([{id: -1, name: 'Todos'}, ...response.data])
+                        setCoursesList([{ id: -1, name: 'Todos' }, ...response.data])
                     }
                     setLoading(false);
                 })
@@ -337,7 +366,7 @@ export const AppProvider = ({ children }: { children: React.ReactNode }) => {
                     console.log(response.data)
                     if (response.status == 200) {
                         let processedList = processEventsCalendar([response.data])
-                        setEventList([...eventsList,response.data])
+                        setEventList([...eventsList, response.data])
                         SetEventsCalendar([...EventsCalendar, processedList])
                     }
                     setLoading(false);
@@ -349,7 +378,7 @@ export const AppProvider = ({ children }: { children: React.ReactNode }) => {
                 })
         } catch (e) {
             console.log(e)
-            
+
         }
         setLoading(false);
     }
@@ -361,17 +390,20 @@ export const AppProvider = ({ children }: { children: React.ReactNode }) => {
             signed: !!user,
             user,
             loading,
-            EventsCalendar, 
-            coursesList, 
+            EventsCalendar,
+            coursesList,
             eventsList,
+            eventByDateRequested,
+            setEventByDateRequested,
             setLoading,
             getUser,
-            saveUser, 
-            deleteUser, 
-            signOut, 
-            handleSignIn, 
+            saveUser,
+            deleteUser,
+            signOut,
+            handleSignIn,
             getEventsByCourse,
             getEventsAll,
+            getEventsByDate,
         }}>
             {children}
         </AppContext.Provider>
