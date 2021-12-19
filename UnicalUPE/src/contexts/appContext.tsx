@@ -193,15 +193,6 @@ export const AppProvider = ({ children }: { children: React.ReactNode }) => {
         setLoading(false);
     }
 
-    // {
-    //     '2021-12-25': { dots: [vacation, massage, workout], selected: true, selectedColor: Colors.dark.tint },
-    //     '2021-12-26': { dots: [massage, workout], disabled: true }
-    // }
-
-    // const vacation = { key: 'vacation', color: 'red', selectedDotColor: 'blue' };
-    // const massage = { key: 'massage', color: 'blue', selectedDotColor: 'red' };
-    // const workout = { key: 'workout', color: 'green' };
-
     function createEventsJsonKeys(events){
         console.log("Create Json")
         var list = events.reduce((json, item, i) => {
