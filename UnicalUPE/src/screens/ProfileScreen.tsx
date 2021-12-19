@@ -10,9 +10,13 @@ import navigation from '../navigation';
 
 
 export default function ProfileScreen({ navigation}) {
-  const {user} = useContext(AppContext)
+  const {user, deleteUser} = useContext(AppContext)
   const navigate = () => {
     navigation.navigate('EditProfile')
+  }
+  const calldelete = () => {
+    deleteUser(user.email)
+    // navigation.navigate('EditProfile')
   }
   return (
     <>
@@ -27,6 +31,11 @@ export default function ProfileScreen({ navigation}) {
         style={styles.button}
         onPress={navigate}>
         <Text style={styles.buttonText}>Editar Perfil</Text>
+        </TouchableOpacity>
+        <TouchableOpacity
+        style={styles.buttonDelete}
+        onPress={calldelete}>
+        <Text style={styles.buttonTextDelete}>Deletar Perfil</Text>
         </TouchableOpacity>
       </LinearGradient>
 
@@ -56,7 +65,23 @@ const styles = StyleSheet.create({
     backgroundColor: Colors.Orange.background,
     borderRadius: 15
   },
+  buttonDelete: {
+    margin:80,
+    marginTop:10,
+    fontWeight: 'bold',
+    backgroundColor: Colors.Red.background,
+    borderRadius: 15
+  },
   buttonText: {
+    // margin: 40,
+    fontWeight: 'bold',
+    padding: 15,
+    paddingHorizontal: 40,
+    textAlign: 'center',
+    color: '#ffffff'
+    
+  },
+  buttonTextDelete: {
     // margin: 40,
     fontWeight: 'bold',
     padding: 15,
