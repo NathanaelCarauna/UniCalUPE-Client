@@ -33,7 +33,7 @@ export const AppProvider = ({ children }: { children: React.ReactNode }) => {
     const [user, setUser] = useState();
     const [eventsList, setEventList] = useState([]);
     const [coursesList, setCoursesList] = useState([]);
-    const [EventsCalendar, SetEventsCalendar] = useState([]);
+    const [EventsCalendar, SetEventsCalendar] = useState({});
 
 
     useEffect(() => {
@@ -140,7 +140,7 @@ export const AppProvider = ({ children }: { children: React.ReactNode }) => {
 
     async function handleSignIn() {
         const CLIENT_ID = '162955034296-ah2keq2dk20d7qvpm0qj4h9bi7iratcr.apps.googleusercontent.com'
-        const REDIRECT_URI = 'https://auth.expo.io/@clara.araujo/UnicalUPE'
+        const REDIRECT_URI = 'https://auth.expo.io/@nathanaelcarauna/UnicalUPE'
         const RESPONSE_TYPE = 'token'
         const SCOPE = encodeURI('profile email')
 
@@ -220,15 +220,6 @@ export const AppProvider = ({ children }: { children: React.ReactNode }) => {
         }
         setLoading(false);
     }
-
-    // {
-    //     '2021-12-25': { dots: [vacation, massage, workout], selected: true, selectedColor: Colors.dark.tint },
-    //     '2021-12-26': { dots: [massage, workout], disabled: true }
-    // }
-
-    // const vacation = { key: 'vacation', color: 'red', selectedDotColor: 'blue' };
-    // const massage = { key: 'massage', color: 'blue', selectedDotColor: 'red' };
-    // const workout = { key: 'workout', color: 'green' };
 
     function createEventsJsonKeys(events){
         console.log("Create Json")
@@ -332,7 +323,7 @@ export const AppProvider = ({ children }: { children: React.ReactNode }) => {
 
     return (
 
-        <AppContext.Provider value={{ signed: !!user, user, loading, getUser, saveUser, deleteUser, signOut, handleSignIn, coursesList, eventsList }}>
+        <AppContext.Provider value={{ signed: !!user, user, loading, getUser, saveUser, deleteUser, signOut, handleSignIn, EventsCalendar, coursesList, eventsList }}>
             {children}
         </AppContext.Provider>
     )

@@ -33,9 +33,11 @@ export default function CalendarScreen({ navigation }) {
   const { user, coursesList, EventsCalendar } = useContext(AppContext)
 
   useEffect(() => {
-    console.log("cursos")
-    console.log(coursesList)
-    console.log('Devia navegar para perfil')
+    console.log("Events Calendar")
+    console.log(EventsCalendar)
+  }, [EventsCalendar])
+
+  useEffect(() => {
     if (user && !user.course) {
       setTimeout(() => {
         navigation.navigate('EditProfile')
