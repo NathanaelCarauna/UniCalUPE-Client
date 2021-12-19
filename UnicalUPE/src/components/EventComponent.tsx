@@ -40,8 +40,8 @@ export default function EventComponent({ event }: eventType) {
     }
     const categoryColor = getCategoryColor(event.category)
 
-    function navigateEvent(props:{event: eventType}){
-        navigation.navigate('Event', {event: event})
+    function navigateEvent(props: { event: eventType }) {
+        navigation.navigate('Event', { event: event })
     }
 
     return (
@@ -54,7 +54,11 @@ export default function EventComponent({ event }: eventType) {
                 <View style={styles.titleContainer}>
                     <Text style={styles.title}>{event.title}</Text>
                 </View>
-                <Text style={styles.detailsText}>Curso:{event.course}</Text>
+                {
+                    event.course ? <Text style={styles.detailsText}>Curso: {event.course.name}</Text>
+                    : <></>
+                }
+                
                 <View style={styles.localContainer}>
                     <TabBarIcon name="map-marker" color={'white'} style={styles.icon} />
                     <Text style={styles.detailsText}>{event.local}</Text>
