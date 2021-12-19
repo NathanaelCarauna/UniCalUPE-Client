@@ -63,6 +63,10 @@ export default function EventsScreen() {
     console.log('tela de eventos')
     console.log(eventsList)
   })
+  const ItemSeprator = () => <View style={{
+    width:6,
+    backgroundColor: 'transparent',
+  }} />
   return (
     <>
       <MainView>
@@ -78,8 +82,9 @@ export default function EventsScreen() {
           style={styles.eventList}
         />
       </MainView >
-      <View style={styles.transparent}>
+      <View style={styles.flat}>
         <FlatList
+        ItemSeparatorComponent={ItemSeprator}
           horizontal={true}
           data={FakeDates}
           style={styles.transparent}
@@ -127,6 +132,11 @@ const styles = StyleSheet.create({
     backgroundColor: Colors.dark.background
   },
   transparent: {
-    backgroundColor: Colors.dark.background
+    backgroundColor: Colors.dark.background,
+  },
+  flat: {
+    alignItems:'center',
+    padding: 5,
+    backgroundColor: Colors.dark.background,
   }
 });

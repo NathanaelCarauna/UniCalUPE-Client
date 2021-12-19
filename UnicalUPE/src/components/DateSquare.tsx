@@ -29,7 +29,7 @@ const styles = StyleSheet.create({
     square: {
         width: 48,
         height: 70,
-        margin: 8,
+        //margin: 5,
         paddingVertical: 10,
         borderRadius: 15,
         justifyContent: 'space-around',
