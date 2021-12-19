@@ -4,6 +4,10 @@ export function getAllEvents(){
     return new api.get(`/event`)
 }
 
+export function getEventByCourse(courseId){
+    console.log("CURSOO ID:", courseId)
+    return new api.get(`/event/findbycourse/${courseId}`)
+}
 export function getEventByCategory(category){
     return new api.get(`/event/findbycategory/${category}`)
 }
