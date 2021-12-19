@@ -30,7 +30,14 @@ import AppContext from '../contexts/appContext';
 
 
 export default function CalendarScreen({ navigation }) {
-  const { user, coursesList, EventsCalendar } = useContext(AppContext)
+  const { user,
+    coursesList,
+    EventsCalendar,
+    getEventsByCourse,
+    getEventsAll,
+    setLoading
+
+  } = useContext(AppContext)
 
   useEffect(() => {
     console.log("Events Calendar")
@@ -45,13 +52,7 @@ export default function CalendarScreen({ navigation }) {
       }, 1000)
     }
   }, [user])
-  //Fake data for calendar
-  const vacation = { key: 'vacation', color: 'red', selectedDotColor: 'blue' };
-  const massage = { key: 'massage', color: 'blue', selectedDotColor: 'red' };
-  const workout = { key: 'workout', color: 'green' };
 
-  //fake data for dropdown
-  const filter = ["Eng. de Software", "teste", "Psicologia", "Lic. Computação"]
   return (
     <MainView>
       <TitleMainScreen title='Eventos do Mês' />
@@ -70,7 +71,13 @@ export default function CalendarScreen({ navigation }) {
           );
         }}
         onSelect={(selectedItem, index) => {
-          console.log(selectedItem, index)
+          console.log("SELECTED ITEM: ", selectedItem, index)
+          console.log("SELECTED ID: ", selectedItem.id)
+          if (selectedItem.id == -1) {
+            getEventsAll()    
+          } else {
+            getEventsByCourse(selectedItem.id);
+          }
         }}
         buttonTextAfterSelection={(selectedItem, index) => {
           // text represented after item is selected
