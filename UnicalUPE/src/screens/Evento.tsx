@@ -8,32 +8,34 @@ import Colors from '../constants/Colors';
 import { FontAwesome } from '@expo/vector-icons';
 import Layout from '../constants/Layout';
 
-export default function Evento() {
+export default function Evento({route, navigation}) {
+  const{event} = route.params
   return (
     <ScrollView>
         <LinearGradient style = {styles.container} colors={["#ffffff","#B7F2F4"]}>
           <View style={styles.header}>
-            <View style={{display:'flex', flexDirection: 'row', alignItems:'baseline',  backgroundColor: 'transparent'}}>
-              <Text style={styles.title}>Evento</Text>
-              <Text style={styles.sub_tittle}>Categoria</Text>
+            <View style={{backgroundColor: 'transparent'}}>
+              <Text style={styles.title}>{event.title}</Text>
+              <Text style={styles.sub_tittle}>{event.category}</Text>
             </View>
             <View style={{display:'flex', flexDirection: 'row', alignItems:'baseline', marginTop: 10,  backgroundColor: 'transparent'}}>
               <TabBarIcon name="user" color={Colors.Blue.background} />
-              <Text style={styles.text}>Apresentador</Text>
+              <Text style={styles.text}>{event.presentor}</Text>
             </View>
             <View style={{display:'flex', flexDirection: 'row', alignItems:'baseline',  backgroundColor: 'transparent'}}>
               <TabBarIcon name="map-marker" color={Colors.Blue.background} />
-              <Text style={styles.text}>Local</Text>
+              <Text style={styles.text}>{event.local}</Text>
             </View>
           </View>
           <View style={styles.separator} lightColor="#004369" darkColor="rgba(0,67,105,0.1)" />
+
             <LinearGradient style={styles.bloco} colors={["#60D0D6","#B7F2F4"]}>
-              <Text style={styles.normal}>Lorem ipsum molestie eleifend blandit iaculis quis rutrum, taciti euismod fusce quis vivamus ac ligula velit, fames placerat sociosqu eleifend iaculis sollicitudin. a ut nulla purus elementum, mollis maecenas accumsan. </Text>
-              
+              <Text style={styles.normal}>{event.description}</Text>
             </LinearGradient>
+
             <TouchableOpacity style={styles.bloco}>
           <LinearGradient colors={["#60D0D6","#B7F2F4"]}>
-            <Text style={styles.normal}>Mais Informações</Text>
+            <Text style={styles.normal}>{event.link}</Text>
           </LinearGradient>
           </TouchableOpacity>
         </LinearGradient>
@@ -66,7 +68,6 @@ const styles = StyleSheet.create({
   },
   sub_tittle:{
     fontSize: 15,
-    marginStart: 10,
     color: 'gray'
   },
   separator: {
@@ -83,11 +84,12 @@ const styles = StyleSheet.create({
     padding: 15
   },
   bloco:{
-    backgroundColor: Colors.Red.background,
+    flex:1,
     margin: 10,
     marginBottom: 10,
     borderRadius: 16,
-    overflow: 'hidden'
+    overflow: 'hidden',
+    alignSelf:'stretch'
   },
   header:{
     display:'flex',

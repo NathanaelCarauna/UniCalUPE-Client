@@ -1,10 +1,11 @@
 import * as React from 'react';
-import { StyleSheet, Button } from 'react-native';
+import { StyleSheet, Button, TouchableOpacityBase, TouchableOpacity } from 'react-native';
 
 import { Text, View } from './Themed';
 import { FontAwesome } from '@expo/vector-icons';
 import { LinearGradient } from 'expo-linear-gradient';
 import Colors from '../constants/Colors'
+import { useNavigation } from '@react-navigation/native';
 
 type eventType = {
     event: {
@@ -14,16 +15,24 @@ type eventType = {
         presentor: string
         course: string
         category: string
+        description: string
+        endDate: string
+        endHour: string
+        link: string
+        startDate: string
+        startHour: string
     }
 }
 export default function EventComponent({ event }: eventType) {
+    const navigation = useNavigation();
+
     const getCategoryColor = (category: string) => {
         switch (category) {
-            case 'COURSE':
-                return '##FF7777'
-            case 'EVENT':
+            // case 'COURSE':
+            //     return '##FF7777'
+            case 'EVENTO':
                 return Colors.Orange.background
-            case 'SURVEY':
+            case 'PESQUISA':
                 return '#F9FA9B'
             case 'PUBLIC':
                 return '#CEECF0'
@@ -31,8 +40,12 @@ export default function EventComponent({ event }: eventType) {
     }
     const categoryColor = getCategoryColor(event.category)
 
+    function navigateEvent(props:{event: eventType}){
+        navigation.navigate('Event', {event: event})
+    }
+
     return (
-        <View style={styles.container}>
+        <TouchableOpacity style={styles.container} onPress={navigateEvent}>
             <View style={[styles.tagComponent, { backgroundColor: categoryColor }]}></View>
             <LinearGradient start={{ x: 0, y: 0 }} end={{ x: 1, y: 0 }}
                 style={styles.eventContainer}
@@ -51,7 +64,7 @@ export default function EventComponent({ event }: eventType) {
                     <Text style={styles.detailsText}>{event.presentor}</Text>
                 </View>
             </LinearGradient>
-        </View>
+        </TouchableOpacity>
     );
 }
 
