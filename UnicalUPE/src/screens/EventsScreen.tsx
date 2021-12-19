@@ -57,11 +57,12 @@ const FakeDates = [
 ]
 
 export default function EventsScreen() {
-  const { eventsList } = useContext(AppContext)
+  const { eventsList, setEventByDateRequested } = useContext(AppContext)
 
   useEffect(() => {
     console.log('tela de eventos')
     console.log(eventsList)
+    setEventByDateRequested(false)
   })
   const ItemSeprator = () => <View style={{
     width:6,
