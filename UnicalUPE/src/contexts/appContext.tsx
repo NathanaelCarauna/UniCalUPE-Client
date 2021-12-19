@@ -29,6 +29,7 @@ export const AppContext = createContext({
     handleSignIn: () => { },
     getEventsByCourse: () => { },
     getEventsAll: () => {},
+    postEvent: () => {},
 });
 
 export const AppProvider = ({ children }: { children: React.ReactNode }) => {
@@ -371,6 +372,7 @@ export const AppProvider = ({ children }: { children: React.ReactNode }) => {
             handleSignIn, 
             getEventsByCourse,
             getEventsAll,
+            postEvent,
         }}>
             {children}
         </AppContext.Provider>
