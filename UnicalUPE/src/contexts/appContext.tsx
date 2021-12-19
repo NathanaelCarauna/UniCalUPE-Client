@@ -293,6 +293,34 @@ export const AppProvider = ({ children }: { children: React.ReactNode }) => {
         setLoading(false);
     }
 
+    async function postEvent() {
+        setLoading(true);
+        try {
+            console.log('post Event')
+            await EventApi.postEvent()
+                .then(response => {
+                    console.log('Add Event')
+                    console.log(response.data)
+                    if (response.status == 200) {
+                        let processedList = processEventsCalendar([response.data])
+                        setEventList([...eventsList,response.data])
+                        SetEventsCalendar([...EventsCalendar, processedList])
+                    }
+                    setLoading(false);
+                })
+                .catch(err => {
+                    console.log(err)
+                    //localUser = null
+                    setLoading(false);
+                })
+        } catch (e) {
+            console.log(e)
+            
+        }
+        setLoading(false);
+    }
+
+
     return (
 
         <AppContext.Provider value={{ signed: !!user, user, loading, getUser, saveUser, deleteUser, signOut, handleSignIn, EventsCalendar, coursesList, eventsList }}>
