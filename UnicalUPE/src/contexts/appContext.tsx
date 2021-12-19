@@ -17,15 +17,18 @@ type email = { email: string }
 export const AppContext = createContext({
     signed: false,
     user: {},
-    eventsList:{},
-    coursesList:{},
+    eventsList: {},
+    coursesList: {},
     loading: false,
     EventsCalendar: {},
+    setLoading: () => {},
     getUser: (email: email) => { },
     saveUser: (user: user) => { },
     deleteUser: (email: email) => { },
     signOut: () => { },
-    handleSignIn: () => { }
+    handleSignIn: () => { },
+    getEventsByCourse: () => { },
+    getEventsAll: () => {},
 });
 
 export const AppProvider = ({ children }: { children: React.ReactNode }) => {
@@ -163,7 +166,7 @@ export const AppProvider = ({ children }: { children: React.ReactNode }) => {
         console.log('User email: ' + userinfo.email)
         await getUser(userinfo.email)
         setLoading(false)
-    }   
+    }
 
     // --------------------------------------------//Events//------------------------------------------------------------
 
@@ -191,12 +194,42 @@ export const AppProvider = ({ children }: { children: React.ReactNode }) => {
                 })
         } catch (e) {
             console.log(e)
-            
+
         }
         setLoading(false);
     }
 
-    async function getEventsByCategory(category : string) {
+    async function getEventsByCourse(courseId) {
+        setLoading(true);
+        try {
+            console.log('Requesting getEvents')
+            await EventApi.getEventByCourse(courseId)
+                .then(response => {
+                    console.log('Events by course requested')
+                    console.log(response.data)
+                    if (response.status == 200) {
+                        let processedList = processEventsCalendar(response.data)
+                        // console.log("############### Events by course processed list ############")
+                        // console.log(JSON.stringify(processedList))
+                        // console.log(response.data)
+                        setEventList(response.data)
+                        SetEventsCalendar(processedList)
+                    }
+                    setLoading(false);
+                })
+                .catch(err => {
+                    console.log(err)
+                    //localUser = null
+                    setLoading(false);
+                })
+        } catch (e) {
+            console.log(e)
+
+        }
+        setLoading(false);
+    }
+
+    async function getEventsByCategory(category: string) {
         setLoading(true);
         try {
             console.log('Requesting getEvents')
@@ -216,46 +249,46 @@ export const AppProvider = ({ children }: { children: React.ReactNode }) => {
                 })
         } catch (e) {
             console.log(e)
-            
+
         }
         setLoading(false);
     }
 
-    function createEventsJsonKeys(events){
-        console.log("Create Json")
+    function createEventsJsonKeys(events) {
+        // console.log("Create Json")
         var list = events.reduce((json, item, i) => {
-            console.log("Json: :", json)
-            console.log("Item: ", item)
-            if(!json.hasOwnProperty(item.startDate)){
-                json[item.startDate] = {dots: []}
-                console.log("Prop added: ", json[item.startDate])
+            // console.log("Json: :", json)
+            // console.log("Item: ", item)
+            if (!json.hasOwnProperty(item.startDate)) {
+                json[item.startDate] = { dots: [] }
+                // console.log("Prop added: ", json[item.startDate])
             }
             return json
         }, {})
-        console.log("Json created: ", list)
+        // console.log("Json created: ", list)
         return list;
     }
 
-    function processEventsCalendar(events){
-        console.log('Process events started')
+    function processEventsCalendar(events) {
+        // console.log('Process events started')
         let eventJson = createEventsJsonKeys(events);
-        console.log("Json received from creation: ", eventJson)
+        // console.log("Json received from creation: ", eventJson)
 
-        console.log("Starting adding object to dots")
+        // console.log("Starting adding object to dots")
         events.forEach(element => {
-            console.log("Element: ", element)
-            eventJson[element.startDate].dots.push({ key: element.title, color: setCategoryColor(element.course ? element.course.name : "a")}) 
-            console.log("object added: ", eventJson[element.startDate])
+            // console.log("Element: ", element)
+            eventJson[element.startDate].dots.push({ key: element.title, color: setCategoryColor(element.course ? element.course.name : "a") })
+            // console.log("object added: ", eventJson[element.startDate])
         });
-        console.log("Final list json: ", eventJson)
+        // console.log("Final list json: ", eventJson)
         return eventJson
     }
 
-    
 
-    function setCategoryColor(courseName){
-        switch(courseName){
-            case 'Engenharia de Software': 
+
+    function setCategoryColor(courseName) {
+        switch (courseName) {
+            case 'Engenharia de Software':
                 return 'blue'
             case 'Psicologia':
                 return 'red'
@@ -264,21 +297,21 @@ export const AppProvider = ({ children }: { children: React.ReactNode }) => {
             case 'Licenciatura em Computação':
                 return 'yellow'
             default: return 'gray'
-        }        
+        }
     }
 
-     // --------------------------------------------//Courses//------------------------------------------------------------
+    // --------------------------------------------//Courses//------------------------------------------------------------
 
-     async function getAllCourses() {
+    async function getAllCourses() {
         setLoading(true);
         try {
             console.log('Requesting getAllCourses')
             await CoursesApi.getAllCourses()
                 .then(response => {
                     console.log('Courses requested')
-                    console.log(response.data)
+                    // console.log(response.data)
                     if (response.status == 200) {
-                        setCoursesList(response.data)
+                        setCoursesList([{id: -1, name: 'Todos'}, ...response.data])
                     }
                     setLoading(false);
                 })
@@ -288,14 +321,29 @@ export const AppProvider = ({ children }: { children: React.ReactNode }) => {
                 })
         } catch (e) {
             console.log(e)
-            
+
         }
         setLoading(false);
     }
 
     return (
 
-        <AppContext.Provider value={{ signed: !!user, user, loading, getUser, saveUser, deleteUser, signOut, handleSignIn, EventsCalendar, coursesList, eventsList }}>
+        <AppContext.Provider value={{
+            signed: !!user,
+            user,
+            loading,
+            EventsCalendar, 
+            coursesList, 
+            eventsList,
+            setLoading,
+            getUser,
+            saveUser, 
+            deleteUser, 
+            signOut, 
+            handleSignIn, 
+            getEventsByCourse,
+            getEventsAll,
+        }}>
             {children}
         </AppContext.Provider>
     )
