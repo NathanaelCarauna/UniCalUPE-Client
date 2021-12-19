@@ -4,6 +4,7 @@ import * as EventApi from '../services/EventApi';
 import * as CoursesApi from '../services/CoursesApi';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import * as AuthSession from 'expo-auth-session';
+import { AxiosResponse } from 'axios';
 
 type AuthResponse = {
     type: string;
@@ -61,7 +62,7 @@ export const AppProvider = ({ children }: { children: React.ReactNode }) => {
         try {
             console.log('Requesting getUser')
             await userApi.getUser(email)
-                .then(response => {
+                .then( (response: AxiosResponse) => {
                     console.log('GetUser requested')
                     console.log(response.data)
                     if (response.status == 200) {
@@ -89,7 +90,7 @@ export const AppProvider = ({ children }: { children: React.ReactNode }) => {
         let result = false;
         try {
             await userApi.saveUser(user)
-                .then(response => {
+                .then((response: AxiosResponse) => {
                     if (response.status = 200) {
                         setUser(response.data)
                         console.log("User that came from back after save:", response.data)
@@ -112,7 +113,7 @@ export const AppProvider = ({ children }: { children: React.ReactNode }) => {
         try {
             console.log('Requesting deleteUser')
             await userApi.deleteUser(email)
-                .then(response => {
+                .then((response: AxiosResponse) => {
                     console.log('DeleteUser requested')
                     console.log(response.data)
                     if (response.status == 200) {
@@ -175,7 +176,7 @@ export const AppProvider = ({ children }: { children: React.ReactNode }) => {
         try {
             console.log('Requesting getEvents')
             await EventApi.getAllEvents()
-                .then(response => {
+                .then((response: AxiosResponse) => {
                     console.log('Events requested')
                     console.log(response.data)
                     if (response.status == 200) {
@@ -204,7 +205,7 @@ export const AppProvider = ({ children }: { children: React.ReactNode }) => {
         try {
             console.log('Requesting getEvents')
             await EventApi.getEventByCourse(courseId)
-                .then(response => {
+                .then((response: AxiosResponse) => {
                     console.log('Events by course requested')
                     console.log(response.data)
                     if (response.status == 200) {
@@ -234,7 +235,7 @@ export const AppProvider = ({ children }: { children: React.ReactNode }) => {
         try {
             console.log('Requesting getEvents')
             await EventApi.getEventByCategory(category)
-                .then(response => {
+                .then((response: AxiosResponse) => {
                     console.log('Events requested')
                     console.log(response.data)
                     if (response.status == 200) {
@@ -307,7 +308,7 @@ export const AppProvider = ({ children }: { children: React.ReactNode }) => {
         try {
             console.log('Requesting getAllCourses')
             await CoursesApi.getAllCourses()
-                .then(response => {
+                .then((response: AxiosResponse) => {
                     console.log('Courses requested')
                     // console.log(response.data)
                     if (response.status == 200) {
@@ -331,7 +332,7 @@ export const AppProvider = ({ children }: { children: React.ReactNode }) => {
         try {
             console.log('post Event')
             await EventApi.postEvent()
-                .then(response => {
+                .then((response: AxiosResponse) => {
                     console.log('Add Event')
                     console.log(response.data)
                     if (response.status == 200) {
