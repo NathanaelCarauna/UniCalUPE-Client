@@ -9,12 +9,28 @@ import { FontAwesome } from '@expo/vector-icons';
 import Layout from '../constants/Layout';
 import DateTimePicker from '@react-native-community/datetimepicker';
 import { useState } from 'react';
+import AppContext from '../contexts/appContext';
+import SelectDropdown from 'react-native-select-dropdown';
 
 export default function Evento() {
   const [date, setDate] = useState(new Date(1598051730000));
   const [time, setTime] = useState(new Date(1598051730000));
   const [showData, setShowData] = useState(false);
   const [showTime, setShowTime] = useState(false);
+
+  const { user, saveUser, coursesList} = React.useContext(AppContext)
+  const checkId = () => {
+    return typeof user.id == 'number' ? user.id : null
+  }
+  const [userData, setUserData] = React.useState({ name: user.name, email: user.email, accountType: 'ADM', id: checkId()});
+
+  const handleSubmit = () => {
+    
+    if(saveUser(userData)){
+      console.log('User data saved')
+      navigation.navigate('Root')
+    }
+  }
 
   const showDataMode = () => {
     setShowData(!showData);
@@ -41,7 +57,35 @@ export default function Evento() {
       <ScrollView style={styles.scroll}>
 
         <TextInput style={styles.text} placeholder="Nome do Evento" />
-        <TextInput style={styles.text} placeholder="Categoria" />
+        <SelectDropdown
+          data={coursesList}
+          defaultButtonText={'Selecione o seu curso'}
+          buttonStyle={styles.dropdownBtnStyle}
+          dropdownStyle={styles.dropdown}
+          buttonTextStyle={styles.dropdownBtnTxtStyle}
+          dropdownIconPosition={"right"}
+          rowStyle={styles.dropdownRowStyle}
+          rowTextStyle={styles.dropdownRowTxtStyle}
+          renderDropdownIcon={() => {
+            return (
+              <FontAwesome name="chevron-down" color={"#FFF"} size={18} style={styles.dropdownIcon} />
+            );
+          }}
+          onSelect={(selectedItem, index) => {
+            console.log(selectedItem, index)
+            setUserData({ ...userData, course: {id: selectedItem.id} })
+          }}
+          buttonTextAfterSelection={(selectedItem, index) => {
+            // text represented after item is selected
+            // if data array is an array of objects then return selectedItem.property to render after item is selected
+            return selectedItem.name
+          }}
+          rowTextForSelection={(item, index) => {
+            // text represented for each item in dropdown
+            // if data array is an array of objects then return item.property to represent item in dropdown
+            return item.name
+          }}
+        />
 
         <View style={styles.textView}>
           <TabBarIcon style={styles.icons} name="user" color={Colors.Blue.background} />
@@ -199,4 +243,35 @@ const styles = StyleSheet.create({
     fontSize: 18,
     color: 'gray',
   },
+  dropdownBtnStyle: {
+    //marginStart: 10,
+    marginVertical: 5,
+    padding: 12,
+    backgroundColor: '#E9E9E9',
+    borderRadius: 16,
+    textAlign: 'center',
+    borderColor: 'white',
+    borderWidth: 3,
+    width: '100%'
+  },
+  dropdownBtnTxtStyle: {
+    fontSize: 18,
+    alignSelf: 'stretch',
+    color: 'gray',
+
+  },
+  dropdown: {
+    borderRadius: 16,
+    backgroundColor: Colors.Blue.background,
+  },
+  dropdownRowStyle: {
+
+  },
+  dropdownRowTxtStyle: {
+    fontSize: 14,
+    color: 'white',
+  },
+  dropdownIcon: {
+    marginHorizontal: 10
+  }
 });
