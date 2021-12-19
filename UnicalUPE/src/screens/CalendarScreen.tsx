@@ -33,11 +33,20 @@ export default function CalendarScreen({ navigation }) {
   const { user,
     coursesList,
     EventsCalendar,
+    eventByDateRequested,
     getEventsByCourse,
     getEventsAll,
-    setLoading
-
+    getEventsByDate,
   } = useContext(AppContext)
+
+  useEffect(() => {
+    if (eventByDateRequested) {
+      console.log("Should go to events screen")
+      setTimeout(() => {
+        navigation.navigate("Eventos")    
+      }, 1000)
+    }
+  }, [])
 
   useEffect(() => {
     console.log("Events Calendar")
@@ -74,7 +83,7 @@ export default function CalendarScreen({ navigation }) {
           console.log("SELECTED ITEM: ", selectedItem, index)
           console.log("SELECTED ID: ", selectedItem.id)
           if (selectedItem.id == -1) {
-            getEventsAll()    
+            getEventsAll()
           } else {
             getEventsByCourse(selectedItem.id);
           }
@@ -91,8 +100,10 @@ export default function CalendarScreen({ navigation }) {
         }}
       />
       <Calendar
-        current={'2021-12-12'}
-        onDayPress={(day) => { console.log('selected day', day) }}
+        // current={'2021-12-12'}
+        onDayPress={(day) => {
+          getEventsByDate(day.dateString)
+        }}
         onDayLongPress={(day) => { console.log('selected day', day) }}
         // monthFormat={'dd MM yyyy'}
         onMonthChange={(month) => { console.log('month changed', month) }}
