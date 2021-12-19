@@ -23,6 +23,7 @@ export const AppContext = createContext({
     EventsCalendar: {},
     getUser: (email: email) => { },
     saveUser: (user: user) => { },
+    deleteUser: (email: email) => { },
     signOut: () => { },
     handleSignIn: () => { }
 });
@@ -102,6 +103,33 @@ export const AppProvider = ({ children }: { children: React.ReactNode }) => {
 
     }
 
+    async function deleteUser(email: email) {
+        setLoading(true);
+        let localUser;
+        try {
+            console.log('Requesting deleteUser')
+            await userApi.deleteUser(email)
+                .then(response => {
+                    console.log('DeleteUser requested')
+                    console.log(response.data)
+                    if (response.status == 200) {
+                        signOut()
+                    }
+                    setLoading(false);
+                })
+                .catch(err => {
+                    console.log(err)
+                    localUser = null
+                    setLoading(false);
+                })
+        } catch (e) {
+            console.log(e)
+            localUser = null
+        }
+        setLoading(false);
+        return localUser
+    }
+
     function signOut() {
         console.log('SignOut Called')
         AsyncStorage.clear().then(() => {
@@ -112,7 +140,7 @@ export const AppProvider = ({ children }: { children: React.ReactNode }) => {
 
     async function handleSignIn() {
         const CLIENT_ID = '162955034296-ah2keq2dk20d7qvpm0qj4h9bi7iratcr.apps.googleusercontent.com'
-        const REDIRECT_URI = 'https://auth.expo.io/@dahisedias/UnicalUPE'
+        const REDIRECT_URI = 'https://auth.expo.io/@clara.araujo/UnicalUPE'
         const RESPONSE_TYPE = 'token'
         const SCOPE = encodeURI('profile email')
 
@@ -266,7 +294,8 @@ export const AppProvider = ({ children }: { children: React.ReactNode }) => {
     }
 
     return (
-        <AppContext.Provider value={{ signed: !!user, user, loading, EventsCalendar, getUser, saveUser, signOut, handleSignIn, coursesList, eventsList }}>
+
+        <AppContext.Provider value={{ signed: !!user, user, loading, getUser, saveUser, deleteUser, signOut, handleSignIn, coursesList, eventsList }}>
             {children}
         </AppContext.Provider>
     )
