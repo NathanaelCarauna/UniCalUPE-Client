@@ -25,6 +25,7 @@ import TitleMainScreen from '../components/TitleMainScreen';
 import { useEffect } from 'react';
 import { useContext } from 'react';
 import AppContext from '../contexts/appContext';
+import { useState } from 'react';
 
 
 
@@ -32,12 +33,16 @@ import AppContext from '../contexts/appContext';
 export default function CalendarScreen({ navigation }) {
   const { user,
     coursesList,
+    course,
     EventsCalendar,
     eventByDateRequested,
     getEventsByCourse,
     getEventsAll,
     getEventsByDate,
+    CurrentCourse,
   } = useContext(AppContext)
+
+  
 
   useEffect(() => {
     if (eventByDateRequested) {
@@ -67,7 +72,7 @@ export default function CalendarScreen({ navigation }) {
       <TitleMainScreen title='Eventos do Mês' />
       <SelectDropdown
         data={coursesList}
-        defaultButtonText={'Escolha um filtro'}
+        defaultButtonText={course.name? course.name: 'Escolha um filtro'}
         buttonStyle={styles.dropdownBtnStyle}
         dropdownStyle={styles.dropdown}
         buttonTextStyle={styles.dropdownBtnTxtStyle}
@@ -82,6 +87,8 @@ export default function CalendarScreen({ navigation }) {
         onSelect={(selectedItem, index) => {
           console.log("SELECTED ITEM: ", selectedItem, index)
           console.log("SELECTED ID: ", selectedItem.id)
+          CurrentCourse(selectedItem)
+          console.log("curso: " + course)
           if (selectedItem.id == -1) {
             getEventsAll()
           } else {

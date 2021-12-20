@@ -11,20 +11,28 @@ import Layout from '../constants/Layout';
 export default function Evento({route, navigation}) {
   const{event} = route.params
   return (
-    <ScrollView>
+    <ScrollView contentContainerStyle={{flexGrow: 1}}>
         <LinearGradient style = {styles.container} colors={["#ffffff","#B7F2F4"]}>
           <View style={styles.header}>
             <View style={{backgroundColor: 'transparent'}}>
               <Text style={styles.title}>{event.title}</Text>
               <Text style={styles.sub_tittle}>{event.category}</Text>
             </View>
-            <View style={{display:'flex', flexDirection: 'row', alignItems:'baseline', marginTop: 10,  backgroundColor: 'transparent'}}>
+            <View style={styles.line}>
               <TabBarIcon name="user" color={Colors.Blue.background} />
               <Text style={styles.text}>{event.presentor}</Text>
             </View>
-            <View style={{display:'flex', flexDirection: 'row', alignItems:'baseline',  backgroundColor: 'transparent'}}>
+            <View style={styles.line}>
               <TabBarIcon name="map-marker" color={Colors.Blue.background} />
               <Text style={styles.text}>{event.local}</Text>
+            </View>
+            <View style={styles.line}>
+              <TabBarIcon name="calendar" color={Colors.Blue.background} />
+              <Text style={styles.text}>{event.startDate}</Text> 
+            </View>
+            <View style={styles.line}>
+              <TabBarIcon name="calendar-check-o" color={Colors.Blue.background} />
+              <Text style={styles.text}>{event.endDate? event.endDate : event.startDate}</Text> 
             </View>
           </View>
           <View style={styles.separator} lightColor="#004369" darkColor="rgba(0,67,105,0.1)" />
@@ -33,7 +41,7 @@ export default function Evento({route, navigation}) {
               <Text style={styles.normal}>{event.description}</Text>
             </LinearGradient>
 
-            <TouchableOpacity style={styles.bloco}>
+            <TouchableOpacity style={styles.link}>
           <LinearGradient colors={["#60D0D6","#B7F2F4"]}>
             <Text style={styles.normal}>{event.link}</Text>
           </LinearGradient>
@@ -55,7 +63,8 @@ function TabBarIcon(props: {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    height: Layout.window.height - 80,
+    //height: Layout.window.height - 80,
+
     alignSelf:'stretch',
     alignItems: 'center',
     //justifyContent: 'center',
@@ -85,7 +94,14 @@ const styles = StyleSheet.create({
   },
   bloco:{
     flex:1,
-    margin: 10,
+    margin: 15,
+    marginBottom: 10,
+    borderRadius: 16,
+    alignSelf:'stretch'
+  },
+  link:{
+    flex:1,
+    margin: 15,
     marginBottom: 10,
     borderRadius: 16,
     overflow: 'hidden',
@@ -103,5 +119,12 @@ const styles = StyleSheet.create({
     marginStart: 10,
     fontSize: 25,
     color: "#004369"
+  },
+  line:{
+    margin: 6,
+    display:'flex', 
+    flexDirection: 'row', 
+    alignItems:'baseline',  
+    backgroundColor: 'transparent',
   }
 });

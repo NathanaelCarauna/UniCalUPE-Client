@@ -8,66 +8,98 @@ import MainView from '../components/MainView';
 import { Text, View } from '../components/Themed';
 import TitleMainScreen from '../components/TitleMainScreen';
 import Colors from '../constants/Colors';
-import { useEffect, useContext } from 'react';
+import { useEffect, useContext, useState } from 'react';
 import AppContext from '../contexts/appContext';
 
-const fakeData = [
-  {
-    id: '1',
-    title: "Palestra",
-    local: 'Auditorio',
-    presentor: 'Claudio',
-    course: 'Engenharia de software',
-    category: 'SURVEY'
-  },
-  {
-    id: '2',
-    title: "Workshop",
-    local: 'Online',
-    presentor: 'Felipe',
-    course: 'Licenciatura',
-    category: 'COURSE'
-  },
-  {
-    id: '3',
-    title: "Mini curso",
-    local: 'Online',
-    presentor: 'Fernando',
-    course: 'Publico',
-    category: 'PUBLIC'
-  },
-  {
-    id: '4',
-    title: "Mini curso",
-    local: 'Online',
-    presentor: 'Fernando',
-    course: 'Publico',
-    category: 'PUBLIC'
-  },
-]
-
-const FakeDates = [
-  { day: 'Dom', date: '21', selected: false },
-  { day: 'Seg', date: '22', selected: false },
-  { day: 'Ter', date: '23', selected: false },
-  { day: 'Qua', date: '24', selected: true },
-  { day: 'Qui', date: '25', selected: false },
-  { day: 'Sex', date: '26', selected: false },
-  { day: 'Sab', date: '27', selected: false },
-]
-
 export default function EventsScreen() {
-  const { eventsList, setEventByDateRequested } = useContext(AppContext)
+  const { eventsList, setEventByDateRequested, getEventsByDate } = useContext(AppContext)
+  const [dates, setDates] = useState(
+    [
+      { id: 0, day: 'Dom', date: '21', month: null, year: null, selected: false },
+      { id: 1, day: 'Seg', date: '22', month: null, year: null, selected: false },
+      { id: 2, day: 'Ter', date: '23', month: null, year: null, selected: false },
+      { id: 3, day: 'Qua', date: '24', month: null, year: null, selected: true },
+      { id: 4, day: 'Qui', date: '25', month: null, year: null, selected: false },
+      { id: 5, day: 'Sex', date: '26', month: null, year: null, selected: false },
+      { id: 6, day: 'Sab', date: '27', month: null, year: null, selected: false },
+    ]
+  )
+
+  const fillWeek = (pDates) => {
+    var today = new Date();
+
+    console.log(today.getDay(), today.getDate(), today.getMonth(), today.getFullYear());
+    pDates.forEach(item => {
+      item.month = today.getMonth()
+      item.year = today.getFullYear()
+      if (item.id === today.getDay()) {
+        item.date = today.getDate()
+        item.selected = true
+      }
+      else if (item.id == today.getDay() - 6) {
+        item.date = new Date(today.getFullYear(), today.getMonth(), today.getDate() - 6).getDate()
+        item.selected = false
+      }
+      else if (item.id == today.getDay() - 5) {
+        item.date = new Date(today.getFullYear(), today.getMonth(), today.getDate() - 5).getDate()
+        item.selected = false
+      }
+      else if (item.id == today.getDay() - 4) {
+        item.date = new Date(today.getFullYear(), today.getMonth(), today.getDate() - 4).getDate()
+        item.selected = false
+      }
+      else if (item.id == today.getDay() - 3) {
+        item.date = new Date(today.getFullYear(), today.getMonth(), today.getDate() - 3).getDate()
+        item.selected = false
+      }
+      else if (item.id == today.getDay() - 2) {
+        item.date = new Date(today.getFullYear(), today.getMonth(), today.getDate() - 2).getDate()
+        item.selected = false
+      }
+      else if (item.id == today.getDay() - 1) {
+        item.date = new Date(today.getFullYear(), today.getMonth(), today.getDate() - 1).getDate()
+        item.selected = false
+      }
+      else if (item.id == today.getDay() + 1) {
+        item.date = new Date(today.getFullYear(), today.getMonth(), today.getDate() + 1).getDate()
+        item.selected = false
+      }
+      else if (item.id == today.getDay() + 2) {
+        item.date = new Date(today.getFullYear(), today.getMonth(), today.getDate() + 2).getDate()
+        item.selected = false
+      }
+      else if (item.id == today.getDay() + 3) {
+        item.date = new Date(today.getFullYear(), today.getMonth(), today.getDate() + 3).getDate()
+        item.selected = false
+      }
+      else if (item.id == today.getDay() + 4) {
+        item.date = new Date(today.getFullYear(), today.getMonth(), today.getDate() + 4).getDate()
+        item.selected = false
+      }
+      else if (item.id == today.getDay() + 5) {
+        item.date = new Date(today.getFullYear(), today.getMonth(), today.getDate() + 5).getDate()
+        item.selected = false
+      }
+      else if (item.id == today.getDay() + 6) {
+        item.date = new Date(today.getFullYear(), today.getMonth(), today.getDate() + 6).getDate()
+        item.selected = false
+      }
+    })
+    setDates(pDates);
+  }
 
   useEffect(() => {
     console.log('tela de eventos')
-    console.log(eventsList)
     setEventByDateRequested(false)
+    fillWeek(dates)
   })
+
+
   const ItemSeprator = () => <View style={{
-    width:6,
+    width: 6,
     backgroundColor: 'transparent',
   }} />
+
   return (
     <>
       <MainView>
@@ -85,12 +117,18 @@ export default function EventsScreen() {
       </MainView >
       <View style={styles.flat}>
         <FlatList
-        ItemSeparatorComponent={ItemSeprator}
+          ItemSeparatorComponent={ItemSeprator}
           horizontal={true}
-          data={FakeDates}
+          data={dates}
           style={styles.transparent}
           keyExtractor={item => item.day}
-          renderItem={({ item }) => (<DateSquare day={item.day} date={item.date} selected={item.selected} />)}
+          renderItem={({ item }) => (
+            <DateSquare
+              day={item.day}
+              date={item.date}
+              selected={item.selected}
+              func={() => getEventsByDate(`${item.year}-${item.month+1}-${item.date}`)}
+            />)}
         />
       </View>
     </>
@@ -136,7 +174,7 @@ const styles = StyleSheet.create({
     backgroundColor: Colors.dark.background,
   },
   flat: {
-    alignItems:'center',
+    alignItems: 'center',
     padding: 5,
     backgroundColor: Colors.dark.background,
   }

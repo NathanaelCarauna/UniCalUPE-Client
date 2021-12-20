@@ -5,9 +5,9 @@ import { Alert, StyleSheet, TouchableOpacity } from 'react-native';
 import { Text} from './Themed';
 import { LinearGradient } from 'expo-linear-gradient';
 
-type propsType = { day: string, date: string, selected: boolean }
+type propsType = { day: string, date: string, selected: boolean, func: Function }
 
-export default function DateSquare({ day, date, selected }: propsType) {
+export default function DateSquare({ day, date, selected, func }: propsType) {
     const setSelected = (selected: boolean) => {
         return selected
             ? { color: {color: 'white'}, backColorTop: '#EA3636', backColorBottom: '#FFAB91' }
@@ -15,7 +15,7 @@ export default function DateSquare({ day, date, selected }: propsType) {
     }
     const selectStyle = setSelected(selected);
     return (
-        <TouchableOpacity onPress={() => Alert.alert(date)}>
+        <TouchableOpacity onPress={func}>
             <LinearGradient style={styles.square} colors={[selectStyle.backColorTop, selectStyle.backColorBottom]}>
                 <Text style={[styles.Text, selectStyle.color]}>{day}</Text>
                 <Text style={[styles.number, selectStyle.color]}>{date}</Text>
