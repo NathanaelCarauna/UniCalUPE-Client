@@ -23,6 +23,7 @@ export const AppContext = createContext({
     loading: false,
     EventsCalendar: {},
     eventByDateRequested: false,
+    course: {},
     setLoading: () => { },
     getUser: (email: email) => { },
     saveUser: (user: user) => { },
@@ -32,7 +33,8 @@ export const AppContext = createContext({
     getEventsByCourse: () => { },
     getEventsAll: () => { },
     getEventsByDate: () => { },
-    setEventByDateRequested: () => { }
+    setEventByDateRequested: () => { },
+    CurrentCourse: () =>{}
 });
 
 export const AppProvider = ({ children }: { children: React.ReactNode }) => {
@@ -42,6 +44,7 @@ export const AppProvider = ({ children }: { children: React.ReactNode }) => {
     const [eventsList, setEventList] = useState([]);
     const [coursesList, setCoursesList] = useState([]);
     const [EventsCalendar, SetEventsCalendar] = useState({});
+    const[course, setCurrentCourse] = useState({})
 
 
     useEffect(() => {
@@ -392,6 +395,9 @@ export const AppProvider = ({ children }: { children: React.ReactNode }) => {
         setLoading(false);
     }
 
+    function CurrentCourse(course){
+        setCurrentCourse(course)
+    }
 
     return (
 
@@ -403,6 +409,7 @@ export const AppProvider = ({ children }: { children: React.ReactNode }) => {
             coursesList,
             eventsList,
             eventByDateRequested,
+            course,
             setEventByDateRequested,
             setLoading,
             getUser,
@@ -413,6 +420,7 @@ export const AppProvider = ({ children }: { children: React.ReactNode }) => {
             getEventsByCourse,
             getEventsAll,
             getEventsByDate,
+            CurrentCourse
         }}>
             {children}
         </AppContext.Provider>
