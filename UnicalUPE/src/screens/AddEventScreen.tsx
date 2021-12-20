@@ -11,6 +11,7 @@ import DateTimePicker from '@react-native-community/datetimepicker';
 import { useState } from 'react';
 import AppContext from '../contexts/appContext';
 import SelectDropdown from 'react-native-select-dropdown';
+import { useNavigation } from '@react-navigation/native';
 
 export default function Evento() {
   const [date, setDate] = useState(new Date(1598051730000));
@@ -18,16 +19,16 @@ export default function Evento() {
   const [showData, setShowData] = useState(false);
   const [showTime, setShowTime] = useState(false);
 
-  const { user, saveUser, coursesList} = React.useContext(AppContext)
-  const checkId = () => {
-    return typeof user.id == 'number' ? user.id : null
-  }
-  const [userData, setUserData] = React.useState({ name: user.name, email: user.email, accountType: 'ADM', id: checkId()});
+  const navigation = useNavigation()
+
+  const {postEvent, coursesList} = React.useContext(AppContext)
+  const [event, setEvent] = useState({title: null, presentor: null, local: null, description: null, link: null});
+  
 
   const handleSubmit = () => {
-    
-    if(saveUser(userData)){
-      console.log('User data saved')
+
+    if(postEvent(event)){
+      console.log('add event')
       navigation.navigate('Root')
     }
   }
@@ -56,7 +57,11 @@ export default function Evento() {
     <LinearGradient style={styles.container} colors={["#ffffff", "#8F98FF"]}>
       <ScrollView style={styles.scroll}>
 
-        <TextInput style={styles.text} placeholder="Nome do Evento" />
+        <TextInput style={styles.text} placeholder="Título" 
+        onChangeText={(value) => setEvent({ ...event, title: value })}
+        value={event.title} />
+
+        
         <SelectDropdown
           data={coursesList}
           defaultButtonText={'Selecione o seu curso'}
@@ -73,7 +78,7 @@ export default function Evento() {
           }}
           onSelect={(selectedItem, index) => {
             console.log(selectedItem, index)
-            setUserData({ ...userData, course: {id: selectedItem.id} })
+            setEvent({ ...event, course: {id: selectedItem.id} })
           }}
           buttonTextAfterSelection={(selectedItem, index) => {
             // text represented after item is selected
@@ -89,11 +94,15 @@ export default function Evento() {
 
         <View style={styles.textView}>
           <TabBarIcon style={styles.icons} name="user" color={Colors.Blue.background} />
-          <TextInput style={styles.text} placeholder="Apresentador" />
+          <TextInput style={styles.text} placeholder="Apresentador" 
+          onChangeText={(value) => setEvent({ ...event, presentor: value })}
+          value={event.presentor}/>
         </View>
         <View style={styles.textView}>
           <TabBarIcon style={styles.icons} name="map-marker" color={Colors.Blue.background} />
-          <TextInput style={styles.text} placeholder="Local" />
+          <TextInput style={styles.text} placeholder="Local" 
+          onChangeText={(value) => setEvent({ ...event, local: value })}
+          value={event.local}/>
         </View>
         <View style={styles.textView}>
           <TabBarIcon style={styles.icons} name="calendar" color={Colors.Blue.background} />
@@ -134,11 +143,15 @@ export default function Evento() {
         </View>
 
         <View style={styles.separator} lightColor="#004369" darkColor="rgba(0,67,105,0.1)" />
-        <TextInput style={styles.text} multiline={true} placeholder="Descrição do evento" />
-        <TextInput style={styles.text} placeholder="link" />
+        <TextInput style={styles.text} multiline={true} placeholder="Descrição" 
+        onChangeText={(value) => setEvent({ ...event, description: value })}
+        value={event.description}/>
+        <TextInput style={styles.text} placeholder="Link" 
+        onChangeText={(value) => setEvent({ ...event, link: value })}
+        value={event.link}/>
         <TouchableOpacity
           style={styles.button}
-          onPress={() => Alert.alert('Evento salvo com sucesso')}>
+          onPress={handleSubmit}>
           <Text style={styles.buttonText}>Salvar</Text>
         </TouchableOpacity>
       </ScrollView>

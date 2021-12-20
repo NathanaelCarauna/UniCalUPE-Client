@@ -327,18 +327,17 @@ export const AppProvider = ({ children }: { children: React.ReactNode }) => {
         setLoading(false);
     }
 
-    async function postEvent() {
+    async function postEvent(event) {
         setLoading(true);
         try {
             console.log('post Event')
-            await EventApi.postEvent()
+            await EventApi.postEvent(event)
                 .then(response => {
                     console.log('Add Event')
-                    console.log(response.data)
+                    
                     if (response.status == 200) {
-                        let processedList = processEventsCalendar([response.data])
-                        setEventList([...eventsList,response.data])
-                        SetEventsCalendar([...EventsCalendar, processedList])
+                        console.log(response.data)
+                        getEventsAll();
                     }
                     setLoading(false);
                 })

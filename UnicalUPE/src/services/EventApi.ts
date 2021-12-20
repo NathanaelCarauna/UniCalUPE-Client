@@ -16,8 +16,8 @@ export function getEventById(id){
     return new api.get(`/event/${id}`)
 }
 
-export function createEvent(event){
-    return new api.post('/event', event)
+export function postEvent(event){
+    return new api.post('/event/', event)
 }
 
 
