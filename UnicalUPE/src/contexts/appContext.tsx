@@ -32,7 +32,7 @@ export const AppContext = createContext({
     getEventsByCourse: () => { },
     getEventsAll: () => { },
     getEventsByDate: () => { },
-    setEventByDateRequested: () => {}
+    setEventByDateRequested: () => { }
 });
 
 export const AppProvider = ({ children }: { children: React.ReactNode }) => {
@@ -45,14 +45,21 @@ export const AppProvider = ({ children }: { children: React.ReactNode }) => {
 
 
     useEffect(() => {
+        console.log("################################# INITIALIZING APPLICATION ############################################")
         setLoading(true)
         async function loadStorageData() {
-            getAllCourses()
-            getEventsAll();
             const storagedUser = await AsyncStorage.getItem('@TGAuth:user');
-
+            getAllCourses()
+            console.log("storagedUser: ", storagedUser)
             if (storagedUser) {
-                setUser(JSON.parse(storagedUser));
+                const localUser = JSON.parse(storagedUser)
+                setUser(localUser);
+                console.log(localUser.course)
+                getEventsByCourse(localUser.course.id)
+            }
+            else {
+                getEventsAll();
+
             }
             setLoading(false);
         }
@@ -72,6 +79,7 @@ export const AppProvider = ({ children }: { children: React.ReactNode }) => {
                     if (response.status == 200) {
                         setUser(response.data)
                         localUser = response.data
+                        getEventsByCourse(localUser.course.id)
                         AsyncStorage.setItem("@TGAuth:user", JSON.stringify(response.data));
                     }
                     setLoading(false);
@@ -143,6 +151,7 @@ export const AppProvider = ({ children }: { children: React.ReactNode }) => {
         AsyncStorage.clear().then(() => {
             setUser(null);
             console.log('LocalStorage cleaned')
+            getEventsAll()
         })
     }
 
@@ -244,11 +253,11 @@ export const AppProvider = ({ children }: { children: React.ReactNode }) => {
                     console.log(response.data)
                     if (response.status == 200) {
                         console.log("EVENTS BY DATE:", response.data)
-                        setEventList(response.data)  
+                        setEventList(response.data)
                         setEventByDateRequested(true);
                     }
                     setLoading(false);
-                })                
+                })
                 .catch(err => {
                     console.log(err)
                     setLoading(false);
