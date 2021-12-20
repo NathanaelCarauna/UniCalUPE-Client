@@ -34,7 +34,8 @@ export const AppContext = createContext({
     getEventsAll: () => { },
     getEventsByDate: () => { },
     setEventByDateRequested: () => { },
-    CurrentCourse: () =>{}
+    CurrentCourse: () =>{},
+    Filter:() =>{}
 });
 
 export const AppProvider = ({ children }: { children: React.ReactNode }) => {
@@ -44,7 +45,8 @@ export const AppProvider = ({ children }: { children: React.ReactNode }) => {
     const [eventsList, setEventList] = useState([]);
     const [coursesList, setCoursesList] = useState([]);
     const [EventsCalendar, SetEventsCalendar] = useState({});
-    const[course, setCurrentCourse] = useState({})
+    const [course, setCurrentCourse] = useState({})
+    const [SelectDate, setSelectDate] = useState({})
 
 
     useEffect(() => {
@@ -69,6 +71,11 @@ export const AppProvider = ({ children }: { children: React.ReactNode }) => {
         loadStorageData();
     }, [])
 
+    async function Filter(date: Array<Object>){
+        getEventsByCourse(course.id)
+        const filteredArray = eventsList.filter(value => date.includes(value))
+        return filteredArray
+    }
 
     async function getUser(email: email) {
         setLoading(true);
@@ -194,11 +201,11 @@ export const AppProvider = ({ children }: { children: React.ReactNode }) => {
             await EventApi.getAllEvents()
                 .then((response: AxiosResponse) => {
                     console.log('Events requested')
-                    console.log(response.data)
+                    //console.log(response.data)
                     if (response.status == 200) {
                         let processedList = processEventsCalendar(response.data)
                         console.log("############### Lista processada ############")
-                        console.log(JSON.stringify(processedList))
+                        //console.log(JSON.stringify(processedList))
                         setEventList(response.data)
                         SetEventsCalendar(processedList)
                     }
@@ -223,7 +230,7 @@ export const AppProvider = ({ children }: { children: React.ReactNode }) => {
             await EventApi.getEventByCourse(courseId)
                 .then((response: AxiosResponse) => {
                     console.log('Events by course requested')
-                    console.log(response.data)
+                    //console.log(response.data)
                     if (response.status == 200) {
                         let processedList = processEventsCalendar(response.data)
                         // console.log("############### Events by course processed list ############")
@@ -253,9 +260,11 @@ export const AppProvider = ({ children }: { children: React.ReactNode }) => {
             return EventApi.getEventByDate(date)
                 .then((response: AxiosResponse) => {
                     console.log('Events by date requested')
-                    console.log(response.data)
+                    //console.log(response.data)
                     if (response.status == 200) {
                         console.log("EVENTS BY DATE:", response.data)
+                        var list = Filter(response.data)
+                        console.log("###Lista " +list)
                         setEventList(response.data)
                         setEventByDateRequested(true);
                     }
@@ -278,7 +287,7 @@ export const AppProvider = ({ children }: { children: React.ReactNode }) => {
             await EventApi.getEventByCategory(category)
                 .then((response: AxiosResponse) => {
                     console.log('Events requested')
-                    console.log(response.data)
+                    //console.log(response.data)
                     if (response.status == 200) {
                         setEventList(response.data)
                     }
@@ -350,7 +359,7 @@ export const AppProvider = ({ children }: { children: React.ReactNode }) => {
             console.log('Requesting getAllCourses')
             await CoursesApi.getAllCourses()
                 .then((response: AxiosResponse) => {
-                    console.log('Courses requested')
+                    //console.log('Courses requested')
                     // console.log(response.data)
                     if (response.status == 200) {
                         setCoursesList([{ id: -1, name: 'Todos' }, ...response.data])
@@ -375,7 +384,7 @@ export const AppProvider = ({ children }: { children: React.ReactNode }) => {
             await EventApi.postEvent()
                 .then((response: AxiosResponse) => {
                     console.log('Add Event')
-                    console.log(response.data)
+                    //console.log(response.data)
                     if (response.status == 200) {
                         let processedList = processEventsCalendar([response.data])
                         setEventList([...eventsList, response.data])
@@ -420,7 +429,8 @@ export const AppProvider = ({ children }: { children: React.ReactNode }) => {
             getEventsByCourse,
             getEventsAll,
             getEventsByDate,
-            CurrentCourse
+            CurrentCourse,
+            Filter
         }}>
             {children}
         </AppContext.Provider>

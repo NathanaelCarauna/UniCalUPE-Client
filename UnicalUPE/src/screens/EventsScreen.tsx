@@ -61,7 +61,7 @@ export default function EventsScreen() {
 
   useEffect(() => {
     console.log('tela de eventos')
-    console.log(eventsList)
+    //console.log(eventsList)
     setEventByDateRequested(false)
   })
   const ItemSeprator = () => <View style={{

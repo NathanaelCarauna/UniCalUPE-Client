@@ -39,7 +39,7 @@ export default function CalendarScreen({ navigation }) {
     getEventsByCourse,
     getEventsAll,
     getEventsByDate,
-    CurrentCourse
+    CurrentCourse,
   } = useContext(AppContext)
 
   
