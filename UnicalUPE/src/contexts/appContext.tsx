@@ -281,6 +281,33 @@ export const AppProvider = ({ children }: { children: React.ReactNode }) => {
         setLoading(false);
     }
 
+    async function postEvent(event) {
+        setLoading(true);
+        try {
+            console.log('post Event')
+            await EventApi.postEvent(event)
+                .then((response: AxiosResponse) => {
+                    console.log('Add Event')
+                    
+                    //console.log(response.data)
+                    if (response.status == 200) {
+                        console.log(response.data)
+                        getEventsAll();
+                    }
+                    setLoading(false);
+                })
+                .catch(err => {
+                    console.log(err)
+                    //localUser = null
+                    setLoading(false);
+                })
+        } catch (e) {
+            console.log(e)
+
+        }
+        setLoading(false);
+    }
+
     async function getEventsByCategory(category: string) {
         setLoading(true);
         try {
@@ -376,34 +403,7 @@ export const AppProvider = ({ children }: { children: React.ReactNode }) => {
 
         }
         setLoading(false);
-    }
-
-    async function postEvent(event) {
-        setLoading(true);
-        try {
-            console.log('post Event')
-            await EventApi.postEvent()
-                .then((response: AxiosResponse) => {
-                    console.log('Add Event')
-                    
-                    //console.log(response.data)
-                    if (response.status == 200) {
-                        console.log(response.data)
-                        getEventsAll();
-                    }
-                    setLoading(false);
-                })
-                .catch(err => {
-                    console.log(err)
-                    //localUser = null
-                    setLoading(false);
-                })
-        } catch (e) {
-            console.log(e)
-
-        }
-        setLoading(false);
-    }
+    }   
 
     function CurrentCourse(course){
         setCurrentCourse(course)
