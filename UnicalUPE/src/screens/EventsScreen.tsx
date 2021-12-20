@@ -12,24 +12,26 @@ import { useEffect, useContext, useState } from 'react';
 import AppContext from '../contexts/appContext';
 
 export default function EventsScreen() {
-  const { eventsList, setEventByDateRequested } = useContext(AppContext)
+  const { eventsList, setEventByDateRequested, getEventsByDate } = useContext(AppContext)
   const [dates, setDates] = useState(
     [
-      { id: 0, day: 'Dom', date: '21', selected: false },
-      { id: 1, day: 'Seg', date: '22', selected: false },
-      { id: 2, day: 'Ter', date: '23', selected: false },
-      { id: 3, day: 'Qua', date: '24', selected: true },
-      { id: 4, day: 'Qui', date: '25', selected: false },
-      { id: 5, day: 'Sex', date: '26', selected: false },
-      { id: 6, day: 'Sab', date: '27', selected: false },
+      { id: 0, day: 'Dom', date: '21', month: null, year: null, selected: false },
+      { id: 1, day: 'Seg', date: '22', month: null, year: null, selected: false },
+      { id: 2, day: 'Ter', date: '23', month: null, year: null, selected: false },
+      { id: 3, day: 'Qua', date: '24', month: null, year: null, selected: true },
+      { id: 4, day: 'Qui', date: '25', month: null, year: null, selected: false },
+      { id: 5, day: 'Sex', date: '26', month: null, year: null, selected: false },
+      { id: 6, day: 'Sab', date: '27', month: null, year: null, selected: false },
     ]
   )
 
   const fillWeek = (pDates) => {
-    var today = new Date(2021, 11, 27);
+    var today = new Date();
 
     console.log(today.getDay(), today.getDate(), today.getMonth(), today.getFullYear());
     pDates.forEach(item => {
+      item.month = today.getMonth()
+      item.year = today.getFullYear()
       if (item.id === today.getDay()) {
         item.date = today.getDate()
         item.selected = true
@@ -120,7 +122,13 @@ export default function EventsScreen() {
           data={dates}
           style={styles.transparent}
           keyExtractor={item => item.day}
-          renderItem={({ item }) => (<DateSquare day={item.day} date={item.date} selected={item.selected} />)}
+          renderItem={({ item }) => (
+            <DateSquare
+              day={item.day}
+              date={item.date}
+              selected={item.selected}
+              func={() => getEventsByDate(`${item.year}-${item.month+1}-${item.date}`)}
+            />)}
         />
       </View>
     </>
