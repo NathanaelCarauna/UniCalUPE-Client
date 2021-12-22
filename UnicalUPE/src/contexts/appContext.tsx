@@ -5,7 +5,7 @@ import * as CoursesApi from '../services/CoursesApi';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import * as AuthSession from 'expo-auth-session';
 import { AxiosResponse } from 'axios';
-import {eventType} from '../types'
+import { eventType } from '../types'
 
 type AuthResponse = {
     type: string;
@@ -35,9 +35,10 @@ export const AppContext = createContext({
     getEventsAll: () => { },
     getEventsByDate: () => { },
     setEventByDateRequested: () => { },
-    postEvent: () => {},
-    CurrentCourse: () =>{},
-    
+    postEvent: () => { },
+    CurrentCourse: () => { },
+    setCategoryColor: (courseName: { courseName: string }) => { }
+
 });
 
 export const AppProvider = ({ children }: { children: React.ReactNode }) => {
@@ -75,18 +76,18 @@ export const AppProvider = ({ children }: { children: React.ReactNode }) => {
         loadStorageData();
     }, [])
 
-    function FilterByCourse(event: eventType){
-        
-        var eventCourse = event.course 
-        if(!eventCourse){
+    function FilterByCourse(event: eventType) {
+
+        var eventCourse = event.course
+        if (!eventCourse) {
             return false
         }
         return eventCourse.name == course.name;
     }
-    function FilterByDate(event: eventType){
-        
+    function FilterByDate(event: eventType) {
+
         var eventDate = event.startDate
-        if(!eventDate){
+        if (!eventDate) {
             return false
         }
         return eventDate.name == SelectDate;
@@ -256,7 +257,7 @@ export const AppProvider = ({ children }: { children: React.ReactNode }) => {
                         // console.log(JSON.stringify(processedList))
                         // console.log(response.data)
                         var list = response.data
-                        if(SelectDate != null){
+                        if (SelectDate != null) {
                             list = list.filter(FilterByDate)
                         }
                         setEventList(list)
@@ -288,8 +289,8 @@ export const AppProvider = ({ children }: { children: React.ReactNode }) => {
                         //console.log("EVENTS BY DATE:", response.data)
                         var list = response.data
                         console.log(course)
-                        if(course.id != null){
-                            list = list.filter(FilterByCourse) 
+                        if (course.id != null) {
+                            list = list.filter(FilterByCourse)
                         }
                         setSelectDate(date)
                         setEventList(list)
@@ -314,7 +315,7 @@ export const AppProvider = ({ children }: { children: React.ReactNode }) => {
             await EventApi.postEvent(event)
                 .then((response: AxiosResponse) => {
                     console.log('Add Event')
-                    
+
                     //console.log(response.data)
                     if (response.status == 200) {
                         console.log(response.data)
@@ -382,7 +383,7 @@ export const AppProvider = ({ children }: { children: React.ReactNode }) => {
         // console.log("Starting adding object to dots")
         events.forEach(element => {
             // console.log("Element: ", element)
-            eventJson[element.startDate].dots.push({ key: element.title, color: setCategoryColor(element.course ? element.course.name : "a") })
+            eventJson[element.startDate].dots.push({ key: element.title, color: setCategoryColor(element) })
             // console.log("object added: ", eventJson[element.startDate])
         });
         // console.log("Final list json: ", eventJson)
@@ -391,18 +392,26 @@ export const AppProvider = ({ children }: { children: React.ReactNode }) => {
 
 
 
-    function setCategoryColor(courseName) {
-        switch (courseName) {
-            case 'Engenharia de Software':
-                return 'blue'
-            case 'Psicologia':
-                return 'red'
-            case 'Medicina':
-                return 'green'
-            case 'Licenciatura em Computação':
-                return 'yellow'
-            default: return 'gray'
+    function setCategoryColor(event: eventType) {
+        if (event.category == 'EVENTO' && event.course) {
+            switch (event.course.name) {
+                case 'Engenharia de Software':
+                    return '#5e60ce' //azul
+                case 'Psicologia':
+                    return '#f7b538' // amarelo claro
+                case 'Medicina':
+                    return '#52b788' //verde
+                case 'Licenciatura em Computação':
+                    return '#168aad'
+                default:
+            }
+        } else if (event.category == 'PESQUISA') {
+            return '#ade8f4' // Azull bebê
+        } else {
+            return '#cfc0bd' // cinza
+
         }
+
     }
 
     // --------------------------------------------//Courses//------------------------------------------------------------
@@ -429,9 +438,9 @@ export const AppProvider = ({ children }: { children: React.ReactNode }) => {
 
         }
         setLoading(false);
-    }   
+    }
 
-    function CurrentCourse(course){
+    function CurrentCourse(course) {
         setCurrentCourse(course)
     }
 
@@ -458,7 +467,8 @@ export const AppProvider = ({ children }: { children: React.ReactNode }) => {
             getEventsByDate,
             postEvent,
             CurrentCourse,
-            
+            setCategoryColor,
+
         }}>
             {children}
         </AppContext.Provider>
