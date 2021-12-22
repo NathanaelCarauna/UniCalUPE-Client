@@ -25,6 +25,10 @@ export default function ProfileScreen({ navigation}) {
     setModalVisible(!isModalVisible);
   };
 
+  const backnavigate = () => {
+    navigation.backnavigate('Profile')
+  }
+
   return (
     <>
       <LinearGradient style = {styles.container} colors={["#ffffff","#ffc278"]}>
@@ -47,7 +51,7 @@ export default function ProfileScreen({ navigation}) {
         </TouchableOpacity>
 
         <Modal isVisible={isModalVisible}>
-        <View>
+        <View style={styles.modal}>
           <LinearGradient colors={["#ffffff", "#ffc278"]}>
           <Text style={styles.textModal} >Você realmente deseja deletar seu perfil ?</Text>
 
@@ -55,7 +59,14 @@ export default function ProfileScreen({ navigation}) {
           style={styles.buttonModal}
           onPress={calldelete}>
           <Text style={styles.buttonText}>Deletar Perfil</Text>
-        </TouchableOpacity>
+          </TouchableOpacity>
+
+          <TouchableOpacity
+          style={styles.buttonModalBack}
+          onPress={toggleModal}>
+          <Text style={styles.buttonText}>Voltar</Text>
+          </TouchableOpacity>
+
         </LinearGradient>
         </View>
       </Modal>
@@ -86,6 +97,11 @@ const styles = StyleSheet.create({
     alignSelf: 'stretch',
     textAlign: 'center',
   },
+  modal: {
+    borderRadius: 15,
+    borderColor: Colors.Orange.background,
+    borderWidth: 10,
+  },
   tipoLogin:{
     marginTop: 10,
     textAlign: 'right',
@@ -98,6 +114,15 @@ const styles = StyleSheet.create({
   },
   buttonModal: {
     margin: 20,
+    fontWeight: 'bold',
+    backgroundColor: Colors.Red.background,
+    borderRadius: 15
+  },
+  buttonModalBack: {
+    marginBottom:30,
+    marginTop:10,
+    marginLeft:80,
+    marginRight:80,
     fontWeight: 'bold',
     backgroundColor: Colors.Red.background,
     borderRadius: 15
