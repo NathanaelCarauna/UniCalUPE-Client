@@ -85,8 +85,8 @@ export default function CalendarScreen({ navigation }) {
           );
         }}
         onSelect={(selectedItem, index) => {
-          console.log("SELECTED ITEM: ", selectedItem, index)
-          console.log("SELECTED ID: ", selectedItem.id)
+          //console.log("SELECTED ITEM: ", selectedItem, index)
+          //console.log("SELECTED ID: ", selectedItem.id)
           CurrentCourse(selectedItem)
           console.log("curso: " + course)
           if (selectedItem.id == -1) {

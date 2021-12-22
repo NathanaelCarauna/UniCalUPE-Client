@@ -5,6 +5,7 @@ import * as CoursesApi from '../services/CoursesApi';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import * as AuthSession from 'expo-auth-session';
 import { AxiosResponse } from 'axios';
+import {eventType} from '../types'
 
 type AuthResponse = {
     type: string;
@@ -36,7 +37,7 @@ export const AppContext = createContext({
     setEventByDateRequested: () => { },
     postEvent: () => {},
     CurrentCourse: () =>{},
-    Filter:() =>{}
+    
 });
 
 export const AppProvider = ({ children }: { children: React.ReactNode }) => {
@@ -56,6 +57,7 @@ export const AppProvider = ({ children }: { children: React.ReactNode }) => {
         async function loadStorageData() {
             const storagedUser = await AsyncStorage.getItem('@TGAuth:user');
             getAllCourses()
+            setCurrentCourse({})
             console.log("storagedUser: ", storagedUser)
             if (storagedUser) {
                 const localUser = JSON.parse(storagedUser)
@@ -72,10 +74,21 @@ export const AppProvider = ({ children }: { children: React.ReactNode }) => {
         loadStorageData();
     }, [])
 
-    async function Filter(date: Array<Object>){
-        getEventsByCourse(course.id)
-        const filteredArray = eventsList.filter(value => date.includes(value))
-        return filteredArray
+    function FilterByCourse(event: eventType){
+        
+        var eventCourse = event.course 
+        if(!eventCourse){
+            return false
+        }
+        return eventCourse.name == course.name;
+    }
+    function FilterByDate(event: eventType){
+        
+        var eventDate = event.startDate
+        if(!eventDate){
+            return false
+        }
+        return eventDate.name == SelectDate;
     }
 
     async function getUser(email: email) {
@@ -205,7 +218,7 @@ export const AppProvider = ({ children }: { children: React.ReactNode }) => {
                     //console.log(response.data)
                     if (response.status == 200) {
                         let processedList = processEventsCalendar(response.data)
-                        console.log("############### Lista processada ############")
+                        //console.log("############### Lista processada ############")
                         //console.log(JSON.stringify(processedList))
                         setEventList(response.data)
                         SetEventsCalendar(processedList)
@@ -237,7 +250,11 @@ export const AppProvider = ({ children }: { children: React.ReactNode }) => {
                         // console.log("############### Events by course processed list ############")
                         // console.log(JSON.stringify(processedList))
                         // console.log(response.data)
-                        setEventList(response.data)
+                        var list = response.data
+                        if(SelectDate){
+                            list = list.filter(FilterByDate)
+                        }
+                        setEventList(list)
                         SetEventsCalendar(processedList)
                     }
                     setLoading(false);
@@ -263,10 +280,14 @@ export const AppProvider = ({ children }: { children: React.ReactNode }) => {
                     console.log('Events by date requested')
                     //console.log(response.data)
                     if (response.status == 200) {
-                        console.log("EVENTS BY DATE:", response.data)
-                        var list = Filter(response.data)
-                        console.log("###Lista " +list)
-                        setEventList(response.data)
+                        //console.log("EVENTS BY DATE:", response.data)
+                        var list = response.data
+                        console.log(course)
+                        if(course.id == null){
+                            list = list.filter(FilterByCourse) 
+                        }
+                        setSelectDate(date)
+                        setEventList(list)
                         setEventByDateRequested(true);
                     }
                     setLoading(false);
@@ -431,9 +452,8 @@ export const AppProvider = ({ children }: { children: React.ReactNode }) => {
             getEventsAll,
             getEventsByDate,
             postEvent,
-
             CurrentCourse,
-            Filter
+            
         }}>
             {children}
         </AppContext.Provider>
