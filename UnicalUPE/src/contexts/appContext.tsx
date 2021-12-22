@@ -251,7 +251,7 @@ export const AppProvider = ({ children }: { children: React.ReactNode }) => {
                         // console.log(JSON.stringify(processedList))
                         // console.log(response.data)
                         var list = response.data
-                        if(SelectDate){
+                        if(SelectDate != null){
                             list = list.filter(FilterByDate)
                         }
                         setEventList(list)
@@ -283,7 +283,7 @@ export const AppProvider = ({ children }: { children: React.ReactNode }) => {
                         //console.log("EVENTS BY DATE:", response.data)
                         var list = response.data
                         console.log(course)
-                        if(course.id == null){
+                        if(course.id != null){
                             list = list.filter(FilterByCourse) 
                         }
                         setSelectDate(date)
