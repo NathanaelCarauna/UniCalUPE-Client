@@ -14,13 +14,14 @@ import SelectDropdown from 'react-native-select-dropdown';
 import { useNavigation } from '@react-navigation/native';
 
 export default function Evento() {
-  const [date, setDate] = useState(new Date());
-  const [endDate, setEndDate] = useState(new Date());
-  const [time, setTime] = useState(new Date());
-  const [endTime, setEndTime] = useState(new Date());
+  const [date, setDate] = useState();
+  const [endDate, setEndDate] = useState();
+  const [time, setTime] = useState();
+  const [endTime, setEndTime] = useState();
   const [showData, setShowData] = useState(false);
   const [showEndData, setShowEndData] = useState(false);
   const [showTime, setShowTime] = useState(false);
+  const [showEndTime, setShowEndTime] = useState(false);
   const [categoryState, setCategoryState] = useState();
 
   const navigation = useNavigation()
@@ -49,13 +50,17 @@ export default function Evento() {
     setShowTime(!showTime);
     console.log(time)
   };
+  const showEndTimeMode = () => {
+    setShowEndTime(!showTime);
+    console.log(endTime)
+  };
 
   const HandleDate = (value) => {
     let startDate = value.nativeEvent.timestamp;
     if (startDate) {
       console.log("Start date setado")
       setDate(startDate)
-      setEvent({ ...event, startDate: `${startDate.getFullYear()}-${startDate.getMonth()+1}-${startDate.getDate()}` })
+      setEvent({ ...event, startDate: `${startDate.getFullYear()}-${startDate.getMonth() + 1}-${startDate.getDate()}` })
     }
     setShowData(!showData)
   }
@@ -64,14 +69,28 @@ export default function Evento() {
     if (endDate) {
       console.log("end date setado")
       setEndDate(endDate)
-      setEvent({ ...event, endDate: `${endDate.getFullYear()}-${endDate.getMonth()+1}-${endDate.getDate()}` })
+      setEvent({ ...event, endDate: `${endDate.getFullYear()}-${endDate.getMonth() + 1}-${endDate.getDate()}` })
     }
     setShowEndData(!showEndData)
   }
 
-  const HandleTime = () => {
-    setTime
+  const HandleTime = (value) => {
+    let startHour = value.nativeEvent.timestamp
+    if (startHour) {
+      setTime(startHour)
+      setEvent({ ...event, startHour: `${startHour.getHours()}:${startHour.getMinutes()}` })
+
+    }
     setShowTime(!showTime)
+  }
+
+  const HandleEndTime = (value) => {
+    let endHour = value.nativeEvent.timestamp
+    if (endHour) {
+      setEndTime(endHour)
+      setEvent({ ...event, endHour: `${endHour.getHours()}:${endHour.getMinutes()}` })
+    }
+    setShowEndTime(!showEndTime)
   }
 
   React.useEffect(() => { }, [date])
@@ -174,16 +193,40 @@ export default function Evento() {
             <TouchableOpacity style={styles.calendar} onPress={
               showTimeMode
             }>
-              <Text style={styles.Text_Normal}> {time.getHours()}</Text>
+              {
+                time ? <Text style={styles.Text_Normal}> {time.getHours()}:{time.getMinutes()}</Text>
+                  : <Text style={styles.Text_Normal}>Hora de inicio</Text>
+              }
+
             </TouchableOpacity >
             {showTime && (
               <DateTimePicker
                 testID="dateTimePicker"
                 mode="time"
-                value={time}
+                value={time || new Date()}
                 is24Hour={true}
                 display="default"
                 onChange={HandleTime}
+              />
+            )}
+            <Text style={styles.hifenSyle}> - </Text>
+            <TouchableOpacity style={styles.calendar} onPress={
+              showEndTimeMode
+            }>
+              {
+                endTime ? <Text style={styles.Text_Normal}> {endTime.getHours()}:{endTime.getMinutes()}</Text>
+                  : <Text style={styles.Text_Normal}>Hora de fim</Text>
+              }
+
+            </TouchableOpacity >
+            {showEndTime && (
+              <DateTimePicker
+                testID="dateTimePicker"
+                mode="time"
+                value={endTime || new Date()}
+                is24Hour={true}
+                display="default"
+                onChange={HandleEndTime}
               />
             )}
 
@@ -197,12 +240,15 @@ export default function Evento() {
           <TouchableOpacity style={styles.calendar} onPress={
             showDataMode
           }>
-            <Text style={styles.Text_Normal}>{date.getDate()}/{date.getMonth() + 1}/{date.getFullYear()}</Text>
+            {
+              date ? <Text style={styles.Text_Normal}>{date.getDate()}/{date.getMonth() + 1}/{date.getFullYear()}</Text>
+                : <Text style={styles.Text_Normal}>Data de inicio</Text>
+            }
           </TouchableOpacity >
           {showData && (
             <DateTimePicker
               testID="dateTimePicker"
-              value={date}
+              value={date || new Date()}
               is24Hour={true}
               display="default"
               onChange={HandleDate}
@@ -212,12 +258,16 @@ export default function Evento() {
           <TouchableOpacity style={styles.calendar} onPress={
             showEndDataMode
           }>
-            <Text style={styles.Text_Normal}> {endDate.getDate()}/{endDate.getMonth() + 1}/{endDate.getFullYear()}</Text>
+            {
+              endDate ? <Text style={styles.Text_Normal}> {endDate.getDate()}/{endDate.getMonth() + 1}/{endDate.getFullYear()}</Text>
+                : <Text style={styles.Text_Normal}>Data de fim</Text>
+            }
+
           </TouchableOpacity >
           {showEndData && (
             <DateTimePicker
               testID="dateTimePickerEnd"
-              value={endDate}
+              value={endDate || new Date()}
               is24Hour={true}
               display="default"
               onChange={HandleEndDate}
