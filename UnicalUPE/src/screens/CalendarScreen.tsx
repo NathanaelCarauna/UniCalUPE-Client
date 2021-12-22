@@ -1,14 +1,10 @@
 import * as React from 'react';
 import { StyleSheet } from 'react-native';
 
-import EditScreenInfo from '../components/EditScreenInfo';
-import { Text, View } from '../components/Themed';
 import MainView from '../components/MainView';
 import { Calendar, CalendarList, Agenda } from 'react-native-calendars';
 import Colors from '../constants/Colors';
-import useColorScheme from '../hooks/useColorScheme';
 import { LocaleConfig } from 'react-native-calendars';
-import calendar from 'react-native-calendars/src/calendar';
 
 LocaleConfig.locales['pt-br'] = {
   monthNames: ['Janeiro', 'Fevereiro', 'Março', 'Abril', 'Maio', 'Junho', 'Julho', 'Agosto', 'Setembro', 'Outubro', 'Novembro', 'Dezembro'],
@@ -65,7 +61,7 @@ export default function CalendarScreen({ navigation }) {
       setTimeout(() => {
         navigation.navigate('EditProfile')
 
-      }, 1000)
+      }, 300)
     }
   }, [user])
 
