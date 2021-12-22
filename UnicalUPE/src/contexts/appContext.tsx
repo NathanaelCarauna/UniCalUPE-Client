@@ -104,6 +104,7 @@ export const AppProvider = ({ children }: { children: React.ReactNode }) => {
                     if (response.status == 200) {
                         setUser(response.data)
                         localUser = response.data
+                        setCurrentCourse(response.data.course)
                         getEventsByCourse(localUser.course.id)
                         AsyncStorage.setItem("@TGAuth:user", JSON.stringify(response.data));
                     }
@@ -130,6 +131,8 @@ export const AppProvider = ({ children }: { children: React.ReactNode }) => {
                 .then((response: AxiosResponse) => {
                     if (response.status = 200) {
                         setUser(response.data)
+                        setCurrentCourse(response.data.course)
+                        getEventsByCourse(response.data.course.id)
                         console.log("User that came from back after save:", response.data)
                         result = true;
                     }
@@ -175,6 +178,7 @@ export const AppProvider = ({ children }: { children: React.ReactNode }) => {
         console.log('SignOut Called')
         AsyncStorage.clear().then(() => {
             setUser(null);
+            setCurrentCourse({})
             console.log('LocalStorage cleaned')
             getEventsAll()
         })
