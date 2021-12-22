@@ -14,20 +14,24 @@ import SelectDropdown from 'react-native-select-dropdown';
 import { useNavigation } from '@react-navigation/native';
 
 export default function Evento() {
-  const [date, setDate] = useState(new Date(1598051730000));
-  const [time, setTime] = useState(new Date(1598051730000));
+  const [date, setDate] = useState(new Date());
+  const [endDate, setEndDate] = useState(new Date());
+  const [time, setTime] = useState(new Date());
+  const [endTime, setEndTime] = useState(new Date());
   const [showData, setShowData] = useState(false);
+  const [showEndData, setShowEndData] = useState(false);
   const [showTime, setShowTime] = useState(false);
+  const [categoryState, setCategoryState] = useState();
 
   const navigation = useNavigation()
 
-  const {postEvent, coursesList} = React.useContext(AppContext)
-  const [event, setEvent] = useState({title: null, presentor: null, local: null, description: null, link: null});
-  
+  const { postEvent, coursesList } = React.useContext(AppContext)
+  const [event, setEvent] = useState({ title: null, presentor: null, local: null, description: null, link: null });
+
 
   const handleSubmit = () => {
 
-    if(postEvent(event)){
+    if (postEvent(event)) {
       console.log('add event')
       navigation.navigate('Root')
     }
@@ -37,31 +41,81 @@ export default function Evento() {
     setShowData(!showData);
     console.log(date)
   };
+  const showEndDataMode = () => {
+    setShowEndData(!showData);
+    console.log(endDate)
+  };
   const showTimeMode = () => {
     setShowTime(!showTime);
     console.log(time)
   };
 
-  const HandleDate =() =>{
-    setDate
-    setShowData(!showData)}
+  const HandleDate = (value) => {
+    let startDate = value.nativeEvent.timestamp;
+    if (startDate) {
+      console.log("Start date setado")
+      setDate(startDate)
+      setEvent({ ...event, startDate: `${startDate.getFullYear()}-${startDate.getMonth()+1}-${startDate.getDate()}` })
+    }
+    setShowData(!showData)
+  }
+  const HandleEndDate = (value) => {
+    let endDate = value.nativeEvent.timestamp
+    if (endDate) {
+      console.log("end date setado")
+      setEndDate(endDate)
+      setEvent({ ...event, endDate: `${endDate.getFullYear()}-${endDate.getMonth()+1}-${endDate.getDate()}` })
+    }
+    setShowEndData(!showEndData)
+  }
 
-  const HandleTime =() =>{
+  const HandleTime = () => {
     setTime
-    setShowTime(!showTime)}
+    setShowTime(!showTime)
+  }
 
-    React.useEffect(()=>{}, [date])
+  React.useEffect(() => { }, [date])
 
 
   return (
     <LinearGradient style={styles.container} colors={["#ffffff", "#8F98FF"]}>
       <ScrollView style={styles.scroll}>
 
-        <TextInput style={styles.text} placeholder="Título" 
-        onChangeText={(value) => setEvent({ ...event, title: value })}
-        value={event.title} />
+        <TextInput style={styles.text} placeholder="Título"
+          onChangeText={(value) => setEvent({ ...event, title: value })}
+          value={event.title} />
 
-        
+
+        <SelectDropdown
+          data={[{ name: 'Pesquisa', value: 'PESQUISA' }, { name: 'Evento', value: 'EVENTO' }]}
+          defaultButtonText={'Selecione uma categoria'}
+          buttonStyle={styles.dropdownBtnStyle}
+          dropdownStyle={styles.dropdown}
+          buttonTextStyle={styles.dropdownBtnTxtStyle}
+          dropdownIconPosition={"right"}
+          rowStyle={styles.dropdownRowStyle}
+          rowTextStyle={styles.dropdownRowTxtStyle}
+          renderDropdownIcon={() => {
+            return (
+              <FontAwesome name="chevron-down" color={"#FFF"} size={18} style={styles.dropdownIcon} />
+            );
+          }}
+          onSelect={(selectedItem, index) => {
+            console.log(selectedItem, index)
+            setEvent({ ...event, category: selectedItem.value, })
+            setCategoryState(selectedItem.value)
+          }}
+          buttonTextAfterSelection={(selectedItem, index) => {
+            // text represented after item is selected
+            // if data array is an array of objects then return selectedItem.property to render after item is selected
+            return selectedItem.name
+          }}
+          rowTextForSelection={(item, index) => {
+            // text represented for each item in dropdown
+            // if data array is an array of objects then return item.property to represent item in dropdown
+            return item.name
+          }}
+        />
         <SelectDropdown
           data={coursesList}
           defaultButtonText={'Selecione o seu curso'}
@@ -78,7 +132,7 @@ export default function Evento() {
           }}
           onSelect={(selectedItem, index) => {
             console.log(selectedItem, index)
-            setEvent({ ...event, course: {id: selectedItem.id} })
+            setEvent({ ...event, course: { id: selectedItem.id } })
           }}
           buttonTextAfterSelection={(selectedItem, index) => {
             // text represented after item is selected
@@ -92,24 +146,58 @@ export default function Evento() {
           }}
         />
 
-        <View style={styles.textView}>
-          <TabBarIcon style={styles.presentorIcon} name="user" color={Colors.Blue.background} />
-          <TextInput style={styles.text} placeholder="Apresentador" 
-          onChangeText={(value) => setEvent({ ...event, presentor: value })}
-          value={event.presentor}/>
-        </View>
-        <View style={styles.textView}>
-          <TabBarIcon style={styles.localIcon} name="map-marker" color={Colors.Blue.background} />
-          <TextInput style={styles.text} placeholder="Local" 
-          onChangeText={(value) => setEvent({ ...event, local: value })}
-          value={event.local}/>
-        </View>
+
+
+        <TextInput style={styles.text} multiline={true} placeholder="Descrição"
+          onChangeText={(value) => setEvent({ ...event, description: value })}
+          value={event.description} />
+        <TextInput style={styles.text} placeholder="Link"
+          onChangeText={(value) => setEvent({ ...event, link: value })}
+          value={event.link} />
+        <View style={styles.separator} lightColor="#004369" darkColor="rgba(0,67,105,0.1)" />
+
+        {categoryState == 'EVENTO' ? <>
+          <View style={styles.textView}>
+            <TabBarIcon style={styles.presentorIcon} name="user" color={Colors.Blue.background} />
+            <TextInput style={styles.text} placeholder="Apresentador"
+              onChangeText={(value) => setEvent({ ...event, presentor: value })}
+              value={event.presentor} />
+          </View>
+          <View style={styles.textView}>
+            <TabBarIcon style={styles.localIcon} name="map-marker" color={Colors.Blue.background} />
+            <TextInput style={styles.text} placeholder="Local"
+              onChangeText={(value) => setEvent({ ...event, local: value })}
+              value={event.local} />
+          </View>
+          <View style={styles.textView}>
+            <TabBarIcon style={styles.icons} name="clock-o" color={Colors.Blue.background} />
+            <TouchableOpacity style={styles.calendar} onPress={
+              showTimeMode
+            }>
+              <Text style={styles.Text_Normal}> {time.getHours()}</Text>
+            </TouchableOpacity >
+            {showTime && (
+              <DateTimePicker
+                testID="dateTimePicker"
+                mode="time"
+                value={time}
+                is24Hour={true}
+                display="default"
+                onChange={HandleTime}
+              />
+            )}
+
+          </View>
+        </>
+          : <></>
+        }
+        {/* Date picker line */}
         <View style={styles.textView}>
           <TabBarIcon style={styles.icons} name="calendar" color={Colors.Blue.background} />
-          <TouchableOpacity style= {styles.calendar} onPress={
+          <TouchableOpacity style={styles.calendar} onPress={
             showDataMode
           }>
-            <Text style= {styles.Text_Normal}> {date.getUTCDate()}</Text>
+            <Text style={styles.Text_Normal}>{date.getDate()}/{date.getMonth() + 1}/{date.getFullYear()}</Text>
           </TouchableOpacity >
           {showData && (
             <DateTimePicker
@@ -120,35 +208,24 @@ export default function Evento() {
               onChange={HandleDate}
             />
           )}
-          
-        </View>
-        <View style={styles.textView}>
-          <TabBarIcon style={styles.icons} name="clock-o" color={Colors.Blue.background} />
-          <TouchableOpacity style= {styles.calendar} onPress={
-            showTimeMode
+          <Text style={styles.hifenSyle}> - </Text>
+          <TouchableOpacity style={styles.calendar} onPress={
+            showEndDataMode
           }>
-            <Text style= {styles.Text_Normal}> {time.getHours()}</Text>
+            <Text style={styles.Text_Normal}> {endDate.getDate()}/{endDate.getMonth() + 1}/{endDate.getFullYear()}</Text>
           </TouchableOpacity >
-          {showTime && (
+          {showEndData && (
             <DateTimePicker
-              testID="dateTimePicker"
-              mode="time"
-              value={time}
+              testID="dateTimePickerEnd"
+              value={endDate}
               is24Hour={true}
               display="default"
-              onChange={HandleTime}
+              onChange={HandleEndDate}
             />
           )}
-          
+
         </View>
 
-        <View style={styles.separator} lightColor="#004369" darkColor="rgba(0,67,105,0.1)" />
-        <TextInput style={styles.text} multiline={true} placeholder="Descrição" 
-        onChangeText={(value) => setEvent({ ...event, description: value })}
-        value={event.description}/>
-        <TextInput style={styles.text} placeholder="Link" 
-        onChangeText={(value) => setEvent({ ...event, link: value })}
-        value={event.link}/>
         <TouchableOpacity
           style={styles.button}
           onPress={handleSubmit}>
@@ -196,6 +273,12 @@ const styles = StyleSheet.create({
     //justifyContent: 'space-between',
     //margin: 20,
     backgroundColor: 'transparent'
+  },
+  hifenSyle: {
+    alignSelf: 'center',
+    marginHorizontal: 3,
+    fontSize: 16,
+    fontWeight: 'bold'
   },
   text: {
     fontSize: 18,
@@ -254,7 +337,7 @@ const styles = StyleSheet.create({
     fontSize: 18,
     color: 'white'
   },
-  calendar:{
+  calendar: {
     fontSize: 18,
     //marginStart: 10,
     marginVertical: 5,
@@ -267,7 +350,7 @@ const styles = StyleSheet.create({
     borderColor: 'white',
     borderWidth: 3
   },
-  Text_Normal:{
+  Text_Normal: {
     fontSize: 18,
     color: 'gray',
   },
