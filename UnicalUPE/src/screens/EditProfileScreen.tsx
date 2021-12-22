@@ -78,8 +78,8 @@ export default function EditProfileScreen({ navigation }) {
           <Text style={styles.buttonText}>Salvar</Text>
         </TouchableOpacity>
 
-        <Modal isVisible={isModalVisible}>
-        <View>
+        <Modal isVisible={isModalVisible} >
+        <View style={styles.modal}>
           <LinearGradient colors={["#ffffff", "#ffc278"]}>
           <Text style={styles.textModal} >Você realmente deseja salvar essas alterações ?</Text>
 
@@ -87,8 +87,14 @@ export default function EditProfileScreen({ navigation }) {
           style={styles.buttonModal}
           onPress={handleSubmit}>
           <Text style={styles.buttonText}>Salvar Alterações</Text>
-        </TouchableOpacity>
-        </LinearGradient>
+          </TouchableOpacity>
+
+          <TouchableOpacity
+          style={styles.buttonModalBack}
+          onPress={toggleModal}>
+          <Text style={styles.buttonText}>Voltar</Text>
+          </TouchableOpacity>
+          </LinearGradient>
         </View>
       </Modal>
       </LinearGradient>
@@ -113,14 +119,28 @@ const styles = StyleSheet.create({
     //width: '80%',
     color: "#004369",
   },
+  modal: {
+    borderRadius: 15,
+    borderColor: Colors.Orange.background,
+    borderWidth: 10,
+  },
   button: {
     margin: 40,
     fontWeight: 'bold',
     backgroundColor: Colors.Orange.background,
-    borderRadius: 15
+    borderRadius: 15,
   },
   buttonModal: {
     margin: 20,
+    fontWeight: 'bold',
+    backgroundColor: Colors.Orange.background,
+    borderRadius: 15,
+  },
+  buttonModalBack: {
+    marginBottom:30,
+    marginTop:10,
+    marginLeft:80,
+    marginRight:80,
     fontWeight: 'bold',
     backgroundColor: Colors.Orange.background,
     borderRadius: 15
