@@ -86,7 +86,7 @@ export default function EditProfileScreen({ navigation }) {
           <TouchableOpacity
           style={styles.buttonModal}
           onPress={handleSubmit}>
-          <Text style={styles.buttonText}>Salvar</Text>
+          <Text style={styles.buttonText}>Salvar Alterações</Text>
         </TouchableOpacity>
         </LinearGradient>
         </View>
