@@ -6,6 +6,8 @@ import { FontAwesome } from '@expo/vector-icons';
 import { LinearGradient } from 'expo-linear-gradient';
 import Colors from '../constants/Colors'
 import { useNavigation } from '@react-navigation/native';
+import { useContext } from 'react';
+import AppContext from '../contexts/appContext';
 
 type eventType = {
     event: {
@@ -25,20 +27,9 @@ type eventType = {
 }
 export default function EventComponent({ event }: eventType) {
     const navigation = useNavigation();
-
-    const getCategoryColor = (category: string) => {
-        switch (category) {
-            // case 'COURSE':
-            //     return '##FF7777'
-            case 'EVENTO':
-                return Colors.Orange.background
-            case 'PESQUISA':
-                return '#F9FA9B'
-            case 'PUBLIC':
-                return '#CEECF0'
-        }
-    }
-    const categoryColor = getCategoryColor(event.category)
+    const { setCategoryColor} = useContext(AppContext)
+    
+    const categoryColor = setCategoryColor(event)
 
     function navigateEvent(props: { event: eventType }) {
         navigation.navigate('Event', { event: event })
