@@ -18,7 +18,7 @@ export default function EventsScreen() {
       { id: 0, day: 'Dom', date: '21', month: null, year: null, selected: false },
       { id: 1, day: 'Seg', date: '22', month: null, year: null, selected: false },
       { id: 2, day: 'Ter', date: '23', month: null, year: null, selected: false },
-      { id: 3, day: 'Qua', date: '24', month: null, year: null, selected: true },
+      { id: 3, day: 'Qua', date: '24', month: null, year: null, selected: false },
       { id: 4, day: 'Qui', date: '25', month: null, year: null, selected: false },
       { id: 5, day: 'Sex', date: '26', month: null, year: null, selected: false },
       { id: 6, day: 'Sab', date: '27', month: null, year: null, selected: false },
@@ -27,10 +27,12 @@ export default function EventsScreen() {
 
   const fillWeek = (pDates, selectedDate) => {
     var currentDay: Date;
-    if (selectedDate) {
+    if (selectedDate.length > 0) {
       currentDay = new Date(selectedDate)
+      console.log('Custom date initialized', selectedDate)
     } else {
       currentDay = new Date();
+      console.log('Current date initialized')
     }
 
     console.log(currentDay.getDay(), currentDay.getDate(), currentDay.getMonth(), currentDay.getFullYear());
