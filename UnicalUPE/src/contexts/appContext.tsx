@@ -63,6 +63,7 @@ export const AppProvider = ({ children }: { children: React.ReactNode }) => {
                 const localUser = JSON.parse(storagedUser)
                 setUser(localUser);
                 console.log(localUser.course)
+                setCurrentCourse(localUser.course)
                 getEventsByCourse(localUser.course.id)
             }
             else {
