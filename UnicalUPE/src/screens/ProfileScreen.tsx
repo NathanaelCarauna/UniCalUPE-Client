@@ -1,11 +1,12 @@
 import * as React from 'react';
 import { ScrollView, StyleSheet, TouchableOpacity, Alert  } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
+import Modal from "react-native-modal";
 
 import { Text, View } from '../components/Themed';
 import Colors from '../constants/Colors';
 import AppContext from '../contexts/appContext';
-import { useContext } from 'react';
+import { useContext, useState } from 'react';
 import navigation from '../navigation';
 
 
@@ -18,6 +19,16 @@ export default function ProfileScreen({ navigation}) {
     deleteUser(user.email)
     // navigation.navigate('EditProfile')
   }
+  const [isModalVisible, setModalVisible] = useState(false);
+
+  const toggleModal = () => {
+    setModalVisible(!isModalVisible);
+  };
+
+  const backnavigate = () => {
+    navigation.backnavigate('Profile')
+  }
+
   return (
     <>
       <LinearGradient style = {styles.container} colors={["#ffffff","#ffc278"]}>
@@ -32,11 +43,34 @@ export default function ProfileScreen({ navigation}) {
         onPress={navigate}>
         <Text style={styles.buttonText}>Editar Perfil</Text>
         </TouchableOpacity>
+
         <TouchableOpacity
         style={styles.buttonDelete}
-        onPress={calldelete}>
+        onPress={toggleModal}>
         <Text style={styles.buttonTextDelete}>Deletar Perfil</Text>
         </TouchableOpacity>
+
+        <Modal isVisible={isModalVisible}>
+        <View style={styles.modal}>
+          <LinearGradient colors={["#ffffff", "#ffc278"]}>
+          <Text style={styles.textModal} >Você realmente deseja deletar seu perfil ?</Text>
+
+          <TouchableOpacity
+          style={styles.buttonModal}
+          onPress={calldelete}>
+          <Text style={styles.buttonText}>Deletar Perfil</Text>
+          </TouchableOpacity>
+
+          <TouchableOpacity
+          style={styles.buttonModalBack}
+          onPress={toggleModal}>
+          <Text style={styles.buttonText}>Voltar</Text>
+          </TouchableOpacity>
+
+        </LinearGradient>
+        </View>
+      </Modal>
+
       </LinearGradient>
 
     </>
@@ -55,6 +89,19 @@ const styles = StyleSheet.create({
     color: 'white',
     margin: 10,
   },
+  textModal: {
+    fontSize: 23,
+    margin:30,
+    color: 'gray',
+    borderRadius: 16,
+    alignSelf: 'stretch',
+    textAlign: 'center',
+  },
+  modal: {
+    borderRadius: 15,
+    borderColor: Colors.Orange.background,
+    borderWidth: 10,
+  },
   tipoLogin:{
     marginTop: 10,
     textAlign: 'right',
@@ -63,6 +110,21 @@ const styles = StyleSheet.create({
     margin: 40,
     fontWeight: 'bold',
     backgroundColor: Colors.Orange.background,
+    borderRadius: 15
+  },
+  buttonModal: {
+    margin: 20,
+    fontWeight: 'bold',
+    backgroundColor: Colors.Red.background,
+    borderRadius: 15
+  },
+  buttonModalBack: {
+    marginBottom:30,
+    marginTop:10,
+    marginLeft:80,
+    marginRight:80,
+    fontWeight: 'bold',
+    backgroundColor: Colors.Red.background,
     borderRadius: 15
   },
   buttonDelete: {

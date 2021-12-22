@@ -1,13 +1,14 @@
 import * as React from 'react';
-import { ScrollView, StyleSheet, TouchableOpacity, Alert, TextInput } from 'react-native';
+import { ScrollView, StyleSheet, TouchableOpacity, Alert, TextInput, Button } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
+import Modal from "react-native-modal";
 
 import { Text, View } from '../components/Themed';
 import Colors from '../constants/Colors';
 import AppContext from '../contexts/appContext';
 import SelectDropdown from 'react-native-select-dropdown';
 import { FontAwesome } from '@expo/vector-icons';
-import { useEffect, useContext } from 'react';
+import { useEffect, useContext, useState } from 'react';
 
 
 export default function EditProfileScreen({ navigation }) {
@@ -24,6 +25,13 @@ export default function EditProfileScreen({ navigation }) {
       navigation.navigate('Root')
     }
   }
+
+  const [isModalVisible, setModalVisible] = useState(false);
+
+  const toggleModal = () => {
+    setModalVisible(!isModalVisible);
+  };
+
   return (
     <>
       <LinearGradient style={styles.container} colors={["#ffffff", "#ffc278"]}>
@@ -66,9 +74,29 @@ export default function EditProfileScreen({ navigation }) {
 
         <TouchableOpacity
           style={styles.button}
-          onPress={handleSubmit}>
+          onPress={toggleModal}>
           <Text style={styles.buttonText}>Salvar</Text>
         </TouchableOpacity>
+
+        <Modal isVisible={isModalVisible} >
+        <View style={styles.modal}>
+          <LinearGradient colors={["#ffffff", "#ffc278"]}>
+          <Text style={styles.textModal} >Você realmente deseja salvar essas alterações ?</Text>
+
+          <TouchableOpacity
+          style={styles.buttonModal}
+          onPress={handleSubmit}>
+          <Text style={styles.buttonText}>Salvar Alterações</Text>
+          </TouchableOpacity>
+
+          <TouchableOpacity
+          style={styles.buttonModalBack}
+          onPress={toggleModal}>
+          <Text style={styles.buttonText}>Voltar</Text>
+          </TouchableOpacity>
+          </LinearGradient>
+        </View>
+      </Modal>
       </LinearGradient>
 
     </>
@@ -91,8 +119,28 @@ const styles = StyleSheet.create({
     //width: '80%',
     color: "#004369",
   },
+  modal: {
+    borderRadius: 15,
+    borderColor: Colors.Orange.background,
+    borderWidth: 10,
+  },
   button: {
     margin: 40,
+    fontWeight: 'bold',
+    backgroundColor: Colors.Orange.background,
+    borderRadius: 15,
+  },
+  buttonModal: {
+    margin: 20,
+    fontWeight: 'bold',
+    backgroundColor: Colors.Orange.background,
+    borderRadius: 15,
+  },
+  buttonModalBack: {
+    marginBottom:30,
+    marginTop:10,
+    marginLeft:80,
+    marginRight:80,
     fontWeight: 'bold',
     backgroundColor: Colors.Orange.background,
     borderRadius: 15
@@ -117,6 +165,14 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     borderColor: 'white',
     borderWidth: 3
+  },
+  textModal: {
+    fontSize: 23,
+    margin:30,
+    color: 'gray',
+    borderRadius: 16,
+    alignSelf: 'stretch',
+    textAlign: 'center',
   },
   bloco: {
     backgroundColor: Colors.Orange.background,
