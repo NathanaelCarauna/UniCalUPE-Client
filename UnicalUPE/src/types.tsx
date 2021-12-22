@@ -43,3 +43,19 @@ export type RootTabScreenProps<Screen extends keyof RootTabParamList> = Composit
   BottomTabScreenProps<RootTabParamList, Screen>,
   NativeStackScreenProps<RootStackParamList>
 >;
+export type eventType = {
+  event: {
+      id: string,
+      title: string
+      local: string
+      presentor: string
+      course: string
+      category: string
+      description: string
+      endDate: string
+      endHour: string
+      link: string
+      startDate: string
+      startHour: string
+  }
+};
