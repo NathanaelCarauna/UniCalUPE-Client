@@ -91,7 +91,7 @@ export const AppProvider = ({ children }: { children: React.ReactNode }) => {
         if (!eventDate) {
             return false
         }
-        return eventDate.name == selectDate;
+        return eventDate.name == selectedDate;
     }
 
     async function getUser(email: email) {
@@ -258,7 +258,7 @@ export const AppProvider = ({ children }: { children: React.ReactNode }) => {
                         // console.log(JSON.stringify(processedList))
                         // console.log(response.data)
                         var list = response.data
-                        if (selectDate != null) {
+                        if (selectedDate != null) {
                             list = list.filter(FilterByDate)
                         }
                         setEventList(list)
