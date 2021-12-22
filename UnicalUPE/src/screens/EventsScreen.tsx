@@ -12,7 +12,7 @@ import { useEffect, useContext, useState } from 'react';
 import AppContext from '../contexts/appContext';
 
 export default function EventsScreen() {
-  const { eventsList, setEventByDateRequested, getEventsByDate } = useContext(AppContext)
+  const { eventsList, setEventByDateRequested, getEventsByDate, selectedDate } = useContext(AppContext)
   const [dates, setDates] = useState(
     [
       { id: 0, day: 'Dom', date: '21', month: null, year: null, selected: false },
@@ -25,63 +25,68 @@ export default function EventsScreen() {
     ]
   )
 
-  const fillWeek = (pDates) => {
-    var today = new Date();
+  const fillWeek = (pDates, selectedDate) => {
+    var currentDay : Date;
+    if(selectedDate){
+      currentDay = new Date(selectedDate)
+    }else{
+      currentDay = new Date();
+    }
 
-    console.log(today.getDay(), today.getDate(), today.getMonth(), today.getFullYear());
+    console.log(currentDay.getDay(), currentDay.getDate(), currentDay.getMonth(), currentDay.getFullYear());
     pDates.forEach(item => {
-      item.month = today.getMonth()
-      item.year = today.getFullYear()
-      if (item.id === today.getDay()) {
-        item.date = today.getDate()
+      item.month = currentDay.getMonth()
+      item.year = currentDay.getFullYear()
+      if (item.id === currentDay.getDay()) {
+        item.date = currentDay.getDate()
         item.selected = true
       }
-      else if (item.id == today.getDay() - 6) {
-        item.date = new Date(today.getFullYear(), today.getMonth(), today.getDate() - 6).getDate()
+      else if (item.id == currentDay.getDay() - 6) {
+        item.date = new Date(currentDay.getFullYear(), currentDay.getMonth(), currentDay.getDate() - 6).getDate()
         item.selected = false
       }
-      else if (item.id == today.getDay() - 5) {
-        item.date = new Date(today.getFullYear(), today.getMonth(), today.getDate() - 5).getDate()
+      else if (item.id == currentDay.getDay() - 5) {
+        item.date = new Date(currentDay.getFullYear(), currentDay.getMonth(), currentDay.getDate() - 5).getDate()
         item.selected = false
       }
-      else if (item.id == today.getDay() - 4) {
-        item.date = new Date(today.getFullYear(), today.getMonth(), today.getDate() - 4).getDate()
+      else if (item.id == currentDay.getDay() - 4) {
+        item.date = new Date(currentDay.getFullYear(), currentDay.getMonth(), currentDay.getDate() - 4).getDate()
         item.selected = false
       }
-      else if (item.id == today.getDay() - 3) {
-        item.date = new Date(today.getFullYear(), today.getMonth(), today.getDate() - 3).getDate()
+      else if (item.id == currentDay.getDay() - 3) {
+        item.date = new Date(currentDay.getFullYear(), currentDay.getMonth(), currentDay.getDate() - 3).getDate()
         item.selected = false
       }
-      else if (item.id == today.getDay() - 2) {
-        item.date = new Date(today.getFullYear(), today.getMonth(), today.getDate() - 2).getDate()
+      else if (item.id == currentDay.getDay() - 2) {
+        item.date = new Date(currentDay.getFullYear(), currentDay.getMonth(), currentDay.getDate() - 2).getDate()
         item.selected = false
       }
-      else if (item.id == today.getDay() - 1) {
-        item.date = new Date(today.getFullYear(), today.getMonth(), today.getDate() - 1).getDate()
+      else if (item.id == currentDay.getDay() - 1) {
+        item.date = new Date(currentDay.getFullYear(), currentDay.getMonth(), currentDay.getDate() - 1).getDate()
         item.selected = false
       }
-      else if (item.id == today.getDay() + 1) {
-        item.date = new Date(today.getFullYear(), today.getMonth(), today.getDate() + 1).getDate()
+      else if (item.id == currentDay.getDay() + 1) {
+        item.date = new Date(currentDay.getFullYear(), currentDay.getMonth(), currentDay.getDate() + 1).getDate()
         item.selected = false
       }
-      else if (item.id == today.getDay() + 2) {
-        item.date = new Date(today.getFullYear(), today.getMonth(), today.getDate() + 2).getDate()
+      else if (item.id == currentDay.getDay() + 2) {
+        item.date = new Date(currentDay.getFullYear(), currentDay.getMonth(), currentDay.getDate() + 2).getDate()
         item.selected = false
       }
-      else if (item.id == today.getDay() + 3) {
-        item.date = new Date(today.getFullYear(), today.getMonth(), today.getDate() + 3).getDate()
+      else if (item.id == currentDay.getDay() + 3) {
+        item.date = new Date(currentDay.getFullYear(), currentDay.getMonth(), currentDay.getDate() + 3).getDate()
         item.selected = false
       }
-      else if (item.id == today.getDay() + 4) {
-        item.date = new Date(today.getFullYear(), today.getMonth(), today.getDate() + 4).getDate()
+      else if (item.id == currentDay.getDay() + 4) {
+        item.date = new Date(currentDay.getFullYear(), currentDay.getMonth(), currentDay.getDate() + 4).getDate()
         item.selected = false
       }
-      else if (item.id == today.getDay() + 5) {
-        item.date = new Date(today.getFullYear(), today.getMonth(), today.getDate() + 5).getDate()
+      else if (item.id == currentDay.getDay() + 5) {
+        item.date = new Date(currentDay.getFullYear(), currentDay.getMonth(), currentDay.getDate() + 5).getDate()
         item.selected = false
       }
-      else if (item.id == today.getDay() + 6) {
-        item.date = new Date(today.getFullYear(), today.getMonth(), today.getDate() + 6).getDate()
+      else if (item.id == currentDay.getDay() + 6) {
+        item.date = new Date(currentDay.getFullYear(), currentDay.getMonth(), currentDay.getDate() + 6).getDate()
         item.selected = false
       }
     })
@@ -91,7 +96,7 @@ export default function EventsScreen() {
   useEffect(() => {
     console.log('tela de eventos')
     setEventByDateRequested(false)
-    fillWeek(dates)
+    fillWeek(dates, selectedDate)
   })
 
 

@@ -25,6 +25,7 @@ export const AppContext = createContext({
     EventsCalendar: {},
     eventByDateRequested: false,
     course: {},
+    selectedDate: '',
     setLoading: () => { },
     getUser: (email: email) => { },
     saveUser: (user: user) => { },
@@ -37,8 +38,8 @@ export const AppContext = createContext({
     setEventByDateRequested: () => { },
     postEvent: () => { },
     CurrentCourse: () => { },
-    setCategoryColor: (courseName: { courseName: string }) => { }
-
+    setCategoryColor: (courseName: { courseName: string }) => { },
+    setSelectDate: () => {}
 });
 
 export const AppProvider = ({ children }: { children: React.ReactNode }) => {
@@ -49,7 +50,7 @@ export const AppProvider = ({ children }: { children: React.ReactNode }) => {
     const [coursesList, setCoursesList] = useState([]);
     const [EventsCalendar, SetEventsCalendar] = useState({});
     const [course, setCurrentCourse] = useState({})
-    const [SelectDate, setSelectDate] = useState({})
+    const [selectedDate, setSelectDate] = useState({})
 
 
     useEffect(() => {
@@ -90,7 +91,7 @@ export const AppProvider = ({ children }: { children: React.ReactNode }) => {
         if (!eventDate) {
             return false
         }
-        return eventDate.name == SelectDate;
+        return eventDate.name == selectDate;
     }
 
     async function getUser(email: email) {
@@ -257,7 +258,7 @@ export const AppProvider = ({ children }: { children: React.ReactNode }) => {
                         // console.log(JSON.stringify(processedList))
                         // console.log(response.data)
                         var list = response.data
-                        if (SelectDate != null) {
+                        if (selectDate != null) {
                             list = list.filter(FilterByDate)
                         }
                         setEventList(list)
@@ -455,6 +456,7 @@ export const AppProvider = ({ children }: { children: React.ReactNode }) => {
             eventsList,
             eventByDateRequested,
             course,
+            selectedDate,
             setEventByDateRequested,
             setLoading,
             getUser,
@@ -468,6 +470,7 @@ export const AppProvider = ({ children }: { children: React.ReactNode }) => {
             postEvent,
             CurrentCourse,
             setCategoryColor,
+            setSelectDate,
 
         }}>
             {children}
