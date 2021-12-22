@@ -16,7 +16,7 @@ export default function EditProfileScreen({ navigation }) {
   const checkId = () => {
     return typeof user.id == 'number' ? user.id : null
   }
-  const [userData, setUserData] = React.useState({ name: user.name, email: user.email, accountType: 'STUDENT', id: checkId()});
+  const [userData, setUserData] = React.useState({ name: user.name, email: user.email, accountType: user.accountType || 'STUDENT', id: checkId()});
 
   const handleSubmit = () => {
     
