@@ -290,7 +290,7 @@ export const AppProvider = ({ children }: { children: React.ReactNode }) => {
                         //console.log("EVENTS BY DATE:", response.data)
                         var list = response.data
                         console.log(course)
-                        if (course.id != null) {
+                        if (course.id != null && course.id != -1) {
                             list = list.filter(FilterByCourse)
                         }
                         setSelectDate(date)
