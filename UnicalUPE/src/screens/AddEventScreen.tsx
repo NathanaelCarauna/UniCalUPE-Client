@@ -93,13 +93,13 @@ export default function Evento() {
         />
 
         <View style={styles.textView}>
-          <TabBarIcon style={styles.icons} name="user" color={Colors.Blue.background} />
+          <TabBarIcon style={styles.presentorIcon} name="user" color={Colors.Blue.background} />
           <TextInput style={styles.text} placeholder="Apresentador" 
           onChangeText={(value) => setEvent({ ...event, presentor: value })}
           value={event.presentor}/>
         </View>
         <View style={styles.textView}>
-          <TabBarIcon style={styles.icons} name="map-marker" color={Colors.Blue.background} />
+          <TabBarIcon style={styles.localIcon} name="map-marker" color={Colors.Blue.background} />
           <TextInput style={styles.text} placeholder="Local" 
           onChangeText={(value) => setEvent({ ...event, local: value })}
           value={event.local}/>
@@ -213,6 +213,21 @@ const styles = StyleSheet.create({
   icons: {
     padding: 10,
     marginTop: 5,
+    // marginRight: 5,
+    alignSelf: 'flex-start',
+    alignContent: 'flex-start',
+  },
+  localIcon: {
+    padding: 10,
+    marginTop: 5,
+    marginRight: 11,
+    alignSelf: 'flex-start',
+    alignContent: 'flex-start',
+  },
+  presentorIcon: {
+    padding: 10,
+    marginTop: 5,
+    marginRight: 7,
     alignSelf: 'flex-start',
     alignContent: 'flex-start',
   },
