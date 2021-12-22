@@ -26,10 +26,10 @@ export default function EventsScreen() {
   )
 
   const fillWeek = (pDates, selectedDate) => {
-    var currentDay : Date;
-    if(selectedDate){
+    var currentDay: Date;
+    if (selectedDate) {
       currentDay = new Date(selectedDate)
-    }else{
+    } else {
       currentDay = new Date();
     }
 
@@ -113,12 +113,16 @@ export default function EventsScreen() {
           <Text style={styles.text}>Categoria</Text>
           <Text style={styles.text}>Evento</Text>
         </View>
-        <FlatList
-          data={eventsList}
-          keyExtractor={item => item.id}
-          renderItem={({ item }) => (<EventComponent event={item} />)}
-          style={styles.eventList}
-        />
+        {
+          eventsList.length > 0 ?
+            <FlatList
+              data={eventsList}
+              keyExtractor={item => item.id}
+              renderItem={({ item }) => (<EventComponent event={item} />)}
+              style={styles.eventList}
+            />
+          : <Text style={styles.notFound}>Nenhum evento encontrado para esse dia</Text>
+        }
       </MainView >
       <View style={styles.flat}>
         <FlatList
@@ -132,7 +136,7 @@ export default function EventsScreen() {
               day={item.day}
               date={item.date}
               selected={item.selected}
-              func={() => getEventsByDate(`${item.year}-${item.month+1}-${item.date}`)}
+              func={() => getEventsByDate(`${item.year}-${item.month + 1}-${item.date}`)}
             />)}
         />
       </View>
@@ -182,5 +186,10 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     padding: 5,
     backgroundColor: Colors.dark.background,
+  },
+  notFound: {
+    fontSize: 16,
+    alignSelf: 'center',        
+    marginTop: 40,
   }
 });
