@@ -180,8 +180,9 @@ export const AppProvider = ({ children }: { children: React.ReactNode }) => {
     function signOut() {
         console.log('SignOut Called')
         AsyncStorage.clear().then(() => {
+            const currentDate = new Date();
             setUser(null);
-            setSelectDate({})
+            setSelectDate(`${currentDate.getFullYear()}-${currentDate.getMonth()+1}-${currentDate.getDate()}`)
             setCurrentCourse({})
             console.log('LocalStorage cleaned')
             getEventsAll()

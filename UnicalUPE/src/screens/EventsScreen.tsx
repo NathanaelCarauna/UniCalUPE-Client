@@ -121,7 +121,8 @@ export default function EventsScreen() {
         {
           eventsList.length > 0 ?
             <FlatList
-              data={eventsList}
+              data={eventsList.filter(event => event.startDate == selectedDate)}
+              extraData={refresh}
               keyExtractor={item => item.id}
               renderItem={({ item }) => (<EventComponent event={item} />)}
               style={styles.eventList}
