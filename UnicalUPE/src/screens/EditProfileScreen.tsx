@@ -70,7 +70,7 @@ export default function EditProfileScreen({ navigation }) {
             return item.name
           }}
         />
-        <View style={styles.separator} lightColor="#004369" darkColor="rgba(0,67,105,0.1)" />
+      
 
         <TouchableOpacity
           style={styles.button}
@@ -83,17 +83,19 @@ export default function EditProfileScreen({ navigation }) {
           <LinearGradient colors={["#ffffff", "#ffc278"]}>
           <Text style={styles.textModal} >Você realmente deseja salvar essas alterações ?</Text>
 
-          <TouchableOpacity
-          style={styles.buttonModal}
-          onPress={handleSubmit}>
-          <Text style={styles.buttonText}>Salvar Alterações</Text>
-          </TouchableOpacity>
+          <View style={styles.buttons}>
+            <TouchableOpacity
+            style={styles.buttonModalBack}
+            onPress={toggleModal}>
+            <TabBarIcon name="arrow-left" color={'white'} style={styles.icon} />
+            </TouchableOpacity>
+            <TouchableOpacity
+            style={styles.buttonModal}
+            onPress={handleSubmit}>
+            <Text style={styles.buttonText}>Salvar Alterações</Text>
+            </TouchableOpacity>
 
-          <TouchableOpacity
-          style={styles.buttonModalBack}
-          onPress={toggleModal}>
-          <Text style={styles.buttonText}>Voltar</Text>
-          </TouchableOpacity>
+          </View>
           </LinearGradient>
         </View>
       </Modal>
@@ -101,6 +103,14 @@ export default function EditProfileScreen({ navigation }) {
 
     </>
   );
+}
+
+function TabBarIcon(props: {
+  name: React.ComponentProps<typeof FontAwesome>['name'];
+  color: string;
+  style: object
+}) {
+  return <FontAwesome size={20} {...props} />;
 }
 
 const styles = StyleSheet.create({
@@ -120,9 +130,9 @@ const styles = StyleSheet.create({
     color: "#004369",
   },
   modal: {
+    overflow: 'hidden',
     borderRadius: 15,
-    borderColor: Colors.Orange.background,
-    borderWidth: 10,
+    
   },
   button: {
     margin: 40,
@@ -131,19 +141,27 @@ const styles = StyleSheet.create({
     borderRadius: 15,
   },
   buttonModal: {
-    margin: 20,
+    //margin: 20,
     fontWeight: 'bold',
     backgroundColor: Colors.Orange.background,
     borderRadius: 15,
   },
+  buttons:{
+    backgroundColor:'transparent',
+    flexDirection: 'row',
+    //alignContent: 'center'
+    justifyContent:'space-evenly',
+    padding: 10,
+  },
   buttonModalBack: {
-    marginBottom:30,
-    marginTop:10,
-    marginLeft:80,
-    marginRight:80,
     fontWeight: 'bold',
     backgroundColor: Colors.Orange.background,
-    borderRadius: 15
+    borderRadius: 15,
+    
+  },
+  icon:{
+    marginTop: 14,
+    marginHorizontal: 20
   },
   buttonText: {
     // margin: 40,
