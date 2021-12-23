@@ -8,6 +8,7 @@ import Colors from '../constants/Colors';
 import { useNavigation } from '@react-navigation/native';
 import { useContext } from 'react';
 import AppContext from '../contexts/appContext';
+import GoogleIcon from '../../assets/images/googleicon.svg'
 
 
 export default function LoginScreen({ navigation }) {
@@ -28,7 +29,8 @@ export default function LoginScreen({ navigation }) {
       <TouchableOpacity
         style={styles.button}
         onPress={() => handleSignIn()}>
-        <Text style={styles.buttonText}>Sign in with google</Text>
+        <GoogleIcon />
+        <Text style={styles.buttonText}>Entrar com google</Text>
       </TouchableOpacity>
     </LinearGradient>
 
@@ -37,7 +39,7 @@ export default function LoginScreen({ navigation }) {
 
 const styles = StyleSheet.create({
   container: {
-    flex: 10,
+    flex: 1,
     alignItems: 'center',
     justifyContent: 'center',
     backgroundColor: '#004369',
@@ -48,17 +50,21 @@ const styles = StyleSheet.create({
     // marginBottom: 200,
   },
   button: {
+    flexDirection: 'row',
+    alignItems: 'center',
     margin: 40,
     fontWeight: 'bold',
     backgroundColor: 'white',
-    borderRadius: 15
+    borderRadius: 15,
+    // backgroundColor: 'yellow',
+    paddingHorizontal: 20,
   },
   buttonText: {
-    // margin: 40,
+    flex: 1,
+    color: 'black',
     fontWeight: 'bold',
     padding: 15,
-    paddingHorizontal: 40,
-
+    marginLeft: 12,
   },
   separator: {
     marginVertical: 30,
