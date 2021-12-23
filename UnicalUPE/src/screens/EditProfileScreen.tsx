@@ -11,6 +11,7 @@ import { FontAwesome } from '@expo/vector-icons';
 import { useEffect, useContext, useState } from 'react';
 
 
+
 export default function EditProfileScreen({ navigation }) {
   const { user, saveUser, coursesList} = React.useContext(AppContext)
   const checkId = () => {
@@ -70,7 +71,6 @@ export default function EditProfileScreen({ navigation }) {
             return item.name
           }}
         />
-      
 
         <TouchableOpacity
           style={styles.button}
@@ -78,6 +78,7 @@ export default function EditProfileScreen({ navigation }) {
           <Text style={styles.buttonText}>Salvar</Text>
         </TouchableOpacity>
 
+        
         <Modal isVisible={isModalVisible} >
         <View style={styles.modal}>
           <LinearGradient colors={["#ffffff", "#ffc278"]}>
@@ -98,7 +99,7 @@ export default function EditProfileScreen({ navigation }) {
           </View>
           </LinearGradient>
         </View>
-      </Modal>
+      </Modal> 
       </LinearGradient>
 
     </>

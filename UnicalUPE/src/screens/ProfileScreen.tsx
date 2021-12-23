@@ -8,6 +8,7 @@ import Colors from '../constants/Colors';
 import AppContext from '../contexts/appContext';
 import { useContext, useState } from 'react';
 import navigation from '../navigation';
+import { FontAwesome } from '@expo/vector-icons';
 
 
 export default function ProfileScreen({ navigation}) {
@@ -54,18 +55,20 @@ export default function ProfileScreen({ navigation}) {
         <View style={styles.modal}>
           <LinearGradient colors={["#ffffff", "#ffc278"]}>
           <Text style={styles.textModal} >Você realmente deseja deletar seu perfil ?</Text>
+        
+        <View  style={styles.buttons}>
+            <TouchableOpacity
+            style={styles.buttonModalBack}
+            onPress={toggleModal}>
+            <TabBarIcon name="arrow-left" color={'white'} style={styles.icon} />
+            </TouchableOpacity>
+            <TouchableOpacity
+            style={styles.buttonModal}
+            onPress={calldelete}>
+            <Text style={styles.buttonText}>Deletar Perfil</Text>
+            </TouchableOpacity>
 
-          <TouchableOpacity
-          style={styles.buttonModal}
-          onPress={calldelete}>
-          <Text style={styles.buttonText}>Deletar Perfil</Text>
-          </TouchableOpacity>
-
-          <TouchableOpacity
-          style={styles.buttonModalBack}
-          onPress={toggleModal}>
-          <Text style={styles.buttonText}>Voltar</Text>
-          </TouchableOpacity>
+        </View>
 
         </LinearGradient>
         </View>
@@ -75,6 +78,14 @@ export default function ProfileScreen({ navigation}) {
 
     </>
   );
+}
+
+function TabBarIcon(props: {
+  name: React.ComponentProps<typeof FontAwesome>['name'];
+  color: string;
+  style: object
+}) {
+  return <FontAwesome size={20} {...props} />;
 }
 
 const styles = StyleSheet.create({
@@ -98,9 +109,9 @@ const styles = StyleSheet.create({
     textAlign: 'center',
   },
   modal: {
+    overflow: 'hidden',
     borderRadius: 15,
-    borderColor: Colors.Orange.background,
-    borderWidth: 10,
+    
   },
   tipoLogin:{
     marginTop: 10,
@@ -113,19 +124,27 @@ const styles = StyleSheet.create({
     borderRadius: 15
   },
   buttonModal: {
-    margin: 20,
+    
     fontWeight: 'bold',
     backgroundColor: Colors.Red.background,
     borderRadius: 15
   },
   buttonModalBack: {
-    marginBottom:30,
-    marginTop:10,
-    marginLeft:80,
-    marginRight:80,
+    
     fontWeight: 'bold',
     backgroundColor: Colors.Red.background,
     borderRadius: 15
+  },
+  icon:{
+    marginTop: 14,
+    marginHorizontal: 20
+  },
+  buttons:{
+    backgroundColor:'transparent',
+    flexDirection: 'row',
+    //alignContent: 'center'
+    justifyContent:'space-evenly',
+    padding: 10,
   },
   buttonDelete: {
     margin:80,
