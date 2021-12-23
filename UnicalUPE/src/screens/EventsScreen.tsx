@@ -29,6 +29,7 @@ export default function EventsScreen() {
     var currentDay: Date;
     if (selectedDate.length > 0) {
       currentDay = new Date(selectedDate)
+      currentDay.setDate(currentDay.getDate() + 1)
       console.log('Custom date initialized', selectedDate)
     } else {
       currentDay = new Date();
@@ -123,7 +124,7 @@ export default function EventsScreen() {
               renderItem={({ item }) => (<EventComponent event={item} />)}
               style={styles.eventList}
             />
-          : <Text style={styles.notFound}>Nenhum evento encontrado para esse dia</Text>
+            : <Text style={styles.notFound}>Nenhum evento encontrado para esse dia</Text>
         }
       </MainView >
       <View style={styles.flat}>
@@ -191,7 +192,7 @@ const styles = StyleSheet.create({
   },
   notFound: {
     fontSize: 16,
-    alignSelf: 'center',        
+    alignSelf: 'center',
     marginTop: 40,
   }
 });
