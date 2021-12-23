@@ -13,6 +13,7 @@ import AppContext from '../contexts/appContext';
 
 export default function EventsScreen() {
   const { eventsList, setEventByDateRequested, getEventsByDate, selectedDate } = useContext(AppContext)
+  const [refresh, setRefresh] = useState(false);
   const [dates, setDates] = useState(
     [
       { id: 0, day: 'Dom', date: '21', month: null, year: null, selected: false },
@@ -100,7 +101,8 @@ export default function EventsScreen() {
     console.log('tela de eventos')
     setEventByDateRequested(false)
     fillWeek(dates, selectedDate)
-  })
+    setRefresh(!refresh)
+  }, [])
 
 
   const ItemSeprator = () => <View style={{
@@ -132,6 +134,7 @@ export default function EventsScreen() {
           ItemSeparatorComponent={ItemSeprator}
           horizontal={true}
           data={dates}
+          extraData={refresh}
           style={styles.transparent}
           keyExtractor={item => item.day}
           renderItem={({ item }) => (

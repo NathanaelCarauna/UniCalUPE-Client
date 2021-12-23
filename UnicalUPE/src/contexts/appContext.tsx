@@ -106,6 +106,7 @@ export const AppProvider = ({ children }: { children: React.ReactNode }) => {
                     if (response.status == 200) {
                         setUser(response.data)
                         localUser = response.data
+                        setSelectDate({})
                         setCurrentCourse(response.data.course)
                         getEventsByCourse(localUser.course.id)
                         AsyncStorage.setItem("@TGAuth:user", JSON.stringify(response.data));
@@ -180,6 +181,7 @@ export const AppProvider = ({ children }: { children: React.ReactNode }) => {
         console.log('SignOut Called')
         AsyncStorage.clear().then(() => {
             setUser(null);
+            setSelectDate({})
             setCurrentCourse({})
             console.log('LocalStorage cleaned')
             getEventsAll()
