@@ -197,11 +197,7 @@ export const AppProvider = ({ children }: { children: React.ReactNode }) => {
 
     async function handleSignIn() {
         const CLIENT_ID = '162955034296-ah2keq2dk20d7qvpm0qj4h9bi7iratcr.apps.googleusercontent.com'
-<<<<<<< HEAD
-        const REDIRECT_URI = 'https://auth.expo.io/@nathanaelcarauna/UnicalUPE'
-=======
-        const REDIRECT_URI = 'https://auth.expo.io/@clara.araujo/UnicalUPE'
->>>>>>> 0194d44abaabcfa91380fdaed733cb295c3b9cb9
+        const REDIRECT_URI = 'https://auth.expo.io/@dahisedias/UnicalUPE'
         const RESPONSE_TYPE = 'token'
         const SCOPE = encodeURI('profile email')
 
