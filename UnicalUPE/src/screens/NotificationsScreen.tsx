@@ -63,6 +63,8 @@ export default function NotificationsScreen({ navigation }: RootTabScreenProps<'
             event={item.event}
             navigation={navigation}
             date={item.creationTime}
+            visualized={item.visualized}
+            notification={item}
             category={item.event ? item.event.category : ''}
           />
         )}
