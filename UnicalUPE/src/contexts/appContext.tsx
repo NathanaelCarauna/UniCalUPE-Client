@@ -2,6 +2,7 @@ import React, { createContext, useState, useEffect } from 'react';
 import * as userApi from '../services/userApi';
 import * as EventApi from '../services/EventApi';
 import * as CoursesApi from '../services/CoursesApi';
+import * as NotificationApi from '../services/NotificationApi';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import * as AuthSession from 'expo-auth-session';
 import { AxiosResponse } from 'axios';
@@ -26,6 +27,7 @@ export const AppContext = createContext({
     eventByDateRequested: false,
     course: {},
     selectedDate: '',
+    userNotifications: [],
     setLoading: () => { },
     getUser: (email: email) => { },
     saveUser: (user: user) => { },
@@ -39,13 +41,15 @@ export const AppContext = createContext({
     postEvent: () => { },
     CurrentCourse: () => { },
     setCategoryColor: (courseName: { courseName: string }) => { },
-    setSelectDate: () => {}
+    setSelectDate: () => { },
+    getNotificationByUserEmail: () => { }
 });
 
 export const AppProvider = ({ children }: { children: React.ReactNode }) => {
     const [loading, setLoading] = useState<boolean | undefined>()
     const [eventByDateRequested, setEventByDateRequested] = useState<boolean | undefined>()
     const [user, setUser] = useState();
+    const [userNotifications, setUserNotifications] = useState([]);
     const [eventsList, setEventList] = useState([]);
     const [coursesList, setCoursesList] = useState([]);
     const [EventsCalendar, SetEventsCalendar] = useState({});
@@ -67,6 +71,7 @@ export const AppProvider = ({ children }: { children: React.ReactNode }) => {
                 console.log(localUser.course)
                 setCurrentCourse(localUser.course)
                 getEventsByCourse(localUser.course.id)
+                getNotificationByUserEmail(localUser.email);
             }
             else {
                 getEventsAll();
@@ -182,7 +187,7 @@ export const AppProvider = ({ children }: { children: React.ReactNode }) => {
         AsyncStorage.clear().then(() => {
             const currentDate = new Date();
             setUser(null);
-            setSelectDate(`${currentDate.getFullYear()}-${currentDate.getMonth()+1}-${currentDate.getDate()}`)
+            setSelectDate(`${currentDate.getFullYear()}-${currentDate.getMonth() + 1}-${currentDate.getDate()}`)
             setCurrentCourse({})
             console.log('LocalStorage cleaned')
             getEventsAll()
@@ -191,7 +196,7 @@ export const AppProvider = ({ children }: { children: React.ReactNode }) => {
 
     async function handleSignIn() {
         const CLIENT_ID = '162955034296-ah2keq2dk20d7qvpm0qj4h9bi7iratcr.apps.googleusercontent.com'
-        const REDIRECT_URI = 'https://auth.expo.io/@dahisedias/UnicalUPE'
+        const REDIRECT_URI = 'https://auth.expo.io/@nathanaelcarauna/UnicalUPE'
         const RESPONSE_TYPE = 'token'
         const SCOPE = encodeURI('profile email')
 
@@ -448,6 +453,31 @@ export const AppProvider = ({ children }: { children: React.ReactNode }) => {
         setCurrentCourse(course)
     }
 
+    // --------------------------------------------//Notifications//------------------------------------------------------------
+
+    async function getNotificationByUserEmail(email: string) {
+        setLoading(true);
+        try {
+            console.log('Requesting getNotificationByUserEmail')
+            await NotificationApi.getNotificationByUserEmail(email)
+                .then((response: AxiosResponse) => {
+                    console.log('Notifications:', response.data)
+                    if (response.status == 200) {
+                        setUserNotifications(response.data)
+                    }
+                    setLoading(false);
+                })
+                .catch(err => {
+                    console.log(err)
+                    setLoading(false);
+                })
+        } catch (e) {
+            console.log(e)
+
+        }
+        setLoading(false);
+    }
+
     return (
 
         <AppContext.Provider value={{
@@ -460,6 +490,7 @@ export const AppProvider = ({ children }: { children: React.ReactNode }) => {
             eventByDateRequested,
             course,
             selectedDate,
+            userNotifications,
             setEventByDateRequested,
             setLoading,
             getUser,
@@ -474,6 +505,7 @@ export const AppProvider = ({ children }: { children: React.ReactNode }) => {
             CurrentCourse,
             setCategoryColor,
             setSelectDate,
+            getNotificationByUserEmail,
 
         }}>
             {children}
