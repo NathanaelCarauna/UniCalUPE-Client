@@ -19,12 +19,12 @@ export const anonymousButtons = (navigation, signOut) => {
 
 export const studentButtons = (navigation, signOut) => {
     return [
-        {
-            buttonText: 'Login',
-            destination: 'Login',
-            navigation: navigation,
-            backColor: '',
-        },
+        // {
+        //     buttonText: 'Login',
+        //     destination: 'Login',
+        //     navigation: navigation,
+        //     backColor: '',
+        // },
         {
             buttonText: 'Perfil',
             destination: 'Profile',
@@ -53,12 +53,12 @@ export const studentButtons = (navigation, signOut) => {
 }
 export const adminButtons = (navigation, signOut) => {
     return [
-        {
-            buttonText: 'Login',
-            destination: 'Login',
-            navigation: navigation,
-            backColor: '',
-        },
+        // {
+        //     buttonText: 'Login',
+        //     destination: 'Login',
+        //     navigation: navigation,
+        //     backColor: '',
+        // },
         {
             buttonText: 'Perfil',
             destination: 'Profile',
