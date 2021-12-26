@@ -17,8 +17,7 @@ type PropsButton = {
     destination: string
 }
 
-export default function Notification({text, destination, navigation} : PropsButton) {
-    const buttonText = text
+export default function Notification({title, destination, navigation} : PropsButton) {
     const navigate = () => {
         navigation.navigate(destination)
     }
@@ -27,7 +26,7 @@ export default function Notification({text, destination, navigation} : PropsButt
             <LinearGradient start={{x: 0, y: 0}} end={{x: 1, y: 0}} style={styles.flex} colors={["#2AB75A", "#A0FFA3"]}>
                 <View style={styles.titleContainer}>
                     <Text style={styles.title}>
-                        {buttonText}
+                        {title}
                     </Text>
                     <TabBarIcon style={styles.options} name="ellipsis-v" color={'white'} />
                 </View>
