@@ -22,6 +22,7 @@ import { useContext } from 'react';
 import AppContext from '../contexts/appContext';
 import { View } from '../components/Themed';
 import EditProfileScreen from '../screens/EditProfileScreen';
+import ExpoNotification from '../screens/ExpoNotification';
 
 export default function Navigation({ colorScheme }: { colorScheme: ColorSchemeName }) {
   const { signed, loading } = useContext(AppContext)
@@ -85,7 +86,7 @@ function RootNavigator() {
           headerShown: true,
           title: 'Detalhes',
           headerTintColor: 'white',
-          headerStyle: { backgroundColor: '#60D0D6' }
+          headerStyle: { backgroundColor: '#192f6a' }
         }}
       />
       <Stack.Screen name="AddEvent" component={AddEventScreen}
@@ -96,6 +97,7 @@ function RootNavigator() {
           headerStyle: { backgroundColor: '#8F98FF' }
         }}
       />
+
       <Stack.Screen name="Notifications" component={NotificationsScreen}
         options={{
           headerShown: true,
