@@ -52,11 +52,20 @@ export default function NotificationsScreen({ navigation }: RootTabScreenProps<'
         </TouchableOpacity>
       </View>
 
-      <View style={styles.separator} lightColor="#004369" darkColor="rgba(0,67,105,0.1)" />      
+      <View style={styles.separator} lightColor="#004369" darkColor="rgba(0,67,105,0.1)" />
       {userNotifications.length > 0 ? <FlatList
         key={'_'}
         data={userNotifications}
-        renderItem={({ item }) => (<Notification title={item.title} destination='Event' navigation={navigation}/>)}
+        renderItem={({ item }) => (
+          <Notification
+            title={item.title}
+            destination='Event'
+            event={item.event}
+            navigation={navigation}
+            date={item.creationTime}
+            category={item.event ? item.event.category : ''}
+          />
+        )}
       />
         : <Text>Nenhuma notificação no momento</Text>
       }
