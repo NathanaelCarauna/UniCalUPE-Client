@@ -18,13 +18,13 @@ type PropsButton = {
     event: object
 }
 
-export default function Notification({ title, category, date, event }: PropsButton) {
+export default function Notification({ title, category, date, event, notification, visualized }: PropsButton) {
     const notificationDate = new Date(date);
     const navigation = useNavigation();
 
     function navigateEvent(props: { event: eventType }) {
         if (event != null)
-            navigation.navigate('Event', { event: event })
+            navigation.navigate('Event', { event: event, notification })
     }
     return (
         <TouchableOpacity style={styles.bloco} onPress={navigateEvent}>
@@ -33,10 +33,13 @@ export default function Notification({ title, category, date, event }: PropsButt
                     <Text style={styles.title}>
                         {category == "PESQUISA" ? 'Nova pesquisa: ' : 'Novo Evento: '} {title}
                     </Text>
-                    <TabBarIcon style={styles.options} name="ellipsis-v" color={'white'} />
+                    {!visualized ? <TabBarIcon style={styles.options} name="exclamation" color={'orange'} />
+                        : <TabBarIcon style={styles.options} name="check" color={'darkgreen'} />
+                    }
+
                 </View>
                 <Text style={styles.data}>
-                    {notificationDate.getDate()}/{notificationDate.getMonth()}/{notificationDate.getFullYear()}
+                    {notificationDate.getDate()}/{notificationDate.getMonth()}/{notificationDate.getFullYear()} {notificationDate.getHours()}:{notificationDate.getMinutes()}
                 </Text>
             </LinearGradient>
         </TouchableOpacity>
