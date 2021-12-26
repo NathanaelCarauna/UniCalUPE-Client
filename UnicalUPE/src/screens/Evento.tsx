@@ -10,42 +10,61 @@ import Layout from '../constants/Layout';
 
 export default function Evento({route, navigation}) {
   const{event} = route.params
+
+  const splitdate = (date:string) =>{
+    var arrayDate = date.split("-")
+    var arrayDate = arrayDate.reverse()
+    return arrayDate.join("-")
+  }
   return (
     <ScrollView contentContainerStyle={{flexGrow: 1}}>
-        <LinearGradient style = {styles.container} colors={["#ffffff","#B7F2F4"]}>
+        <LinearGradient style = {styles.container} colors={["#ffffff","#4c669f"]}>
           <View style={styles.header}>
-            <View style={{backgroundColor: 'transparent'}}>
+            <View style={styles.information}>
               <Text style={styles.title}>{event.title}</Text>
               <Text style={styles.sub_tittle}>{event.category}</Text>
             </View>
+
+            <View style={styles.information}>
             <View style={styles.line}>
-              <TabBarIcon name="user" color={Colors.Blue.background} />
+              <TabBarIcon name="user" color={Colors.Yellow.background} />
               <Text style={styles.text}>{event.presentor}</Text>
             </View>
             <View style={styles.line}>
-              <TabBarIcon name="map-marker" color={Colors.Blue.background} />
+              <TabBarIcon name="map-marker" color={Colors.Yellow.background} />
               <Text style={styles.text}>{event.local}</Text>
             </View>
             <View style={styles.line}>
-              <TabBarIcon name="calendar" color={Colors.Blue.background} />
-              <Text style={styles.text}>{event.startDate}</Text> 
+              <TabBarIcon name="clock-o" color={Colors.Yellow.background} />
+              <Text style={styles.text}>{event.startHour}</Text>
             </View>
+
+            <View style={{flexDirection: 'row', justifyContent:'space-between', height:60, flex:1, backgroundColor:'transparent', alignItems:'center'}}>
             <View style={styles.line}>
-              <TabBarIcon name="calendar-check-o" color={Colors.Blue.background} />
-              <Text style={styles.text}>{event.endDate? event.endDate : event.startDate}</Text> 
+              <TabBarIcon name="calendar" color={Colors.Yellow.background} />
+              <Text style={styles.text}>{splitdate(event.startDate)}</Text> 
+            </View>
+            <View style={styles.separatorMini}  />
+            <View style={styles.line}>
+              <TabBarIcon name="calendar-check-o" color={Colors.Yellow.background} />
+              <Text style={styles.text}>{splitdate(event.endDate)}</Text> 
+            </View>
+            </View>
+
             </View>
           </View>
           <View style={styles.separator} lightColor="#004369" darkColor="rgba(0,67,105,0.1)" />
 
-            <LinearGradient style={styles.bloco} colors={["#60D0D6","#B7F2F4"]}>
+            <LinearGradient style={styles.bloco} colors={["#192f6a","#4c669f"]}>
               <Text style={styles.normal}>{event.description}</Text>
             </LinearGradient>
 
             <TouchableOpacity style={styles.link}>
-          <LinearGradient colors={["#60D0D6","#B7F2F4"]}>
+          <LinearGradient colors={["#192f6a","#4c669f"]}>
             <Text style={styles.normal}>{event.link}</Text>
           </LinearGradient>
           </TouchableOpacity>
+          <View style={styles.separator} lightColor="#004369" darkColor="rgba(0,67,105,0.1)" />
         </LinearGradient>
     </ScrollView>
    
@@ -71,7 +90,7 @@ const styles = StyleSheet.create({
   },
   title: {
     fontSize: 30,
-    color: "#60D0D6",
+    color: "#192f6a",
     fontWeight: 'bold',
 
   },
@@ -80,10 +99,17 @@ const styles = StyleSheet.create({
     color: 'gray'
   },
   separator: {
+    alignSelf:'center',
     marginVertical: 15,
     height: 1,
     width: '80%',
     color: "#004369",
+  },
+  separatorMini: {
+    marginVertical: 15,
+    height: 3,
+    width: 5,
+    color: "#192f6a",
   },
   normal: {
     fontSize: 18,
@@ -102,29 +128,38 @@ const styles = StyleSheet.create({
   link:{
     flex:1,
     margin: 15,
-    marginBottom: 10,
+    //marginBottom: 10,
     borderRadius: 16,
+    borderBottomEndRadius:16,
     overflow: 'hidden',
     alignSelf:'stretch'
   },
   header:{
-    display:'flex',
+    //display:'flex',
     flexWrap: 'wrap',
     alignSelf:'stretch',
-    alignItems:'flex-start',
+    //alignItems:'flex-start',
     margin: 20,
     backgroundColor: 'transparent'
   },
   text:{
     marginStart: 10,
-    fontSize: 25,
+    fontSize: 20,
     color: "#004369"
   },
   line:{
+    padding: 8,
     margin: 6,
+    //paddingHorizontal:12,
     display:'flex', 
     flexDirection: 'row', 
     alignItems:'baseline',  
-    backgroundColor: 'transparent',
+    backgroundColor: 'white',
+    borderRadius: 15
+  },
+  information:{
+    backgroundColor: 'transparent', 
+    //padding: 10,
+    alignContent:'center'
   }
 });
