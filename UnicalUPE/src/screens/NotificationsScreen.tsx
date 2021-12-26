@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { StyleSheet, ScrollView, TouchableOpacity } from 'react-native';
+import { StyleSheet, ScrollView, TouchableOpacity, FlatList } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
 
 import EditScreenInfo from '../components/EditScreenInfo';
@@ -8,56 +8,60 @@ import Colors from '../constants/Colors';
 import Notification from '../components/Notification';
 import { FontAwesome } from '@expo/vector-icons';
 import SelectDropdown from 'react-native-select-dropdown';
+import { useContext } from 'react';
+import AppContext from '../contexts/appContext';
+import Navigation from '../navigation';
 
-const filter = ["Enquete", "Palestra", "Curso", "Workshop"]
+const filter = ["Enquete", "Evento"]
 export default function NotificationsScreen({ navigation }: RootTabScreenProps<'Navigation'>) {
+  const { userNotifications } = useContext(AppContext)
+
   return (
-    <ScrollView style={styles.container}>
-      <LinearGradient colors={["#fff", "#A0FFA3"]}>
-        <View style={styles.header}>
-          <SelectDropdown
-            data={filter}            
-            defaultButtonText={'Categoria'}
-            buttonStyle={styles.dropdownBtnStyle}
-            dropdownStyle={styles.dropdown}
-            buttonTextStyle={styles.dropdownBtnTxtStyle}
-            dropdownIconPosition={"right"}
-            rowStyle={styles.dropdownRowStyle}
-            rowTextStyle={styles.dropdownRowTxtStyle}
-            renderDropdownIcon={() => {
-              return (
-                <FontAwesome name="chevron-down" color={"#FFF"} size={18} style={styles.dropdownIcon} />
-              );
-            }}
-            onSelect={(selectedItem, index) => {
-              console.log(selectedItem, index)
-            }}
-            buttonTextAfterSelection={(selectedItem, index) => {
-              // text represented after item is selected
-              // if data array is an array of objects then return selectedItem.property to render after item is selected
-              return selectedItem
-            }}
-            rowTextForSelection={(item, index) => {
-              // text represented for each item in dropdown
-              // if data array is an array of objects then return item.property to represent item in dropdown
-              return item
-            }}
-          />
-          <TouchableOpacity style={styles.filtrar}>
-            <Text style={styles.normal_n}>Filtrar</Text>
-          </TouchableOpacity>
-        </View>
-        <View style={styles.separator} lightColor="#004369" darkColor="rgba(0,67,105,0.1)" />
-        <Notification text="Notificação" destination='Event' navigation={navigation}></Notification>
-        <Notification text="Notificação" destination='Event' navigation={navigation}></Notification>
-        <Notification text="Notificação" destination='Event' navigation={navigation}></Notification>
-        <Notification text="Notificação" destination='Event' navigation={navigation}></Notification>
-        <Notification text="Notificação" destination='Event' navigation={navigation}></Notification>
-        <Notification text="Notificação" destination='Event' navigation={navigation}></Notification>
-        <Notification text="Notificação" destination='Event' navigation={navigation}></Notification>
-        <Notification text="Notificação" destination='Event' navigation={navigation}></Notification>
-      </LinearGradient>
-    </ScrollView >
+    <LinearGradient colors={["#fff", "#A0FFA3"]} style={styles.container}>
+      <View style={styles.header}>
+        <SelectDropdown
+          data={filter}
+          defaultButtonText={'Categoria'}
+          buttonStyle={styles.dropdownBtnStyle}
+          dropdownStyle={styles.dropdown}
+          buttonTextStyle={styles.dropdownBtnTxtStyle}
+          dropdownIconPosition={"right"}
+          rowStyle={styles.dropdownRowStyle}
+          rowTextStyle={styles.dropdownRowTxtStyle}
+          renderDropdownIcon={() => {
+            return (
+              <FontAwesome name="chevron-down" color={"#FFF"} size={18} style={styles.dropdownIcon} />
+            );
+          }}
+          onSelect={(selectedItem, index) => {
+            console.log(selectedItem, index)
+          }}
+          buttonTextAfterSelection={(selectedItem, index) => {
+            // text represented after item is selected
+            // if data array is an array of objects then return selectedItem.property to render after item is selected
+            return selectedItem
+          }}
+          rowTextForSelection={(item, index) => {
+            // text represented for each item in dropdown
+            // if data array is an array of objects then return item.property to represent item in dropdown
+            return item
+          }}
+        />
+        <TouchableOpacity style={styles.filtrar}>
+          <Text style={styles.normal_n}>Filtrar</Text>
+        </TouchableOpacity>
+      </View>
+
+      <View style={styles.separator} lightColor="#004369" darkColor="rgba(0,67,105,0.1)" />      
+      {userNotifications.length > 0 ? <FlatList
+        key={'_'}
+        data={userNotifications}
+        renderItem={({ item }) => (<Notification title={item.title} destination='Event' navigation={navigation}/>)}
+      />
+        : <Text>Nenhuma notificação no momento</Text>
+      }
+
+    </LinearGradient>
   );
 }
 
@@ -85,7 +89,10 @@ const styles = StyleSheet.create({
     marginVertical: 15,
     height: 1,
     width: '90%',
-    color: "#004369",    
+    color: "#004369",
+  },
+  transparent: {
+    backgroundColor: Colors.dark.background,
   },
   normal: {
     fontSize: 15,
