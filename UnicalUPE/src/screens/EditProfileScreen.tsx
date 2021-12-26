@@ -44,7 +44,7 @@ export default function EditProfileScreen({ navigation }) {
         />
         <SelectDropdown
           data={coursesList}
-          defaultButtonText={user.course.name || 'Selecione o seu curso'}
+          defaultButtonText={user.course ? user.course.name : 'Selecione o seu curso'}
           buttonStyle={styles.dropdownBtnStyle}
           dropdownStyle={styles.dropdown}
           buttonTextStyle={styles.dropdownBtnTxtStyle}
