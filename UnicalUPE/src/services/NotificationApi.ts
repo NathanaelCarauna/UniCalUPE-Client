@@ -11,3 +11,7 @@ export function getNotificationByUserEmail(userEmail:string){
 export function GetNotificationByCategory(user){
     return new api.put(`/notification/findByUser/${user}`)
 }
+
+export function updateNotification(notification){
+    return new api.put(`/notification/${notification.id}`, notification)
+}
