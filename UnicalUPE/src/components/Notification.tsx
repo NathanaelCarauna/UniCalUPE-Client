@@ -1,5 +1,5 @@
 import React from 'react';
-import { StyleSheet, TouchableOpacity } from 'react-native';
+import { Alert, StyleSheet, TouchableOpacity } from 'react-native';
 
 import Colors from '../constants/Colors';
 import { Text, View } from './Themed';
@@ -9,6 +9,7 @@ import { CompositeNavigationProp, useNavigation } from '@react-navigation/native
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { LinearGradient } from 'expo-linear-gradient';
 import { FontAwesome } from '@expo/vector-icons';
+import { useState } from 'react';
 
 type PropsButton = {
 
@@ -21,6 +22,15 @@ type PropsButton = {
 export default function Notification({ title, category, date, event, notification, visualized }: PropsButton) {
     const notificationDate = new Date(date);
     const navigation = useNavigation();
+    const [showData, setShowData] = useState(false);
+
+    const ButtonDelete = () =>{
+        Alert.alert("delete notification")
+    }
+    const showDataMode = () => {
+        setShowData(!showData);
+        console.log(date)
+      };
 
     function navigateEvent(props: { event: eventType }) {
         if (event != null)
@@ -37,6 +47,15 @@ export default function Notification({ title, category, date, event, notificatio
                         : <TabBarIcon style={styles.options} name="check" color={'darkgreen'} />
                     }
 
+                    <TouchableOpacity onPress={showDataMode}>
+                        <TabBarIcon style={styles.options} name="ellipsis-v" color={'white'} />
+                    </TouchableOpacity>
+                    {showData &&(
+                        <TouchableOpacity style={styles.button} onPress={ButtonDelete}>
+                        <Text style={{color: 'black'}}>Delete</Text>
+                    </TouchableOpacity>
+                    )}
+                    
                 </View>
                 <Text style={styles.data}>
                     {notificationDate.getDate()}/{notificationDate.getMonth()}/{notificationDate.getFullYear()} {notificationDate.getHours()}:{notificationDate.getMinutes()}
@@ -66,10 +85,10 @@ const styles = StyleSheet.create({
         color: 'white'
     },
     data: {
-        alignSelf: 'flex-end',
-        marginEnd: 20,
+        //alignSelf: 'flex-end',
+        marginStart: 20,
         marginBottom: 10,
-        color: Colors.Blue.background
+        color: 'white'
     },
     bloco: {
         alignSelf: 'stretch',
@@ -98,5 +117,18 @@ const styles = StyleSheet.create({
     },
     flex: {
         alignItems: 'baseline'
+    },
+    button:{
+        position: 'absolute',
+        backgroundColor: 'white',
+        width: 80,
+        height: 60,
+        alignItems: 'center',
+        justifyContent: 'center',
+        right:30,
+        borderRadius:15,
+        top:1
+        
+        
     }
 })

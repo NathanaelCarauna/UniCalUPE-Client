@@ -6,6 +6,7 @@ const Red = '#EA3636';
 const blue = '#8F98FF';
 const green = '#2AB75A';
 const yellow = '#FBD148';
+const pourple = '#9A0680';
 
 export default {
   light: {
@@ -53,6 +54,13 @@ export default {
   Yellow: {
     text: '#fff',
     background: yellow,
+    tint: 'white',
+    tabIconDefault: '#fff',
+    tabIconSelected: GreenBack,
+  },
+  Pourple: {
+    text: '#fff',
+    background: pourple,
     tint: 'white',
     tabIconDefault: '#fff',
     tabIconSelected: GreenBack,

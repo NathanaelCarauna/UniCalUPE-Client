@@ -9,6 +9,7 @@ import ButtonDetailRed from '../../assets/images/ButtonDetailRed.svg';
 import ButtonDetailBlue from '../../assets/images/ButtonDetailBlue.svg';
 import ButtonDetailGreen from '../../assets/images/ButtonDetailGreen.svg';
 import ButtonDetailYellow from '../../assets/images/ButtonDetailYellow.svg';
+import ButtonDetailPourple from '../../assets/images/ButtonDetailPourple.svg';
 import { RootStackParamList, RootTabParamList, RootTabScreenProps } from '../types';
 import { BottomTabNavigationProp } from '@react-navigation/bottom-tabs';
 import { CompositeNavigationProp } from '@react-navigation/native';
@@ -56,6 +57,10 @@ export default function ButtonNavigation(props: PropsButton) {
             }
             {props.backColor == Colors.Yellow.background
                 ? <ButtonDetailYellow fill='#123' style={styles.buttonDetail} />
+                : <></>
+            }
+            {props.backColor == Colors.Pourple.background
+                ? <ButtonDetailPourple fill='#123' style={styles.buttonDetail} />
                 : <></>
             }
             <Text style={styles.buttonName}>

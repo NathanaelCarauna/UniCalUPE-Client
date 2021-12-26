@@ -40,29 +40,34 @@ export default function Evento({route, navigation}) {
             </View>
 
             <View style={styles.information}>
-            <View style={styles.line}>
+              {event.presentor? (<View style={styles.line}>
               <TabBarIcon name="user" color={Colors.Yellow.background} />
               <Text style={styles.text}>{event.presentor}</Text>
-            </View>
-            <View style={styles.line}>
+            </View>): null}
+            
+            {event.local? (<View style={styles.line}>
               <TabBarIcon name="map-marker" color={Colors.Yellow.background} />
               <Text style={styles.text}>{event.local}</Text>
-            </View>
-            <View style={styles.line}>
+            </View>) : null}
+            
+            {event.startHour? (<View style={styles.line}>
               <TabBarIcon name="clock-o" color={Colors.Yellow.background} />
               <Text style={styles.text}>{event.startHour}</Text>
-            </View>
+            </View>) : null}
+           
 
             <View style={{flexDirection: 'row', justifyContent:'space-between', height:60, flex:1, backgroundColor:'transparent', alignItems:'center'}}>
             <View style={styles.line}>
               <TabBarIcon name="calendar" color={Colors.Yellow.background} />
               <Text style={styles.text}>{splitdate(event.startDate)}</Text> 
             </View>
-            <View style={styles.separatorMini}  />
-            <View style={styles.line}>
+            {event.endDate? (
+            <View style={styles.separatorMini}  />): null}
+            {event.endDate? (<View style={styles.line}>
               <TabBarIcon name="calendar-check-o" color={Colors.Yellow.background} />
               <Text style={styles.text}>{splitdate(event.endDate)}</Text> 
-            </View>
+            </View>) : null}
+            
             </View>
 
             </View>
@@ -73,11 +78,12 @@ export default function Evento({route, navigation}) {
               <Text style={styles.normal}>{event.description}</Text>
             </LinearGradient>
 
-            <TouchableOpacity style={styles.link}>
+              {event.link?(<TouchableOpacity style={styles.link}>
           <LinearGradient colors={["#192f6a","#4c669f"]}>
             <Text style={styles.normal}>{event.link}</Text>
           </LinearGradient>
-          </TouchableOpacity>
+          </TouchableOpacity>):null}
+            
           <View style={styles.separator} lightColor="#004369" darkColor="rgba(0,67,105,0.1)" />
         </LinearGradient>
     </ScrollView>

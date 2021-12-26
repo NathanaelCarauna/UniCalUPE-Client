@@ -29,7 +29,6 @@ export default function NavigationScreen({ navigation }: RootTabScreenProps<'Nav
 
   const toggleModal = () => {
     setModalVisible(!isModalVisible);
-    console.log('toggle visivel')
   };
 
 
@@ -75,7 +74,7 @@ export default function NavigationScreen({ navigation }: RootTabScreenProps<'Nav
 
 <Modal isVisible={isModalVisible} >
   <View style={styles.modal}>
-    <LinearGradient colors={["#ffffff", "#ffc278"]}>
+    <LinearGradient colors={["#ffffff", "#D47AE8"]}>
       <Text style={styles.textModal} >Você realmente deseja sair da sua conta ?</Text>
 
           <View style={styles.buttons}>
@@ -135,7 +134,7 @@ const styles = StyleSheet.create({
   buttonModal: {
     //margin: 20,
     fontWeight: 'bold',
-    backgroundColor: Colors.Orange.background,
+    backgroundColor: Colors.Pourple.background,
     borderRadius: 15,
   },
   buttons:{
@@ -147,7 +146,7 @@ const styles = StyleSheet.create({
   },
   buttonModalBack: {
     fontWeight: 'bold',
-    backgroundColor: Colors.Orange.background,
+    backgroundColor: Colors.Pourple.background,
     borderRadius: 15,
     
   },
