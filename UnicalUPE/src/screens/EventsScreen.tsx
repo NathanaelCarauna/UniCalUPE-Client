@@ -110,6 +110,8 @@ export default function EventsScreen() {
     backgroundColor: 'transparent',
   }} />
 
+  
+
   return (
     <>
       <MainView>
