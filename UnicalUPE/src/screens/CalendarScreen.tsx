@@ -54,7 +54,7 @@ export default function CalendarScreen({ navigation }) {
   }, [eventByDateRequested])
 
   useEffect(() => {
-    if(user){
+    if(user && user.email){
       setInterval(() => {
         getNotificationByUserEmail()
       }, 30000)
