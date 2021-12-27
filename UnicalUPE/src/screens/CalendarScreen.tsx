@@ -33,6 +33,7 @@ export default function CalendarScreen({ navigation }) {
     EventsCalendar,
     eventByDateRequested,
     selectedDate,
+    userNotifications,
     getEventsByCourse,
     getEventsAll,
     getEventsByDate,
@@ -41,7 +42,7 @@ export default function CalendarScreen({ navigation }) {
     getNotificationByUserEmail
   } = useContext(AppContext)
 
-  const [requested, setRequested] = useState(false)
+  const [avoid, setvoid] = useState(false)
 
   useEffect(() => {
     if (eventByDateRequested) {
@@ -56,7 +57,7 @@ export default function CalendarScreen({ navigation }) {
     setInterval(() => {
       getNotificationByUserEmail()
     }, 30000)
-  })
+  }, [avoid])
 
   useEffect(() => {
     if (user && !user.course) {
