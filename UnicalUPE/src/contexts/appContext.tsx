@@ -42,7 +42,8 @@ export const AppContext = createContext({
     CurrentCourse: () => { },
     setCategoryColor: (courseName: { courseName: string }) => { },
     setSelectDate: () => { },
-    getNotificationByUserEmail: () => { }
+    getNotificationByUserEmail: () => { },
+    updateNotification: () => { }
 });
 
 export const AppProvider = ({ children }: { children: React.ReactNode }) => {
@@ -184,7 +185,7 @@ export const AppProvider = ({ children }: { children: React.ReactNode }) => {
 
     function signOut() {
         console.log('SignOut Called')
-        
+
         AsyncStorage.clear().then(() => {
             const currentDate = new Date();
             setUser(null);
@@ -479,6 +480,28 @@ export const AppProvider = ({ children }: { children: React.ReactNode }) => {
         setLoading(false);
     }
 
+    async function updateNotification(notification) {
+        // setLoading(true);
+        try {
+            console.log('Requesting updateNotification')
+            await NotificationApi.updateNotification(notification)
+                .then((response: AxiosResponse) => {                    
+                    if (response.status == 200) {
+                        getNotificationByUserEmail(user.email)
+                    }
+                    setLoading(false);
+                })
+                .catch(err => {
+                    console.log(err)
+                    // setLoading(false);
+                })
+        } catch (e) {
+            console.log(e)
+
+        }
+        // setLoading(false);
+    }
+
     return (
 
         <AppContext.Provider value={{
@@ -507,6 +530,7 @@ export const AppProvider = ({ children }: { children: React.ReactNode }) => {
             setCategoryColor,
             setSelectDate,
             getNotificationByUserEmail,
+            updateNotification,
 
         }}>
             {children}

@@ -19,7 +19,7 @@ type PropsButton = {
     event: object
 }
 
-export default function Notification({ title, category, date, event }: PropsButton) {
+export default function Notification({ title, category, date, event, notification, visualized }: PropsButton) {
     const notificationDate = new Date(date);
     const navigation = useNavigation();
     const [showData, setShowData] = useState(false);
@@ -34,7 +34,7 @@ export default function Notification({ title, category, date, event }: PropsButt
 
     function navigateEvent(props: { event: eventType }) {
         if (event != null)
-            navigation.navigate('Event', { event: event })
+            navigation.navigate('Event', { event: event, notification })
     }
     return (
         <TouchableOpacity style={styles.bloco} onPress={navigateEvent}>
@@ -43,6 +43,10 @@ export default function Notification({ title, category, date, event }: PropsButt
                     <Text style={styles.title}>
                         {category == "PESQUISA" ? 'Nova pesquisa: ' : 'Novo Evento: '} {title}
                     </Text>
+                    {!visualized ? <TabBarIcon style={styles.options} name="exclamation" color={'orange'} />
+                        : <TabBarIcon style={styles.options} name="check" color={'darkgreen'} />
+                    }
+
                     <TouchableOpacity onPress={showDataMode}>
                         <TabBarIcon style={styles.options} name="ellipsis-v" color={'white'} />
                     </TouchableOpacity>
@@ -54,7 +58,7 @@ export default function Notification({ title, category, date, event }: PropsButt
                     
                 </View>
                 <Text style={styles.data}>
-                    {notificationDate.getDate()}/{notificationDate.getMonth()}/{notificationDate.getFullYear()}
+                    {notificationDate.getDate()}/{notificationDate.getMonth()}/{notificationDate.getFullYear()} {notificationDate.getHours()}:{notificationDate.getMinutes()}
                 </Text>
             </LinearGradient>
         </TouchableOpacity>

@@ -55,7 +55,7 @@ export default function NotificationsScreen({ navigation }: RootTabScreenProps<'
       <View style={styles.separator} lightColor="#004369" darkColor="rgba(0,67,105,0.1)" />
       {userNotifications.length > 0 ? <FlatList
         key={'_'}
-        data={userNotifications}
+        data={userNotifications.sort((a,b) => b.id - a.id)}
         renderItem={({ item }) => (
           <Notification
             title={item.title}
@@ -63,6 +63,8 @@ export default function NotificationsScreen({ navigation }: RootTabScreenProps<'
             event={item.event}
             navigation={navigation}
             date={item.creationTime}
+            visualized={item.visualized}
+            notification={item}
             category={item.event ? item.event.category : ''}
           />
         )}
