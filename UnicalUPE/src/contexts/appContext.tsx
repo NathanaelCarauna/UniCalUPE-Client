@@ -43,7 +43,8 @@ export const AppContext = createContext({
     setCategoryColor: (courseName: { courseName: string }) => { },
     setSelectDate: () => { },
     getNotificationByUserEmail: () => { },
-    updateNotification: () => { }
+    updateNotification: () => { },
+    getNotificationsByCategory: () => {}
 });
 
 export const AppProvider = ({ children }: { children: React.ReactNode }) => {
@@ -370,7 +371,7 @@ export const AppProvider = ({ children }: { children: React.ReactNode }) => {
         }
         setLoading(false);
     }
-
+    
     function createEventsJsonKeys(events) {
         // console.log("Create Json")
         var list = events.reduce((json, item, i) => {
@@ -385,12 +386,12 @@ export const AppProvider = ({ children }: { children: React.ReactNode }) => {
         // console.log("Json created: ", list)
         return list;
     }
-
+    
     function processEventsCalendar(events) {
         // console.log('Process events started')
         let eventJson = createEventsJsonKeys(events);
         // console.log("Json received from creation: ", eventJson)
-
+        
         // console.log("Starting adding object to dots")
         events.forEach(element => {
             // console.log("Element: ", element)
@@ -400,9 +401,9 @@ export const AppProvider = ({ children }: { children: React.ReactNode }) => {
         // console.log("Final list json: ", eventJson)
         return eventJson
     }
-
-
-
+    
+    
+    
     function setCategoryColor(event: eventType) {
         if (event.category == 'EVENTO' && event.course) {
             switch (event.course.name) {
@@ -412,7 +413,7 @@ export const AppProvider = ({ children }: { children: React.ReactNode }) => {
                     return '#f7b538' // amarelo claro
                 case 'Medicina':
                     return '#52b788' //verde
-                case 'Licenciatura em Computação':
+                    case 'Licenciatura em Computação':
                     return '#168aad'
                 default:
             }
@@ -420,20 +421,20 @@ export const AppProvider = ({ children }: { children: React.ReactNode }) => {
             return '#ade8f4' // Azull bebê
         } else {
             return '#cfc0bd' // cinza
-
+            
         }
-
+        
     }
-
+    
     // --------------------------------------------//Courses//------------------------------------------------------------
-
+    
     async function getAllCourses() {
         setLoading(true);
         try {
             console.log('Requesting getAllCourses')
             await CoursesApi.getAllCourses()
-                .then((response: AxiosResponse) => {
-                    //console.log('Courses requested')
+            .then((response: AxiosResponse) => {
+                //console.log('Courses requested')
                     // console.log(response.data)
                     if (response.status == 200) {
                         setCoursesList([{ id: -1, name: 'Todos' }, ...response.data])
@@ -450,46 +451,70 @@ export const AppProvider = ({ children }: { children: React.ReactNode }) => {
         }
         setLoading(false);
     }
-
+    
     function CurrentCourse(course) {
         setCurrentCourse(course)
     }
-
+    
     // --------------------------------------------//Notifications//------------------------------------------------------------
-
-    async function getNotificationByUserEmail(email: string) {
-        setLoading(true);
+    
+    async function getNotificationByUserEmail(email: string = user.email) {
+        // setLoading(true);
         try {
             console.log('Requesting getNotificationByUserEmail')
             await NotificationApi.getNotificationByUserEmail(email)
-                .then((response: AxiosResponse) => {
-                    console.log('Notifications:', response.data)
-                    if (response.status == 200) {
-                        setUserNotifications(response.data)
+            .then((response: AxiosResponse) => {
+                console.log('Notifications:', response.data)
+                if (response.status == 200) {
+                    setUserNotifications(response.data)
                     }
-                    setLoading(false);
+                    // setLoading(false);
                 })
                 .catch(err => {
                     console.log(err)
-                    setLoading(false);
+                    // setLoading(false);
                 })
-        } catch (e) {
+            } catch (e) {
             console.log(e)
 
         }
-        setLoading(false);
+        // setLoading(false);
     }
-
+    
     async function updateNotification(notification) {
         // setLoading(true);
         try {
             console.log('Requesting updateNotification')
             await NotificationApi.updateNotification(notification)
-                .then((response: AxiosResponse) => {                    
-                    if (response.status == 200) {
-                        getNotificationByUserEmail(user.email)
+            .then((response: AxiosResponse) => {                    
+                if (response.status == 200) {
+                    getNotificationByUserEmail(user.email)
                     }
                     setLoading(false);
+                })
+                .catch(err => {
+                    console.log(err)
+                    // setLoading(false);
+                })
+            } catch (e) {
+            console.log(e)
+            
+        }
+        // setLoading(false);
+    }
+    
+    async function getNotificationsByCategory(category: string) {
+        // setLoading(true);
+        try {
+            console.log('Requesting getNotifications by Category')
+            await NotificationApi.GetNotificationByCategory(user.email, category)
+                .then((response: AxiosResponse) => {
+                    console.log('Events requested')
+                    //console.log(response.data)
+                    if (response.status == 200) {
+                        setUserNotifications(response.data)
+                    }
+                    // setLoading(false);
                 })
                 .catch(err => {
                     console.log(err)
@@ -499,11 +524,10 @@ export const AppProvider = ({ children }: { children: React.ReactNode }) => {
             console.log(e)
 
         }
-        // setLoading(false);
+        setLoading(false);
     }
-
     return (
-
+        
         <AppContext.Provider value={{
             signed: !!user,
             user,
@@ -531,7 +555,7 @@ export const AppProvider = ({ children }: { children: React.ReactNode }) => {
             setSelectDate,
             getNotificationByUserEmail,
             updateNotification,
-
+            getNotificationsByCategory,
         }}>
             {children}
         </AppContext.Provider>
