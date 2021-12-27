@@ -45,11 +45,11 @@ export default function CalendarScreen({ navigation }) {
   useEffect(() => {
     if (eventByDateRequested) {
       // console.log("Should go to events screen")
-      setTimeout(() => {
-        navigation.navigate("Eventos")    
-      }, 1000)
+      navigation.navigate("Eventos")    
+      // setTimeout(() => {
+      // }, 1000)
     }
-  }, [])
+  }, [eventByDateRequested])
 
   useEffect(() => {
     console.log("Events Calendar")

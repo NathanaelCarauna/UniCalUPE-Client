@@ -290,7 +290,7 @@ export const AppProvider = ({ children }: { children: React.ReactNode }) => {
     }
 
     async function getEventsByDate(date: { date: string }) {
-        setLoading(true);
+        // setLoading(true);
         try {
             console.log('Requesting getEventsByDate')
             return EventApi.getEventByDate(date)
@@ -308,16 +308,16 @@ export const AppProvider = ({ children }: { children: React.ReactNode }) => {
                         setEventList(list)
                         setEventByDateRequested(true);
                     }
-                    setLoading(false);
+                    // setLoading(false);
                 })
                 .catch(err => {
                     console.log(err)
-                    setLoading(false);
+                    // setLoading(false);
                 })
         } catch (e) {
             console.log(e)
         }
-        setLoading(false);
+        // setLoading(false);
     }
 
     async function postEvent(event) {

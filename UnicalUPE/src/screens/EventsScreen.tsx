@@ -30,7 +30,7 @@ export default function EventsScreen() {
     var currentDay: Date;
     if (selectedDate.length > 0) {
       currentDay = new Date(selectedDate)
-      currentDay.setDate(currentDay.getDate() + 1)
+      currentDay.setDate(currentDay.getDate())
       console.log('Custom date initialized', selectedDate)
     } else {
       currentDay = new Date();
@@ -102,7 +102,7 @@ export default function EventsScreen() {
     setEventByDateRequested(false)
     fillWeek(dates, selectedDate)
     setRefresh(!refresh)
-  }, [])
+  }, [selectedDate])
 
 
   const ItemSeprator = () => <View style={{
