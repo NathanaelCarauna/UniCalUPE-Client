@@ -31,8 +31,10 @@ export default function Evento() {
 
 
   const handleSubmit = () => {
-
-    if (postEvent(event)) {
+    if(event.title == null||  event.description == null || event.startDate == null){
+      Alert.alert("'Titulo', 'descrição' e 'Data de Inicio' não podem ser nulos")
+    }
+    else if (postEvent(event)) {
       console.log('add event')
       navigation.navigate('Root')
     }
