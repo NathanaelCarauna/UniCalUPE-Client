@@ -22,6 +22,7 @@ import { useContext } from 'react';
 import AppContext from '../contexts/appContext';
 import { View } from '../components/Themed';
 import EditProfileScreen from '../screens/EditProfileScreen';
+import UpdadeEventScreen from '../screens/UpdateEventScreen';
 import ExpoNotification from '../screens/ExpoNotification';
 
 export default function Navigation({ colorScheme }: { colorScheme: ColorSchemeName }) {
@@ -93,6 +94,15 @@ function RootNavigator() {
         options={{
           headerShown: true,
           title: 'Adicionar Evento',
+          headerTintColor: 'white',
+          headerStyle: { backgroundColor: '#8F98FF' }
+        }}
+      />
+
+      <Stack.Screen name="UpdateEvent" component={UpdadeEventScreen}
+        options={{
+          headerShown: true,
+          title: 'Editar Evento',
           headerTintColor: 'white',
           headerStyle: { backgroundColor: '#8F98FF' }
         }}

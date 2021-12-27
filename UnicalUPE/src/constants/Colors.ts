@@ -7,6 +7,7 @@ const blue = '#8F98FF';
 const green = '#2AB75A';
 const yellow = '#FBD148';
 const pourple = '#9A0680';
+const darkBlue = '#192f6a';
 
 export default {
   light: {
@@ -61,6 +62,13 @@ export default {
   Pourple: {
     text: '#fff',
     background: pourple,
+    tint: 'white',
+    tabIconDefault: '#fff',
+    tabIconSelected: GreenBack,
+  },
+  DarkBlue: {
+    text: '#fff',
+    background: darkBlue,
     tint: 'white',
     tabIconDefault: '#fff',
     tabIconSelected: GreenBack,
