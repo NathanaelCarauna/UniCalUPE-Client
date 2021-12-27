@@ -333,8 +333,8 @@ export const AppProvider = ({ children }: { children: React.ReactNode }) => {
 
                     //console.log(response.data)
                     if (response.status == 200) {
-                        console.log(response.data)
-                        getEventsAll();
+                        console.log('Event created')
+                        getEventsByCourse(user.course)
                     }
                     setLoading(false);
                 })
@@ -425,7 +425,7 @@ export const AppProvider = ({ children }: { children: React.ReactNode }) => {
         // console.log("Starting adding object to dots")
         events.forEach(element => {
             // console.log("Element: ", element)
-            eventJson[element.startDate].dots.push({ key: element.title, color: setCategoryColor(element) })
+            eventJson[element.startDate].dots.push({ key: element.id, color: setCategoryColor(element) })
             // console.log("object added: ", eventJson[element.startDate])
         });
         // console.log("Final list json: ", eventJson)
