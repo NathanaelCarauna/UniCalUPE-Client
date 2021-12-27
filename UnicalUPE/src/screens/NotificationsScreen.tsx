@@ -14,10 +14,11 @@ import Navigation from '../navigation';
 
 const filter = [{ name: 'Todos', value: -1 }, { name: "Enquete", value: "PESQUISA" }, { name: "Evento", value: "EVENTO" }]
 export default function NotificationsScreen({ navigation }: RootTabScreenProps<'Navigation'>) {
-  const { userNotifications, getNotificationsByCategory, getNotificationByUserEmail } = useContext(AppContext)
+  const { userNotifications, getNotificationsByCategory, getNotificationByUserEmail, deleteNotification } = useContext(AppContext)
   const [category, setCategory] = useState({ name: 'Todos' })
   const [refresh, setRefresh] = useState(false)
   const [isModalVisible, setModalVisible] = useState(false);
+  const [selectedNotification, setSelectedNotification] = useState();
 
   const handleFilter = () => {
     if (category.value != -1) {
@@ -32,11 +33,11 @@ export default function NotificationsScreen({ navigation }: RootTabScreenProps<'
   };
 
   const handleSubmit = () => {
-
-    if (saveUser(userData)) {
-      console.log('User data saved')
-      // navigation.navigate('Root')
-    }
+    if(selectedNotification.id){
+      deleteNotification(selectedNotification.id)    
+      navigation.navigate('Notifications')
+      toggleModal()
+    }    
   }
 
   React.useEffect(() => {
@@ -95,11 +96,12 @@ export default function NotificationsScreen({ navigation }: RootTabScreenProps<'
             visualized={item.visualized}
             notification={item}
             category={item.event ? item.event.category : ''}
-            func={toggleModal}
+            toggleModal={toggleModal}
+            setSelectedNotification={setSelectedNotification}
           />
         )}
       />
-        : <Text>Nenhuma notificação no momento</Text>
+        : <Text style={styles.notFound}>Nenhuma notificação no momento</Text>
       }
       <Modal isVisible={isModalVisible} >
         <View style={styles.modal}>
@@ -144,6 +146,11 @@ const styles = StyleSheet.create({
     marginTop: 20,
     color: "#004369",
     fontWeight: 'bold',
+  },
+  notFound: {
+    fontSize: 16,
+    alignSelf: 'center',
+    marginTop: 40,
   },
   separator: {
     alignSelf: 'center',
