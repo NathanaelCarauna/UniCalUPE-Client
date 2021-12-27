@@ -39,6 +39,7 @@ export const AppContext = createContext({
     getEventsByDate: () => { },
     setEventByDateRequested: () => { },
     postEvent: () => { },
+    updateEvent: () => { },
     CurrentCourse: () => { },
     setCategoryColor: (courseName: { courseName: string }) => { },
     setSelectDate: () => { },
@@ -346,6 +347,33 @@ export const AppProvider = ({ children }: { children: React.ReactNode }) => {
         setLoading(false);
     }
 
+    async function updateEvent(event) {
+        setLoading(true);
+        try {
+            console.log('put Event')
+            await EventApi.updateEvent(event)
+                .then((response: AxiosResponse) => {
+                    console.log('Update Event')
+
+                    //console.log(response.data)
+                    if (response.status == 200) {
+                        console.log(response.data)
+                        getEventsAll();
+                    }
+                    setLoading(false);
+                })
+                .catch(err => {
+                    console.log(err)
+                    //localUser = null
+                    setLoading(false);
+                })
+        } catch (e) {
+            console.log(e)
+
+        }
+        setLoading(false);
+    }
+
     async function getEventsByCategory(category: string) {
         setLoading(true);
         try {
@@ -526,6 +554,7 @@ export const AppProvider = ({ children }: { children: React.ReactNode }) => {
             getEventsAll,
             getEventsByDate,
             postEvent,
+            updateEvent,
             CurrentCourse,
             setCategoryColor,
             setSelectDate,
