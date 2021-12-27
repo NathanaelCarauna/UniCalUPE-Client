@@ -47,7 +47,7 @@ export const studentButtons = (navigation, showModal) => {
             buttonText: 'Sair',
             destination: showModal,
             navigation: navigation,
-            backColor: Colors.Blue.background,
+            backColor: Colors.Pourple.background,
         },
     ]
 }
@@ -87,7 +87,7 @@ export const adminButtons = (navigation, showModal) => {
             buttonText: 'Sair',
             destination: showModal,
             navigation: navigation,
-            backColor: Colors.Blue.background,
+            backColor: Colors.Pourple.background,
         },
     ]
 }

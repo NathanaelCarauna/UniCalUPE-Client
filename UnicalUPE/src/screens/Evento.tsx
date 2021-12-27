@@ -7,10 +7,24 @@ import { Text, View } from '../components/Themed';
 import Colors from '../constants/Colors';
 import { FontAwesome } from '@expo/vector-icons';
 import Layout from '../constants/Layout';
+import { useContext, useEffect } from 'react';
+import AppContext from '../contexts/appContext';
 
 export default function Evento({route, navigation}) {
+  const {updateNotification} = useContext(AppContext)
   const{event} = route.params
-
+  const {notification} = route.params
+  useEffect(() => {
+    console.log('Event Details screen, useEffect')
+    console.log(notification)
+    if(notification){
+      console.log('There is a notification', notification)
+      if(!notification.visualized){
+        notification.visualized = true;
+        updateNotification(notification)
+      }
+    }
+  }, [notification])
   const splitdate = (date:string) =>{
     var arrayDate = date.split("-")
     var arrayDate = arrayDate.reverse()
