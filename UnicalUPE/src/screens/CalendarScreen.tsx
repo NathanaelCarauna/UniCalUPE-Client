@@ -41,25 +41,22 @@ export default function CalendarScreen({ navigation }) {
     getNotificationByUserEmail
   } = useContext(AppContext)
 
-  
+  const [requested, setRequested] = useState(false)
 
   useEffect(() => {
     if (eventByDateRequested) {
       // console.log("Should go to events screen")
-      navigation.navigate("Eventos")    
+      navigation.navigate("Eventos")
       // setTimeout(() => {
       // }, 1000)
     }
   }, [eventByDateRequested])
 
   useEffect(() => {
-    // console.log("Events Calendar")
-    if(user){
-      setInterval(() => {
-        getNotificationByUserEmail()
-      }, 30000)
-    }
-  }, [])
+    setInterval(() => {
+      getNotificationByUserEmail()
+    }, 30000)
+  })
 
   useEffect(() => {
     if (user && !user.course) {
@@ -72,7 +69,7 @@ export default function CalendarScreen({ navigation }) {
 
   const updateCallendar = (date) => {
     const calendarEvents = EventsCalendar
-    calendarEvents[date] = {...calendarEvents[date], selected:true, selectedColor: 'black'}
+    calendarEvents[date] = { ...calendarEvents[date], selected: true, selectedColor: 'black' }
     console.log('---------Calendar events:', date, calendarEvents)
   }
   return (
@@ -80,7 +77,7 @@ export default function CalendarScreen({ navigation }) {
       <TitleMainScreen title='Eventos do Mês' />
       <SelectDropdown
         data={coursesList}
-        defaultButtonText={course.name? course.name: 'Escolha um filtro'}
+        defaultButtonText={course.name ? course.name : 'Escolha um filtro'}
         buttonStyle={styles.dropdownBtnStyle}
         dropdownStyle={styles.dropdown}
         buttonTextStyle={styles.dropdownBtnTxtStyle}
