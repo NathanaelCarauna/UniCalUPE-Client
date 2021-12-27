@@ -66,7 +66,7 @@ export default function NavigationScreen({ navigation }: RootTabScreenProps<'Nav
         keyExtractor={(item) => item.buttonText}
         numColumns={2}
         style={{
-          alignSelf: 'stretch',
+          alignSelf: 'center',
           margin: 10,
         }}
 
