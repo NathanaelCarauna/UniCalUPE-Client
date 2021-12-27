@@ -4,6 +4,7 @@ import { Alert, StyleSheet, TouchableOpacity } from 'react-native';
 
 import { Text} from './Themed';
 import { LinearGradient } from 'expo-linear-gradient';
+import Colors from '../constants/Colors';
 
 type propsType = { day: string, date: string, selected: boolean, func: Function }
 
@@ -13,12 +14,13 @@ export default function DateSquare({ day, date, selected, func }: propsType) {
             ? { color: {color: 'white'}, backColorTop: '#EA3636', backColorBottom: '#FFAB91' }
             : { backColorTop: '#fff', backColorBottom: '#fff' }
     }
-    const selectStyle = setSelected(selected);
+    const selectStyle = setSelected(selected);    
+
     return (
         <TouchableOpacity onPress={func}>
             <LinearGradient style={styles.square} colors={[selectStyle.backColorTop, selectStyle.backColorBottom]}>
-                <Text style={[styles.Text, selectStyle.color]}>{day}</Text>
-                <Text style={[styles.number, selectStyle.color]}>{date}</Text>
+                <Text style={[styles.Text, selectStyle.color]}>{day }</Text>                                    
+                <Text style={[styles.number, date == new Date().getDate() ? {color: Colors.dark.background} :  selectStyle.color]}>{date}</Text>
             </LinearGradient>
         </TouchableOpacity>
 
