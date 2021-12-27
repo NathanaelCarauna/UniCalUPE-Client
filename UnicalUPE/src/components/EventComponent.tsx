@@ -27,8 +27,8 @@ type eventType = {
 }
 export default function EventComponent({ event }: eventType) {
     const navigation = useNavigation();
-    const { setCategoryColor} = useContext(AppContext)
-    
+    const { setCategoryColor } = useContext(AppContext)
+
     const categoryColor = setCategoryColor(event)
 
     function navigateEvent(props: { event: eventType }) {
@@ -47,17 +47,23 @@ export default function EventComponent({ event }: eventType) {
                 </View>
                 {
                     event.course ? <Text style={styles.detailsText}>Curso: {event.course.name}</Text>
-                    : <></>
+                        : <></>
                 }
-                
-                <View style={styles.localContainer}>
-                    <TabBarIcon name="map-marker" color={'white'} style={styles.icon} />
-                    <Text style={styles.detailsText}>{event.local}</Text>
-                </View>
-                <View style={styles.presentorContainer}>
-                    <TabBarIcon name="user" color={'white'} style={styles.icon} />
-                    <Text style={styles.detailsText}>{event.presentor}</Text>
-                </View>
+                {
+                    event.local ? <View style={styles.localContainer}>
+
+                        <TabBarIcon name="map-marker" color={'white'} style={styles.icon} />
+                        <Text style={styles.detailsText}>{event.local}</Text>
+                    </View>
+                        : <></>
+                }
+                {
+                    event.presentor ? <View style={styles.presentorContainer}>
+                        <TabBarIcon name="user" color={'white'} style={styles.icon} />
+                        <Text style={styles.detailsText}>{event.presentor}</Text>
+                    </View>
+                        : <></>
+                }
             </LinearGradient>
         </TouchableOpacity>
     );
