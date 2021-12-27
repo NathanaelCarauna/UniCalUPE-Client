@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Alert, StyleSheet, TouchableOpacity } from 'react-native';
 
 import Colors from '../constants/Colors';
@@ -19,11 +19,15 @@ type PropsButton = {
     event: object
 }
 
-export default function Notification({ title, category, date, event, notification, visualized, func }: PropsButton) {
+export default function Notification({ title, category, date, event, notification, visualized, toggleModal, setSelectedNotification }: PropsButton) {
     const notificationDate = new Date(date);
     const navigation = useNavigation();
     const [showData, setShowData] = useState(false);
 
+    const handleTogle = () => {
+        setSelectedNotification(notification)
+        toggleModal()
+    }
     function navigateEvent(props: { event: eventType }) {
         if (event != null)
             navigation.navigate('Event', { event: event, notification })
@@ -39,10 +43,10 @@ export default function Notification({ title, category, date, event, notificatio
                         : <TabBarIcon style={styles.options} name="check" color={'darkgreen'} />
                     }
 
-                    <TouchableOpacity onPress={func}>
+                    <TouchableOpacity onPress={handleTogle}>
                         <TabBarIcon style={styles.options} name="trash" color={Colors.Red.background} />
                     </TouchableOpacity>
-                    
+
                 </View>
                 <Text style={styles.data}>
                     {notificationDate.getDate()}/{notificationDate.getMonth()}/{notificationDate.getFullYear()} {notificationDate.getHours()}:{notificationDate.getMinutes()}
@@ -105,17 +109,17 @@ const styles = StyleSheet.create({
     flex: {
         alignItems: 'baseline'
     },
-    button:{
+    button: {
         position: 'absolute',
         backgroundColor: 'white',
         width: 80,
         height: 60,
         alignItems: 'center',
         justifyContent: 'center',
-        right:30,
-        borderRadius:15,
-        top:1
-        
-        
+        right: 30,
+        borderRadius: 15,
+        top: 1
+
+
     }
 })
