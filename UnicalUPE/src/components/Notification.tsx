@@ -19,18 +19,10 @@ type PropsButton = {
     event: object
 }
 
-export default function Notification({ title, category, date, event, notification, visualized }: PropsButton) {
+export default function Notification({ title, category, date, event, notification, visualized, func }: PropsButton) {
     const notificationDate = new Date(date);
     const navigation = useNavigation();
     const [showData, setShowData] = useState(false);
-
-    const ButtonDelete = () =>{
-        Alert.alert("delete notification")
-    }
-    const showDataMode = () => {
-        setShowData(!showData);
-        console.log(date)
-      };
 
     function navigateEvent(props: { event: eventType }) {
         if (event != null)
@@ -47,14 +39,9 @@ export default function Notification({ title, category, date, event, notificatio
                         : <TabBarIcon style={styles.options} name="check" color={'darkgreen'} />
                     }
 
-                    <TouchableOpacity onPress={showDataMode}>
-                        <TabBarIcon style={styles.options} name="ellipsis-v" color={'white'} />
+                    <TouchableOpacity onPress={func}>
+                        <TabBarIcon style={styles.options} name="trash" color={Colors.Red.background} />
                     </TouchableOpacity>
-                    {showData &&(
-                        <TouchableOpacity style={styles.button} onPress={ButtonDelete}>
-                        <Text style={{color: 'black'}}>Delete</Text>
-                    </TouchableOpacity>
-                    )}
                     
                 </View>
                 <Text style={styles.data}>

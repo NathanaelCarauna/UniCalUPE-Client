@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { StyleSheet, ScrollView, TouchableOpacity, FlatList } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
-
+import Modal from "react-native-modal";
 import EditScreenInfo from '../components/EditScreenInfo';
 import { Text, View } from '../components/Themed';
 import Colors from '../constants/Colors';
@@ -17,18 +17,32 @@ export default function NotificationsScreen({ navigation }: RootTabScreenProps<'
   const { userNotifications, getNotificationsByCategory, getNotificationByUserEmail } = useContext(AppContext)
   const [category, setCategory] = useState({ name: 'Todos' })
   const [refresh, setRefresh] = useState(false)
+  const [isModalVisible, setModalVisible] = useState(false);
 
   const handleFilter = () => {
     if (category.value != -1) {
       getNotificationsByCategory(category.value)
-    }else {
+    } else {
       getNotificationByUserEmail()
+    }
+  }
+
+  const toggleModal = () => {
+    setModalVisible(!isModalVisible);
+  };
+
+  const handleSubmit = () => {
+
+    if (saveUser(userData)) {
+      console.log('User data saved')
+      // navigation.navigate('Root')
     }
   }
 
   React.useEffect(() => {
     setRefresh(!refresh)
   }, [userNotifications])
+
   return (
     <LinearGradient colors={["#fff", "#A0FFA3"]} style={styles.container}>
       <View style={styles.header}>
@@ -81,12 +95,33 @@ export default function NotificationsScreen({ navigation }: RootTabScreenProps<'
             visualized={item.visualized}
             notification={item}
             category={item.event ? item.event.category : ''}
+            func={toggleModal}
           />
         )}
       />
         : <Text>Nenhuma notificação no momento</Text>
       }
+      <Modal isVisible={isModalVisible} >
+        <View style={styles.modal}>
+          <LinearGradient colors={["#ffffff", "#ffc278"]}>
+            <Text style={styles.textModal} >Você realmente deseja excluir essa notificação?</Text>
 
+            <View style={styles.buttons}>
+              <TouchableOpacity
+                style={styles.buttonModalBack}
+                onPress={toggleModal}>
+                <TabBarIcon name="arrow-left" color={'white'} style={styles.icon} />
+              </TouchableOpacity>
+              <TouchableOpacity
+                style={styles.buttonModal}
+                onPress={handleSubmit}>
+                <Text style={styles.buttonText}>Excluir</Text>
+              </TouchableOpacity>
+
+            </View>
+          </LinearGradient>
+        </View>
+      </Modal>
     </LinearGradient>
   );
 }
@@ -119,6 +154,49 @@ const styles = StyleSheet.create({
   },
   transparent: {
     backgroundColor: Colors.dark.background,
+  },
+  icon: {
+    marginTop: 14,
+    marginHorizontal: 20
+  },
+  buttons: {
+    backgroundColor: 'transparent',
+    flexDirection: 'row',
+    //alignContent: 'center'
+    justifyContent: 'space-evenly',
+    padding: 10,
+  },
+  modal: {
+    overflow: 'hidden',
+    borderRadius: 15,
+
+  },
+  buttonModal: {
+    fontWeight: 'bold',
+    backgroundColor: Colors.Orange.background,
+    borderRadius: 15,
+  },
+  buttonModalBack: {
+    fontWeight: 'bold',
+    backgroundColor: Colors.Orange.background,
+    borderRadius: 15,
+
+  },
+  buttonText: {
+    // margin: 40,
+    fontWeight: 'bold',
+    padding: 15,
+    paddingHorizontal: 40,
+    textAlign: 'center',
+    color: '#ffffff'
+  },
+  textModal: {
+    fontSize: 23,
+    margin: 30,
+    color: 'gray',
+    borderRadius: 16,
+    alignSelf: 'stretch',
+    textAlign: 'center',
   },
   normal: {
     fontSize: 15,
