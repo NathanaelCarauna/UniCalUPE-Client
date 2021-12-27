@@ -15,3 +15,7 @@ export function GetNotificationByCategory(userEmail: string, category: string) {
 export function updateNotification(notification) {
     return new api.put(`/notification/${notification.id}`, notification)
 }
+
+export function deleteNotification(email, id) {
+    return new api.delete(`/notification/${email}/${id}`)
+}

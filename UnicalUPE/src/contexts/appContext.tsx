@@ -44,7 +44,8 @@ export const AppContext = createContext({
     setSelectDate: () => { },
     getNotificationByUserEmail: () => { },
     updateNotification: () => { },
-    getNotificationsByCategory: () => {}
+    getNotificationsByCategory: () => {},
+    deleteNotification: () => { },
 });
 
 export const AppProvider = ({ children }: { children: React.ReactNode }) => {
@@ -199,7 +200,7 @@ export const AppProvider = ({ children }: { children: React.ReactNode }) => {
 
     async function handleSignIn() {
         const CLIENT_ID = '162955034296-ah2keq2dk20d7qvpm0qj4h9bi7iratcr.apps.googleusercontent.com'
-        const REDIRECT_URI = 'https://auth.expo.io/@clara.araujo/UnicalUPE'
+        const REDIRECT_URI = 'https://auth.expo.io/@nathanaelcarauna/UnicalUPE'
         const RESPONSE_TYPE = 'token'
         const SCOPE = encodeURI('profile email')
 
@@ -502,6 +503,24 @@ export const AppProvider = ({ children }: { children: React.ReactNode }) => {
         }
         // setLoading(false);
     }
+
+    async function deleteNotification(id) {
+        try {
+            console.log('Requesting deleteNotification')
+            await NotificationApi.deleteNotification(user.email, id)
+            .then((response: AxiosResponse) => {                    
+                if (response.status == 200) {
+                    getNotificationByUserEmail(user.email)
+                    }
+                    setLoading(false);
+                })
+                .catch(err => {
+                    console.log(err)
+                })
+            } catch (e) {
+            console.log(e)
+        }
+    }
     
     async function getNotificationsByCategory(category: string) {
         // setLoading(true);
@@ -556,6 +575,7 @@ export const AppProvider = ({ children }: { children: React.ReactNode }) => {
             getNotificationByUserEmail,
             updateNotification,
             getNotificationsByCategory,
+            deleteNotification,
         }}>
             {children}
         </AppContext.Provider>
