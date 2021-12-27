@@ -52,8 +52,7 @@ export default function CalendarScreen({ navigation }) {
   }, [eventByDateRequested])
 
   useEffect(() => {
-    console.log("Events Calendar")
-    // console.log(EventsCalendar)
+    // console.log("Events Calendar")
   }, [EventsCalendar])
 
   useEffect(() => {
@@ -65,6 +64,11 @@ export default function CalendarScreen({ navigation }) {
     }
   }, [user])
 
+  const updateCallendar = (date) => {
+    const calendarEvents = EventsCalendar
+    calendarEvents[date] = {...calendarEvents[date], selected:true, selectedColor: 'black'}
+    console.log('---------Calendar events:', date, calendarEvents)
+  }
   return (
     <MainView>
       <TitleMainScreen title='Eventos do Mês' />
@@ -109,6 +113,7 @@ export default function CalendarScreen({ navigation }) {
         onDayPress={(day) => {
           setSelectDate(day.dateString)
           getEventsByDate(day.dateString)
+          // updateCallendar(day.dateString)
           console.log('Selected date:', selectedDate)
         }}
         onDayLongPress={(day) => { console.log('selected day', day) }}

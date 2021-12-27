@@ -407,7 +407,7 @@ export const AppProvider = ({ children }: { children: React.ReactNode }) => {
             // console.log("Json: :", json)
             // console.log("Item: ", item)
             if (!json.hasOwnProperty(item.startDate)) {
-                json[item.startDate] = { dots: [] }
+                json[item.startDate] = { dots: [], selected: true, selectedColor: 'lightgray' }
                 // console.log("Prop added: ", json[item.startDate])
             }
             return json
