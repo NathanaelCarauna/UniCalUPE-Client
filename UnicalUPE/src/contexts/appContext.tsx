@@ -7,6 +7,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import * as AuthSession from 'expo-auth-session';
 import { AxiosResponse } from 'axios';
 import { eventType } from '../types'
+import Colors from '../constants/Colors';
 
 type AuthResponse = {
     type: string;
@@ -407,7 +408,7 @@ export const AppProvider = ({ children }: { children: React.ReactNode }) => {
             // console.log("Json: :", json)
             // console.log("Item: ", item)
             if (!json.hasOwnProperty(item.startDate)) {
-                json[item.startDate] = { dots: [], selected: true, selectedColor: 'lightgray' }
+                json[item.startDate] = { dots: [], selected: true, selectedColor: Colors.dark.background }
                 // console.log("Prop added: ", json[item.startDate])
             }
             return json
