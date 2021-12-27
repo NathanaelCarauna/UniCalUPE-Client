@@ -52,7 +52,7 @@ export default function Notification({ title, category, date, event, notificatio
                     </TouchableOpacity>
                     {showData &&(
                         <TouchableOpacity style={styles.button} onPress={ButtonDelete}>
-                        <Text style={{color: 'black'}}>Delete</Text>
+                        <Text style={{color: 'white'}}>Delete</Text>
                     </TouchableOpacity>
                     )}
                     
@@ -120,7 +120,7 @@ const styles = StyleSheet.create({
     },
     button:{
         position: 'absolute',
-        backgroundColor: 'white',
+        backgroundColor: 'green',
         width: 80,
         height: 60,
         alignItems: 'center',
