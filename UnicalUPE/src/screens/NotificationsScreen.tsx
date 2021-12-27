@@ -8,20 +8,34 @@ import Colors from '../constants/Colors';
 import Notification from '../components/Notification';
 import { FontAwesome } from '@expo/vector-icons';
 import SelectDropdown from 'react-native-select-dropdown';
-import { useContext } from 'react';
+import { useContext, useState } from 'react';
 import AppContext from '../contexts/appContext';
 import Navigation from '../navigation';
 
-const filter = ["Enquete", "Evento"]
+const filter = [{ name: 'Todos', value: -1 }, { name: "Enquete", value: "PESQUISA" }, { name: "Evento", value: "EVENTO" }]
 export default function NotificationsScreen({ navigation }: RootTabScreenProps<'Navigation'>) {
-  const { userNotifications } = useContext(AppContext)
+  const { userNotifications, getNotificationsByCategory, getNotificationByUserEmail } = useContext(AppContext)
+  const [category, setCategory] = useState({ name: 'Todos' })
+  const [refresh, setRefresh] = useState(false)
 
+  const handleFilter = () => {
+    if (category.value != -1) {
+      getNotificationsByCategory(category.value)
+    }else {
+      getNotificationByUserEmail()
+    }
+  }
+
+  React.useEffect(() => {
+    setRefresh(!refresh)
+  }, [userNotifications])
   return (
     <LinearGradient colors={["#fff", "#A0FFA3"]} style={styles.container}>
       <View style={styles.header}>
         <SelectDropdown
           data={filter}
-          defaultButtonText={'Categoria'}
+          extraData={refresh}
+          defaultButtonText={category.name}
           buttonStyle={styles.dropdownBtnStyle}
           dropdownStyle={styles.dropdown}
           buttonTextStyle={styles.dropdownBtnTxtStyle}
@@ -35,19 +49,20 @@ export default function NotificationsScreen({ navigation }: RootTabScreenProps<'
           }}
           onSelect={(selectedItem, index) => {
             console.log(selectedItem, index)
+            setCategory(selectedItem)
           }}
           buttonTextAfterSelection={(selectedItem, index) => {
             // text represented after item is selected
             // if data array is an array of objects then return selectedItem.property to render after item is selected
-            return selectedItem
+            return selectedItem.name
           }}
           rowTextForSelection={(item, index) => {
             // text represented for each item in dropdown
             // if data array is an array of objects then return item.property to represent item in dropdown
-            return item
+            return item.name
           }}
         />
-        <TouchableOpacity style={styles.filtrar}>
+        <TouchableOpacity style={styles.filtrar} onPress={handleFilter}>
           <Text style={styles.normal_n}>Filtrar</Text>
         </TouchableOpacity>
       </View>
@@ -55,7 +70,7 @@ export default function NotificationsScreen({ navigation }: RootTabScreenProps<'
       <View style={styles.separator} lightColor="#004369" darkColor="rgba(0,67,105,0.1)" />
       {userNotifications.length > 0 ? <FlatList
         key={'_'}
-        data={userNotifications.sort((a,b) => b.id - a.id)}
+        data={userNotifications.sort((a, b) => b.id - a.id)}
         renderItem={({ item }) => (
           <Notification
             title={item.title}
