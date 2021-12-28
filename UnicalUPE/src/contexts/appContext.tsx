@@ -46,7 +46,7 @@ export const AppContext = createContext({
     setSelectDate: () => { },
     getNotificationByUserEmail: () => { },
     updateNotification: () => { },
-    getNotificationsByCategory: () => {},
+    getNotificationsByCategory: () => { },
     deleteNotification: () => { },
 });
 
@@ -401,7 +401,7 @@ export const AppProvider = ({ children }: { children: React.ReactNode }) => {
         }
         setLoading(false);
     }
-    
+
     function createEventsJsonKeys(events) {
         // console.log("Create Json")
         var list = events.reduce((json, item, i) => {
@@ -416,12 +416,12 @@ export const AppProvider = ({ children }: { children: React.ReactNode }) => {
         // console.log("Json created: ", list)
         return list;
     }
-    
+
     function processEventsCalendar(events) {
         // console.log('Process events started')
         let eventJson = createEventsJsonKeys(events);
         // console.log("Json received from creation: ", eventJson)
-        
+
         // console.log("Starting adding object to dots")
         events.forEach(element => {
             // console.log("Element: ", element)
@@ -431,9 +431,9 @@ export const AppProvider = ({ children }: { children: React.ReactNode }) => {
         // console.log("Final list json: ", eventJson)
         return eventJson
     }
-    
-    
-    
+
+
+
     function setCategoryColor(event: eventType) {
         if (event.category == 'EVENTO' && event.course) {
             switch (event.course.name) {
@@ -443,28 +443,40 @@ export const AppProvider = ({ children }: { children: React.ReactNode }) => {
                     return '#f7b538' // amarelo claro
                 case 'Medicina':
                     return '#e63946' //verde
-                    case 'Licenciatura em Computação':
+                case 'Licenciatura em Computação':
                     return '#168aad'
+                case "Ciências Biológicas":
+                    return '#f4a261'
+                case "Letras":
+                    return '#5390d9'
+                case "Geografia":
+                    return '#6930c3'
+                case "História":
+                    return '#606c38'
+                case "Matemática":
+                    return '#ff8fa3'
+                case "Pedagogia":
+                    return '#ddbdfc'
                 default:
             }
         } else if (event.category == 'PESQUISA') {
             return '#ade8f4' // Azull bebê
         } else {
             return '#cfc0bd' // cinza
-            
+
         }
-        
+
     }
-    
+
     // --------------------------------------------//Courses//------------------------------------------------------------
-    
+
     async function getAllCourses() {
         setLoading(true);
         try {
             console.log('Requesting getAllCourses')
             await CoursesApi.getAllCourses()
-            .then((response: AxiosResponse) => {
-                //console.log('Courses requested')
+                .then((response: AxiosResponse) => {
+                    //console.log('Courses requested')
                     // console.log(response.data)
                     if (response.status == 200) {
                         setCoursesList([{ id: -1, name: 'Todos' }, ...response.data])
@@ -481,22 +493,22 @@ export const AppProvider = ({ children }: { children: React.ReactNode }) => {
         }
         setLoading(false);
     }
-    
+
     function CurrentCourse(course) {
         setCurrentCourse(course)
     }
-    
+
     // --------------------------------------------//Notifications//------------------------------------------------------------
-    
+
     async function getNotificationByUserEmail(email: string = user.email) {
         // setLoading(true);
         try {
             console.log('Requesting getNotificationByUserEmail')
             await NotificationApi.getNotificationByUserEmail(email)
-            .then((response: AxiosResponse) => {
-                console.log('Notifications:', response.data)
-                if (response.status == 200) {
-                    setUserNotifications(response.data)
+                .then((response: AxiosResponse) => {
+                    console.log('Notifications:', response.data)
+                    if (response.status == 200) {
+                        setUserNotifications(response.data)
                     }
                     // setLoading(false);
                 })
@@ -504,21 +516,21 @@ export const AppProvider = ({ children }: { children: React.ReactNode }) => {
                     console.log(err)
                     // setLoading(false);
                 })
-            } catch (e) {
+        } catch (e) {
             console.log(e)
 
         }
         // setLoading(false);
     }
-    
+
     async function updateNotification(notification) {
         // setLoading(true);
         try {
             console.log('Requesting updateNotification')
             await NotificationApi.updateNotification(notification)
-            .then((response: AxiosResponse) => {                    
-                if (response.status == 200) {
-                    getNotificationByUserEmail(user.email)
+                .then((response: AxiosResponse) => {
+                    if (response.status == 200) {
+                        getNotificationByUserEmail(user.email)
                     }
                     setLoading(false);
                 })
@@ -526,9 +538,9 @@ export const AppProvider = ({ children }: { children: React.ReactNode }) => {
                     console.log(err)
                     // setLoading(false);
                 })
-            } catch (e) {
+        } catch (e) {
             console.log(e)
-            
+
         }
         // setLoading(false);
     }
@@ -537,20 +549,20 @@ export const AppProvider = ({ children }: { children: React.ReactNode }) => {
         try {
             console.log('Requesting deleteNotification')
             await NotificationApi.deleteNotification(user.email, id)
-            .then((response: AxiosResponse) => {                    
-                if (response.status == 200) {
-                    getNotificationByUserEmail(user.email)
+                .then((response: AxiosResponse) => {
+                    if (response.status == 200) {
+                        getNotificationByUserEmail(user.email)
                     }
                     setLoading(false);
                 })
                 .catch(err => {
                     console.log(err)
                 })
-            } catch (e) {
+        } catch (e) {
             console.log(e)
         }
     }
-    
+
     async function getNotificationsByCategory(category: string) {
         // setLoading(true);
         try {
@@ -575,7 +587,7 @@ export const AppProvider = ({ children }: { children: React.ReactNode }) => {
         setLoading(false);
     }
     return (
-        
+
         <AppContext.Provider value={{
             signed: !!user,
             user,
