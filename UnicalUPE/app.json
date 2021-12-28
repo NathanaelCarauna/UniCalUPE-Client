@@ -4,7 +4,7 @@
     "slug": "UnicalUPE",
     "version": "1.0.0",
     "orientation": "portrait",
-    "icon": "./assets/images/icon.png",
+    "icon": "./assets/images/Unical-Logo-icon.png",
     "scheme": "unicalupe",
     "userInterfaceStyle": "automatic",
     "splash": {
