@@ -26,15 +26,15 @@ export default function Evento() {
 
   const navigation = useNavigation()
 
-  const { postEvent, coursesList } = React.useContext(AppContext)
+  const { postEvent, updateEvent, coursesList } = React.useContext(AppContext)
   const [event, setEvent] = useState({ title: null, presentor: null, local: null, description: null, link: null });
 
   const handleSubmit = () => {
     if(event.title == null||  event.description == null || event.startDate == null){
       Alert.alert("'Titulo', 'descrição' e 'Data de Inicio' não podem ser nulos")
     }
-    else if (postEvent(event)) {
-      console.log('add event')
+    else if (updateEvent(event)) {
+      console.log('update event')
       navigation.navigate('Root')
     }
   }
