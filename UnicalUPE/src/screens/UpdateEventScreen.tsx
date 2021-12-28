@@ -98,7 +98,7 @@ export default function Evento() {
 
 
   return (
-    <LinearGradient style={styles.container} colors={["#ffffff", "#8F98FF"]}>
+    <LinearGradient style={styles.container} colors={["#ffffff", "#192f6a"]}>
       <ScrollView style={styles.scroll}>
 
         <TextInput style={styles.text} placeholder="Título"
@@ -184,7 +184,7 @@ export default function Evento() {
               value={event.presentor} />
           </View>
           <View style={styles.textView}>
-            <TabBarIcon style={styles.localIcon} name="map-marker" color={Colors.Blue.background} />
+            <TabBarIcon style={styles.localIcon} name="map-marker" color={Colors.DarkBlue.background} />
             <TextInput style={styles.text} placeholder="Local"
               onChangeText={(value) => setEvent({ ...event, local: value })}
               value={event.local} />
@@ -237,7 +237,7 @@ export default function Evento() {
         }
         {/* Date picker line */}
         <View style={styles.textView}>
-          <TabBarIcon style={styles.icons} name="calendar" color={Colors.Blue.background} />
+          <TabBarIcon style={styles.icons} name="calendar" color={Colors.DarkBlue.background} />
           <TouchableOpacity style={styles.calendar} onPress={
             showDataMode
           }>
@@ -378,7 +378,7 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     borderRadius: 15,
     alignItems: 'center',
-    backgroundColor: "#8F98FF",
+    backgroundColor: "#192f6a",
     borderColor: 'white',
     borderWidth: 3
   },

@@ -104,7 +104,7 @@ function RootNavigator() {
           headerShown: true,
           title: 'Editar Evento',
           headerTintColor: 'white',
-          headerStyle: { backgroundColor: '#8F98FF' }
+          headerStyle: { backgroundColor: '#192f6a' }
         }}
       />
 
