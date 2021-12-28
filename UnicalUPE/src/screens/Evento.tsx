@@ -12,8 +12,10 @@ import AppContext from '../contexts/appContext';
 
 export default function Evento({ route, navigation }) {
   const { updateNotification } = useContext(AppContext)
+  const { user } = useContext(AppContext)
   const { event } = route.params
   const { notification } = route.params
+  const [setTouchableOpacity] = React.useState(false);
 
   const navigate = () => {
     navigation.navigate('UpdateEvent')
@@ -89,11 +91,12 @@ export default function Evento({ route, navigation }) {
           </LinearGradient>
         </TouchableOpacity>) : null}
 
-        <TouchableOpacity
+        {user && (user.accountType == 'STUDENT' || user.accountType == 'ADM') ? (<TouchableOpacity
           style={styles.button}
           onPress={navigate}>
           <Text style={styles.buttonText}>Editar Evento</Text>
-        </TouchableOpacity>
+        </TouchableOpacity>) : null}
+
 
         <View style={styles.separator} lightColor="#004369" darkColor="rgba(0,67,105,0.1)" />
       </LinearGradient>
