@@ -442,7 +442,7 @@ export const AppProvider = ({ children }: { children: React.ReactNode }) => {
                 case 'Psicologia':
                     return '#f7b538' // amarelo claro
                 case 'Medicina':
-                    return '#52b788' //verde
+                    return '#e63946' //verde
                     case 'Licenciatura em Computação':
                     return '#168aad'
                 default:
