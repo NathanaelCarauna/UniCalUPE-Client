@@ -178,7 +178,7 @@ export default function Evento() {
 
         {categoryState == 'EVENTO' ? <>
           <View style={styles.textView}>
-            <TabBarIcon style={styles.presentorIcon} name="user" color={Colors.Blue.background} />
+            <TabBarIcon style={styles.presentorIcon} name="user" color={Colors.DarkBlue.background} />
             <TextInput style={styles.text} placeholder="Apresentador"
               onChangeText={(value) => setEvent({ ...event, presentor: value })}
               value={event.presentor} />
@@ -190,7 +190,7 @@ export default function Evento() {
               value={event.local} />
           </View>
           <View style={styles.textView}>
-            <TabBarIcon style={styles.icons} name="clock-o" color={Colors.Blue.background} />
+            <TabBarIcon style={styles.icons} name="clock-o" color={Colors.DarkBlue.background} />
             <TouchableOpacity style={styles.calendar} onPress={
               showTimeMode
             }>
@@ -424,7 +424,7 @@ const styles = StyleSheet.create({
   },
   dropdown: {
     borderRadius: 16,
-    backgroundColor: Colors.Blue.background,
+    backgroundColor: Colors.DarkBlue.background,
   },
   dropdownRowStyle: {
 
