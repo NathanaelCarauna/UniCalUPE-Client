@@ -37,7 +37,7 @@ export default function Evento() {
 
   const handleSubmit = () => {
     if (event.title == null || event.description == null || event.startDate == null) {
-      Alert.alert("'Titulo', 'descrição' e 'Data de Inicio' não podem ser nulos")
+      Alert.alert('"Titulo", "Descrição" e "Data de Inicio" não podem ser nulos')
     }
     else if (postEvent(event)) {
       console.log('add event')
@@ -104,7 +104,7 @@ export default function Evento() {
 
 
   return (
-    <LinearGradient style={styles.container} colors={["#ffffff", "#8F98FF"]}>
+    <LinearGradient style={styles.container} colors={["#ffffff", "#8f98ff", "#8F98FF"]}>
       <ScrollView style={styles.scroll}>
 
         <TextInput style={styles.text} placeholder="Título"
@@ -346,9 +346,9 @@ const styles = StyleSheet.create({
     backgroundColor: '#E9E9E9',
     borderRadius: 16,
     alignSelf: 'stretch',
-    textAlign: 'center',
+    // textAlign: 'center',
     borderColor: 'white',
-    borderWidth: 3
+    borderWidth: 3,    
   },
   icons: {
     padding: 10,
@@ -356,6 +356,7 @@ const styles = StyleSheet.create({
     // marginRight: 5,
     alignSelf: 'flex-start',
     alignContent: 'flex-start',
+    color: Colors.DarkBlue.background
   },
   localIcon: {
     padding: 10,
@@ -363,6 +364,7 @@ const styles = StyleSheet.create({
     marginRight: 11,
     alignSelf: 'flex-start',
     alignContent: 'flex-start',
+    color: Colors.DarkBlue.background,
   },
   presentorIcon: {
     padding: 10,
@@ -370,6 +372,7 @@ const styles = StyleSheet.create({
     marginRight: 7,
     alignSelf: 'flex-start',
     alignContent: 'flex-start',
+    color: Colors.DarkBlue.background
   },
   textView: {
     flexDirection: 'row',
@@ -384,9 +387,9 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     borderRadius: 15,
     alignItems: 'center',
-    backgroundColor: "#8F98FF",
+    backgroundColor: Colors.DarkBlue.background,
     borderColor: 'white',
-    borderWidth: 3
+    // borderWidth: 3
   },
   buttonText: {
     fontWeight: 'bold',
@@ -402,7 +405,7 @@ const styles = StyleSheet.create({
     color: 'gray',
     backgroundColor: '#E9E9E9',
     borderRadius: 16,
-    alignSelf: 'stretch',
+    // alignSelf: 'stretch',
     textAlign: 'center',
     borderColor: 'white',
     borderWidth: 3
@@ -414,17 +417,19 @@ const styles = StyleSheet.create({
   dropdownBtnStyle: {
     //marginStart: 10,
     marginVertical: 5,
-    padding: 12,
+    // padding: 12,
     backgroundColor: '#E9E9E9',
     borderRadius: 16,
-    textAlign: 'center',
+    // textAlign: 'center',
     borderColor: 'white',
     borderWidth: 3,
     width: '100%'
   },
   dropdownBtnTxtStyle: {
+    // padding: 10,
+    textAlign: 'left',
     fontSize: 18,
-    alignSelf: 'stretch',
+    // alignSelf: 'stretch',
     color: 'gray',
 
   },
@@ -440,6 +445,7 @@ const styles = StyleSheet.create({
     color: 'white',
   },
   dropdownIcon: {
-    marginHorizontal: 10
+    marginHorizontal: 10,
+    
   }
 });
