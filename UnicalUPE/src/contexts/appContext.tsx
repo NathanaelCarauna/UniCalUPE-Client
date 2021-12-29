@@ -334,7 +334,7 @@ export const AppProvider = ({ children }: { children: React.ReactNode }) => {
                     //console.log(response.data)
                     if (response.status == 200) {
                         console.log('Event created')
-                        getEventsByCourse(user.course)
+                        getEventsByCourse(user.course.id)
                     }
                     setLoading(false);
                 })

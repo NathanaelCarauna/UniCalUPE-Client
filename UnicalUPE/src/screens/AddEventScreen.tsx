@@ -13,6 +13,11 @@ import AppContext from '../contexts/appContext';
 import SelectDropdown from 'react-native-select-dropdown';
 import { useNavigation } from '@react-navigation/native';
 
+
+const processDate = (field: string) => {
+  return `${field}`.length == 1 ? `0${field}` : field
+}
+
 export default function Evento() {
   const [date, setDate] = useState();
   const [endDate, setEndDate] = useState();
@@ -31,8 +36,8 @@ export default function Evento() {
 
 
   const handleSubmit = () => {
-    if(event.title == null||  event.description == null || event.startDate == null){
-      Alert.alert("'Titulo', 'descrição' e 'Data de Inicio' não podem ser nulos")
+    if (event.title == null || event.description == null || event.startDate == null) {
+      Alert.alert('"Titulo", "Descrição" e "Data de Inicio" não podem ser nulos')
     }
     else if (postEvent(event)) {
       console.log('add event')
@@ -62,7 +67,7 @@ export default function Evento() {
     if (startDate) {
       console.log("Start date setado")
       setDate(startDate)
-      setEvent({ ...event, startDate: `${startDate.getFullYear()}-${startDate.getMonth() + 1}-${startDate.getDate()}` })
+      setEvent({ ...event, startDate: `${processDate(startDate.getFullYear())}-${processDate(startDate.getMonth() + 1)}-${processDate(startDate.getDate())}` })
     }
     setShowData(!showData)
   }
@@ -99,7 +104,7 @@ export default function Evento() {
 
 
   return (
-    <LinearGradient style={styles.container} colors={["#ffffff", "#8F98FF"]}>
+    <LinearGradient style={styles.container} colors={["#ffffff", "#8f98ff", "#8F98FF"]}>
       <ScrollView style={styles.scroll}>
 
         <TextInput style={styles.text} placeholder="Título"
@@ -196,7 +201,7 @@ export default function Evento() {
               showTimeMode
             }>
               {
-                time ? <Text style={styles.Text_Normal}> {time.getHours()}:{time.getMinutes()}</Text>
+                time ? <Text style={styles.Text_Normal}> {processDate(time.getHours())}:{processDate(time.getMinutes())}</Text>
                   : <Text style={styles.Text_Normal}>Hora de inicio</Text>
               }
 
@@ -216,7 +221,7 @@ export default function Evento() {
               showEndTimeMode
             }>
               {
-                endTime ? <Text style={styles.Text_Normal}> {endTime.getHours()}:{endTime.getMinutes()}</Text>
+                endTime ? <Text style={styles.Text_Normal}> {processDate(endTime.getHours())}:{processDate(endTime.getMinutes())}</Text>
                   : <Text style={styles.Text_Normal}>Hora de fim</Text>
               }
 
@@ -243,7 +248,7 @@ export default function Evento() {
             showDataMode
           }>
             {
-              date ? <Text style={styles.Text_Normal}>{date.getDate()}/{date.getMonth() + 1}/{date.getFullYear()}</Text>
+              date ? <Text style={styles.Text_Normal}>{processDate(date.getDate())}/{processDate(date.getMonth() + 1)}/{date.getFullYear()}</Text>
                 : <Text style={styles.Text_Normal}>Data de inicio</Text>
             }
           </TouchableOpacity >
@@ -261,7 +266,7 @@ export default function Evento() {
             showEndDataMode
           }>
             {
-              endDate ? <Text style={styles.Text_Normal}> {endDate.getDate()}/{endDate.getMonth() + 1}/{endDate.getFullYear()}</Text>
+              endDate ? <Text style={styles.Text_Normal}> {processDate(endDate.getDate())}/{processDate(endDate.getMonth() + 1)}/{endDate.getFullYear()}</Text>
                 : <Text style={styles.Text_Normal}>Data de fim</Text>
             }
 
@@ -341,9 +346,9 @@ const styles = StyleSheet.create({
     backgroundColor: '#E9E9E9',
     borderRadius: 16,
     alignSelf: 'stretch',
-    textAlign: 'center',
+    // textAlign: 'center',
     borderColor: 'white',
-    borderWidth: 3
+    borderWidth: 3,    
   },
   icons: {
     padding: 10,
@@ -351,6 +356,7 @@ const styles = StyleSheet.create({
     // marginRight: 5,
     alignSelf: 'flex-start',
     alignContent: 'flex-start',
+    color: Colors.DarkBlue.background
   },
   localIcon: {
     padding: 10,
@@ -358,6 +364,7 @@ const styles = StyleSheet.create({
     marginRight: 11,
     alignSelf: 'flex-start',
     alignContent: 'flex-start',
+    color: Colors.DarkBlue.background,
   },
   presentorIcon: {
     padding: 10,
@@ -365,6 +372,7 @@ const styles = StyleSheet.create({
     marginRight: 7,
     alignSelf: 'flex-start',
     alignContent: 'flex-start',
+    color: Colors.DarkBlue.background
   },
   textView: {
     flexDirection: 'row',
@@ -379,9 +387,9 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     borderRadius: 15,
     alignItems: 'center',
-    backgroundColor: "#8F98FF",
+    backgroundColor: Colors.DarkBlue.background,
     borderColor: 'white',
-    borderWidth: 3
+    // borderWidth: 3
   },
   buttonText: {
     fontWeight: 'bold',
@@ -397,7 +405,7 @@ const styles = StyleSheet.create({
     color: 'gray',
     backgroundColor: '#E9E9E9',
     borderRadius: 16,
-    alignSelf: 'stretch',
+    // alignSelf: 'stretch',
     textAlign: 'center',
     borderColor: 'white',
     borderWidth: 3
@@ -409,17 +417,19 @@ const styles = StyleSheet.create({
   dropdownBtnStyle: {
     //marginStart: 10,
     marginVertical: 5,
-    padding: 12,
+    // padding: 12,
     backgroundColor: '#E9E9E9',
     borderRadius: 16,
-    textAlign: 'center',
+    // textAlign: 'center',
     borderColor: 'white',
     borderWidth: 3,
     width: '100%'
   },
   dropdownBtnTxtStyle: {
+    // padding: 10,
+    textAlign: 'left',
     fontSize: 18,
-    alignSelf: 'stretch',
+    // alignSelf: 'stretch',
     color: 'gray',
 
   },
@@ -435,6 +445,7 @@ const styles = StyleSheet.create({
     color: 'white',
   },
   dropdownIcon: {
-    marginHorizontal: 10
+    marginHorizontal: 10,
+    
   }
 });
