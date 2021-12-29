@@ -91,7 +91,7 @@ export default function Evento({ route, navigation }) {
           </LinearGradient>
         </TouchableOpacity>) : null}
 
-        {user && (user.accountType == 'STUDENT' || user.accountType == 'ADM') ? (<TouchableOpacity
+        {user && (user.accountType == 'ADM') ? (<TouchableOpacity
           style={styles.button}
           onPress={navigate}>
           <Text style={styles.buttonText}>Editar Evento</Text>
