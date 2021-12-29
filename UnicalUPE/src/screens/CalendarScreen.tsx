@@ -53,13 +53,13 @@ export default function CalendarScreen({ navigation }) {
     }
   }, [eventByDateRequested])
 
-  // useEffect(() => {
-  //   if(user && user.email){
-  //     setInterval(() => {
-  //       getNotificationByUserEmail()
-  //     }, 30000)
-  //   }
-  // }, [avoid])
+  useEffect(() => {
+    if(user && user.email){
+      setInterval(() => {
+        getNotificationByUserEmail()
+      }, 60000)
+    }
+  }, [avoid])
 
   useEffect(() => {
     if (user && !user.course) {
