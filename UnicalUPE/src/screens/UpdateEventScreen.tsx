@@ -8,12 +8,14 @@ import Colors from '../constants/Colors';
 import { FontAwesome } from '@expo/vector-icons';
 import Layout from '../constants/Layout';
 import DateTimePicker from '@react-native-community/datetimepicker';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import AppContext from '../contexts/appContext';
 import SelectDropdown from 'react-native-select-dropdown';
 import { useNavigation } from '@react-navigation/native';
 
-export default function Evento() {
+export default function Evento({ route }) {
+  const { routeEvent } = route.params
+
   const [date, setDate] = useState();
   const [endDate, setEndDate] = useState();
   const [time, setTime] = useState();
@@ -38,6 +40,14 @@ export default function Evento() {
       navigation.navigate('Root')
     }
   }
+
+  useEffect(() => {
+    console.log("testando route", routeEvent.startDate, routeEvent.title)
+    setDate(routeEvent.startDate ? new Date(routeEvent.startDate): null)
+    setEndDate(routeEvent.endDate ? new Date(routeEvent.endDate): null)
+    setCategoryState(routeEvent.categoryState)
+   
+  }, [routeEvent])
 
   const showDataMode = () => {
     setShowData(!showData);

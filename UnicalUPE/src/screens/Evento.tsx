@@ -18,7 +18,7 @@ export default function Evento({ route, navigation }) {
   const [setTouchableOpacity] = React.useState(false);
 
   const navigate = () => {
-    navigation.navigate('UpdateEvent')
+    navigation.navigate('UpdateEvent', {routeEvent:event})
   }
 
   useEffect(() => {
