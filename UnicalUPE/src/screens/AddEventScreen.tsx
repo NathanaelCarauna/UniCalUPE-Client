@@ -13,6 +13,11 @@ import AppContext from '../contexts/appContext';
 import SelectDropdown from 'react-native-select-dropdown';
 import { useNavigation } from '@react-navigation/native';
 
+
+const processDate = (field: string) => {
+  return `${field}`.length == 1 ? `0${field}` : field
+}
+
 export default function Evento() {
   const [date, setDate] = useState();
   const [endDate, setEndDate] = useState();
@@ -31,7 +36,7 @@ export default function Evento() {
 
 
   const handleSubmit = () => {
-    if(event.title == null||  event.description == null || event.startDate == null){
+    if (event.title == null || event.description == null || event.startDate == null) {
       Alert.alert("'Titulo', 'descrição' e 'Data de Inicio' não podem ser nulos")
     }
     else if (postEvent(event)) {
@@ -62,7 +67,7 @@ export default function Evento() {
     if (startDate) {
       console.log("Start date setado")
       setDate(startDate)
-      setEvent({ ...event, startDate: `${startDate.getFullYear()}-${startDate.getMonth() + 1}-${startDate.getDate()}` })
+      setEvent({ ...event, startDate: `${processDate(startDate.getFullYear())}-${processDate(startDate.getMonth() + 1)}-${processDate(startDate.getDate())}` })
     }
     setShowData(!showData)
   }
@@ -196,7 +201,7 @@ export default function Evento() {
               showTimeMode
             }>
               {
-                time ? <Text style={styles.Text_Normal}> {time.getHours()}:{time.getMinutes()}</Text>
+                time ? <Text style={styles.Text_Normal}> {processDate(time.getHours())}:{processDate(time.getMinutes())}</Text>
                   : <Text style={styles.Text_Normal}>Hora de inicio</Text>
               }
 
@@ -216,7 +221,7 @@ export default function Evento() {
               showEndTimeMode
             }>
               {
-                endTime ? <Text style={styles.Text_Normal}> {endTime.getHours()}:{endTime.getMinutes()}</Text>
+                endTime ? <Text style={styles.Text_Normal}> {processDate(endTime.getHours())}:{processDate(endTime.getMinutes())}</Text>
                   : <Text style={styles.Text_Normal}>Hora de fim</Text>
               }
 
@@ -243,7 +248,7 @@ export default function Evento() {
             showDataMode
           }>
             {
-              date ? <Text style={styles.Text_Normal}>{date.getDate()}/{date.getMonth() + 1}/{date.getFullYear()}</Text>
+              date ? <Text style={styles.Text_Normal}>{processDate(date.getDate())}/{processDate(date.getMonth() + 1)}/{date.getFullYear()}</Text>
                 : <Text style={styles.Text_Normal}>Data de inicio</Text>
             }
           </TouchableOpacity >
@@ -261,7 +266,7 @@ export default function Evento() {
             showEndDataMode
           }>
             {
-              endDate ? <Text style={styles.Text_Normal}> {endDate.getDate()}/{endDate.getMonth() + 1}/{endDate.getFullYear()}</Text>
+              endDate ? <Text style={styles.Text_Normal}> {processDate(endDate.getDate())}/{processDate(endDate.getMonth() + 1)}/{endDate.getFullYear()}</Text>
                 : <Text style={styles.Text_Normal}>Data de fim</Text>
             }
 
