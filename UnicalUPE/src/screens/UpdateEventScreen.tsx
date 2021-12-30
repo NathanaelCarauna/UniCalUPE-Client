@@ -32,7 +32,7 @@ export default function Evento({ route }) {
   const [event, setEvent] = useState({ title: null, presentor: null, local: null, description: null, link: null });
 
   const handleSubmit = () => {
-    if(event.title == null||  event.description == null || event.startDate == null){
+    if (event.title == null || event.description == null || event.startDate == null) {
       Alert.alert("'Titulo', 'descrição' e 'Data de Inicio' não podem ser nulos")
     }
     else if (updateEvent(event)) {
@@ -43,10 +43,21 @@ export default function Evento({ route }) {
 
   useEffect(() => {
     console.log("testando route", routeEvent.startDate, routeEvent.title)
-    setDate(routeEvent.startDate ? new Date(routeEvent.startDate): null)
-    setEndDate(routeEvent.endDate ? new Date(routeEvent.endDate): null)
-    setCategoryState(routeEvent.categoryState)
-   
+    setDate(routeEvent.startDate ? new Date(routeEvent.startDate) : null)
+    setEndDate(routeEvent.endDate ? new Date(routeEvent.endDate) : null)
+    setCategoryState(routeEvent.category)
+    setEvent({ 
+      title: routeEvent.title, 
+      id: routeEvent.id, 
+      presentor: routeEvent.presentor, 
+      description: routeEvent.description,
+      link: routeEvent.link,
+      local: routeEvent.local,      
+      course: {id: routeEvent.course ? routeEvent.course.id : null}
+    })
+    setTime(routeEvent.startHour)
+    setEndTime(routeEvent.endHour)
+
   }, [routeEvent])
 
   const showDataMode = () => {
@@ -95,6 +106,15 @@ export default function Evento({ route }) {
     setShowTime(!showTime)
   }
 
+  function toTitleCase(str) {
+    return str.replace(
+      /\w\S*/g,
+      function (txt) {
+        return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();
+      }
+    );
+  }
+
   const HandleEndTime = (value) => {
     let endHour = value.nativeEvent.timestamp
     if (endHour) {
@@ -118,7 +138,7 @@ export default function Evento({ route }) {
 
         <SelectDropdown
           data={[{ name: 'Pesquisa', value: 'PESQUISA' }, { name: 'Evento', value: 'EVENTO' }]}
-          defaultButtonText={'Selecione uma categoria'}
+          defaultButtonText={toTitleCase(routeEvent.category) || 'Selecione uma categoria'}
           buttonStyle={styles.dropdownBtnStyle}
           dropdownStyle={styles.dropdown}
           buttonTextStyle={styles.dropdownBtnTxtStyle}
@@ -148,7 +168,7 @@ export default function Evento({ route }) {
         />
         <SelectDropdown
           data={coursesList}
-          defaultButtonText={'Selecione o seu curso'}
+          defaultButtonText={routeEvent.course ? routeEvent.course.name :  'Selecione o seu curso'}
           buttonStyle={styles.dropdownBtnStyle}
           dropdownStyle={styles.dropdown}
           buttonTextStyle={styles.dropdownBtnTxtStyle}
@@ -205,7 +225,7 @@ export default function Evento({ route }) {
               showTimeMode
             }>
               {
-                time ? <Text style={styles.Text_Normal}> {time.getHours()}:{time.getMinutes()}</Text>
+                time ? <Text style={styles.Text_Normal}> { typeof time == 'string' ? time : `${time.getHours()}:${time.getMinutes()}`}</Text>
                   : <Text style={styles.Text_Normal}>Hora de inicio</Text>
               }
 
@@ -225,7 +245,7 @@ export default function Evento({ route }) {
               showEndTimeMode
             }>
               {
-                endTime ? <Text style={styles.Text_Normal}> {endTime.getHours()}:{endTime.getMinutes()}</Text>
+                endTime ? <Text style={styles.Text_Normal}> { typeof endTime == 'string' ? endTime : `${endTime.getHours()}:${endTime.getMinutes()}`}</Text>
                   : <Text style={styles.Text_Normal}>Hora de fim</Text>
               }
 
