@@ -28,7 +28,7 @@ export default function Evento({ route }) {
 
   const navigation = useNavigation()
 
-  const { postEvent, updateEvent, coursesList } = React.useContext(AppContext)
+  const { updateEvent, coursesList } = React.useContext(AppContext)
   const [event, setEvent] = useState({ title: null, presentor: null, local: null, description: null, link: null });
 
   const handleSubmit = () => {
@@ -41,6 +41,9 @@ export default function Evento({ route }) {
     }
   }
 
+  const setTimeValue = (time) => {
+    return typeof time == 'string' ? new Date(0,0,0, time.substring(0,2), time.substring(0,2)) : (time || new Date())
+  }
   useEffect(() => {
     console.log("testando route", routeEvent.startDate, routeEvent.title)
     setDate(routeEvent.startDate ? new Date(routeEvent.startDate) : null)
@@ -53,6 +56,10 @@ export default function Evento({ route }) {
       description: routeEvent.description,
       link: routeEvent.link,
       local: routeEvent.local,      
+      startDate: routeEvent.startDate,
+      endDate: routeEvent.endDate,
+      startHour: routeEvent.startHour,
+      endHour: routeEvent.endHour,
       course: {id: routeEvent.course ? routeEvent.course.id : null}
     })
     setTime(routeEvent.startHour)
@@ -234,7 +241,7 @@ export default function Evento({ route }) {
               <DateTimePicker
                 testID="dateTimePicker"
                 mode="time"
-                value={time || new Date()}
+                value={setTimeValue(time)}
                 is24Hour={true}
                 display="default"
                 onChange={HandleTime}
@@ -254,7 +261,7 @@ export default function Evento({ route }) {
               <DateTimePicker
                 testID="dateTimePicker"
                 mode="time"
-                value={endTime || new Date()}
+                value={setTimeValue(endTime)}
                 is24Hour={true}
                 display="default"
                 onChange={HandleEndTime}

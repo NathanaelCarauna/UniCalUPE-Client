@@ -26,8 +26,8 @@ export function postEvent(event){
 }
 
 
-export function updateEvent(id: { id: number}) {
-    return new api.put(`/event/${id}`)
+export function updateEvent(event) {
+    return new api.put(`/event/${event.id}`, event)
 }
 
 export function deleteEvent(id: { id: number }) {
