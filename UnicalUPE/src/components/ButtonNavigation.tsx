@@ -4,16 +4,11 @@ import { StyleSheet, TouchableOpacity } from 'react-native';
 
 import Colors from '../constants/Colors';
 import { Text, View } from './Themed';
-import ButtonDetail from '../../assets/images/ButtonDetail.svg';
-import ButtonDetailRed from '../../assets/images/ButtonDetailRed.svg';
-import ButtonDetailBlue from '../../assets/images/ButtonDetailBlue.svg';
-import ButtonDetailGreen from '../../assets/images/ButtonDetailGreen.svg';
-import ButtonDetailYellow from '../../assets/images/ButtonDetailYellow.svg';
-import ButtonDetailPourple from '../../assets/images/ButtonDetailPourple.svg';
 import { RootStackParamList, RootTabParamList, RootTabScreenProps } from '../types';
 import { BottomTabNavigationProp } from '@react-navigation/bottom-tabs';
 import { CompositeNavigationProp } from '@react-navigation/native';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
+import { FontAwesome } from '@expo/vector-icons';
 
 type PropsButton = {
     navigation: CompositeNavigationProp<BottomTabNavigationProp<RootTabParamList, "Navigation">, NativeStackNavigationProp<RootStackParamList, string>>
@@ -22,7 +17,7 @@ type PropsButton = {
     destination: string | Function
 }
 
-export default function ButtonNavigation(props: PropsButton) {    
+export default function ButtonNavigation(props: PropsButton) {
 
     const buttonText = props.buttonText
     const backgroundColor = props.backColor || Colors.Orange.background
@@ -36,43 +31,21 @@ export default function ButtonNavigation(props: PropsButton) {
     }
     return (
         <TouchableOpacity
-            style={[styles.navButton, { backgroundColor: backgroundColor }]}
+            style={[styles.navButton, { backgroundColor: 'white', borderColor: backgroundColor }]}
             onPress={navigate}
         >
-            {props.backColor == Colors.Red.background
-                ? <ButtonDetailRed fill='#123' style={styles.buttonDetail} />
-                : <></>
-            }
-            {props.backColor == Colors.Blue.background
-                ? <ButtonDetailBlue fill='#123' style={styles.buttonDetail} />
-                : <></>
-            }
-            {props.backColor == ''
-                ? <ButtonDetail fill='#123' style={styles.buttonDetail} />
-                : <></>
-            }
-            {props.backColor == Colors.Green.background
-                ? <ButtonDetailGreen fill='#123' style={styles.buttonDetail} />
-                : <></>
-            }
-            {props.backColor == Colors.Yellow.background
-                ? <ButtonDetailYellow fill='#123' style={styles.buttonDetail} />
-                : <></>
-            }
-            {props.backColor == Colors.Pourple.background
-                ? <ButtonDetailPourple fill='#123' style={styles.buttonDetail} />
-                : <></>
-            }
-            <Text style={styles.buttonName}>
-                {buttonText}
-            </Text>
+            <TabBarIcon name={buttonText} color={props.backColor} style={styles.icon} />
         </TouchableOpacity>
 
     )
 }
 
-function SetDetail() {
-
+function TabBarIcon(props: {
+    name: React.ComponentProps<typeof FontAwesome>['name'];
+    color: string;
+    style: object
+}) {
+    return <FontAwesome size={20} {...props} />;
 }
 
 const styles = StyleSheet.create({
@@ -80,12 +53,13 @@ const styles = StyleSheet.create({
         // flex: 1,
         backgroundColor: Colors.Orange.background,
         alignItems: 'center',
-        justifyContent: 'flex-start',
-        height: 140,
-        width: 150,
+        justifyContent: 'center',
+        height: 42,
+        width: 45,
         borderRadius: 16,
         margin: 10,
         overflow: 'hidden',
+        borderWidth: 2,
 
     },
     buttonDetail: {
@@ -97,5 +71,8 @@ const styles = StyleSheet.create({
         fontSize: 20,
         fontWeight: 'bold',
         color: 'white'
+    },
+    icon: {
+        alignSelf: 'center'
     }
 })

@@ -2,11 +2,11 @@ const tintColorLight = '#2f95dc';
 const tintColorDark = '#fff';
 const GreenBack = '#01949A';
 const Orange = '#FF7648';
-const Red = '#EA3636';
+const Red = '#FF7777';
 const blue = '#8F98FF';
-const green = '#2AB75A';
-const yellow = '#FBD148';
-const pourple = '#9A0680';
+const green = '#A0FFA3';
+const yellow = '#F9FA9B';
+const pourple = '#D47AE8';
 const darkBlue = '#192f6a';
 
 export default {

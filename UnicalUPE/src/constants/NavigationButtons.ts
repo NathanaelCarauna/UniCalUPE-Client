@@ -3,13 +3,13 @@ import Colors from "./Colors"
 export const anonymousButtons = (navigation, signOut) => {
     return [
         {
-            buttonText: 'Login',
+            buttonText: 'sign-in',
             destination: 'Login',
             navigation: navigation,
             backColor: '',
         },
         {
-            buttonText: 'Sobre',
+            buttonText: 'question',
             destination: 'About',
             navigation: navigation,
             backColor: Colors.Red.background,
@@ -26,25 +26,25 @@ export const studentButtons = (navigation, showModal) => {
         //     backColor: '',
         // },
         {
-            buttonText: 'Perfil',
+            buttonText: 'user',
             destination: 'Profile',
             navigation: navigation,
             backColor: Colors.Yellow.background,
         },
         {
-            buttonText: 'Notificações',
+            buttonText: 'bell',
             destination: 'Notifications',
             navigation: navigation,
             backColor: Colors.Green.background,
         },
         {
-            buttonText: 'Sobre',
+            buttonText: 'question',
             destination: 'About',
             navigation: navigation,
             backColor: Colors.Red.background,
         },
         {
-            buttonText: 'Sair',
+            buttonText: 'sign-out',
             destination: showModal,
             navigation: navigation,
             backColor: Colors.Pourple.background,
@@ -60,31 +60,31 @@ export const adminButtons = (navigation, showModal) => {
         //     backColor: '',
         // },
         {
-            buttonText: 'Perfil',
+            buttonText: 'user',
             destination: 'Profile',
             navigation: navigation,
             backColor: Colors.Yellow.background,
         },
         {
-            buttonText: 'Notificações',
+            buttonText: 'bell',
             destination: 'Notifications',
             navigation: navigation,
             backColor: Colors.Green.background,
         },
         {
-            buttonText: 'Sobre',
-            destination: 'About',
-            navigation: navigation,
-            backColor: Colors.Red.background,
-        },
-        {
-            buttonText: 'Adicionar Evento',
+            buttonText: 'plus',
             destination: 'AddEvent',
             navigation: navigation,
             backColor: Colors.Blue.background,
         },
         {
-            buttonText: 'Sair',
+            buttonText: 'question',
+            destination: 'About',
+            navigation: navigation,
+            backColor: Colors.Red.background,
+        },
+        {
+            buttonText: 'sign-out',
             destination: showModal,
             navigation: navigation,
             backColor: Colors.Pourple.background,

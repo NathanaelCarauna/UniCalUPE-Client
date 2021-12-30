@@ -5,6 +5,19 @@ import MainView from '../components/MainView';
 import { Calendar, CalendarList, Agenda } from 'react-native-calendars';
 import Colors from '../constants/Colors';
 import { LocaleConfig } from 'react-native-calendars';
+import { anonymousButtons, studentButtons, adminButtons} from '../constants/NavigationButtons';
+import SelectDropdown from 'react-native-select-dropdown'
+import { FontAwesome } from '@expo/vector-icons';
+import TitleMainScreen from '../components/TitleMainScreen';
+import { useEffect } from 'react';
+import { useContext } from 'react';
+import AppContext from '../contexts/appContext';
+import { useState } from 'react';
+import Modal from "react-native-modal";
+import { Text, View } from '../components/Themed';
+import { LinearGradient } from 'expo-linear-gradient';
+import { FlatList, TouchableOpacity } from 'react-native';
+import ButtonNavigation from '../components/ButtonNavigation'
 
 LocaleConfig.locales['pt-br'] = {
   monthNames: ['Janeiro', 'Fevereiro', 'Março', 'Abril', 'Maio', 'Junho', 'Julho', 'Agosto', 'Setembro', 'Outubro', 'Novembro', 'Dezembro'],
@@ -15,16 +28,15 @@ LocaleConfig.locales['pt-br'] = {
 };
 LocaleConfig.defaultLocale = 'pt-br';
 
-import SelectDropdown from 'react-native-select-dropdown'
-import { FontAwesome } from '@expo/vector-icons';
-import TitleMainScreen from '../components/TitleMainScreen';
-import { useEffect } from 'react';
-import { useContext } from 'react';
-import AppContext from '../contexts/appContext';
-import { useState } from 'react';
 
 
-
+function TabBarIcon(props: {
+  name: React.ComponentProps<typeof FontAwesome>['name'];
+  color: string;
+  style: object
+}) {
+  return <FontAwesome size={20} {...props} />;
+}
 
 export default function CalendarScreen({ navigation }) {
   const { user,
@@ -39,9 +51,12 @@ export default function CalendarScreen({ navigation }) {
     getEventsByDate,
     CurrentCourse,
     setSelectDate,
-    getNotificationByUserEmail
+    getNotificationByUserEmail,
+    signOut
   } = useContext(AppContext)
-
+  
+  const [buttons, setButtons] = useState()
+  const [isModalVisible, setModalVisible] = useState(false);
   const [avoid, setvoid] = useState(false)
 
   useEffect(() => {
@@ -54,7 +69,7 @@ export default function CalendarScreen({ navigation }) {
   }, [eventByDateRequested])
 
   useEffect(() => {
-    if(user && user.email){
+    if (user && user.email) {
       setInterval(() => {
         getNotificationByUserEmail()
       }, 60000)
@@ -70,6 +85,32 @@ export default function CalendarScreen({ navigation }) {
     }
   }, [user])
 
+
+  const handleSubmit = () => {
+    signOut()
+    console.log('logout user')
+    
+  }
+
+  const toggleModal = () => {
+    setModalVisible(!isModalVisible);
+  };
+
+
+  useEffect(() => {
+    console.log('Filter buttons called')
+    if (user) {
+      if(user.accountType == 'STUDENT')
+        setButtons(studentButtons(navigation, toggleModal))
+      else if(user.accountType == 'ADM')
+        setButtons(adminButtons(navigation, toggleModal))
+      else
+        setButtons(anonymousButtons(navigation, toggleModal))      
+    } else {
+      setButtons(anonymousButtons(navigation, toggleModal))
+    }
+  }, [user])
+
   const updateCallendar = (date) => {
     const calendarEvents = EventsCalendar
     calendarEvents[date] = { ...calendarEvents[date], selected: true, selectedColor: 'black' }
@@ -77,7 +118,28 @@ export default function CalendarScreen({ navigation }) {
   }
   return (
     <MainView>
-      <TitleMainScreen title='Eventos do Mês' />
+      {/* <TitleMainScreen title='Eventos do Mês' /> */}
+      <FlatList
+        key={'_'}
+        data={buttons}
+        horizontal={true}
+        renderItem={({ item }) => {
+          return (
+            <ButtonNavigation
+              buttonText={item.buttonText}
+              destination={item.destination}
+              navigation={item.navigation}
+              backColor={item.backColor}
+            />
+          )
+        }}
+        keyExtractor={(item) => item.buttonText}
+        style={{
+          alignSelf: 'center',
+          margin: 10,
+        }}
+
+      />
       <SelectDropdown
         data={coursesList}
         defaultButtonText={course.name ? course.name : 'Escolha um filtro'}
@@ -155,6 +217,27 @@ export default function CalendarScreen({ navigation }) {
           textMonthFontSize: 18,
         }}
       />
+      <Modal isVisible={isModalVisible} >
+        <View style={styles.modal}>
+          <LinearGradient colors={["#ffffff", "#D47AE8"]}>
+            <Text style={styles.textModal} >Você realmente deseja sair da sua conta ?</Text>
+
+            <View style={styles.buttons}>
+              <TouchableOpacity
+                style={styles.buttonModalBack}
+                onPress={toggleModal}>
+                <TabBarIcon name="arrow-left" color={'white'} style={styles.icon} />
+              </TouchableOpacity>
+              <TouchableOpacity
+                style={styles.buttonModal}
+                onPress={handleSubmit}>
+                <Text style={styles.buttonText}>Sair</Text>
+              </TouchableOpacity>
+
+            </View>
+          </LinearGradient>
+        </View>
+      </Modal>
     </MainView>
   );
 }
