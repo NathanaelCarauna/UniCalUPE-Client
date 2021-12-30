@@ -9,7 +9,7 @@ import Colors from '../constants/Colors';
 export default function AboutScreen() {
   return (
     <ScrollView>
-        <LinearGradient style = {styles.container} colors={["#ffffff","#FF7777"]}>
+        <LinearGradient style = {styles.container} colors={["#ffffff","#FFF"]}>
           <Text style={styles.title}>Quem Somos Nós ?</Text>
           <View style={styles.separator} lightColor="#004369" darkColor="rgba(0,67,105,0.1)" />
             <LinearGradient style={styles.bloco} colors={["#EA3636","#FF7777"]}>

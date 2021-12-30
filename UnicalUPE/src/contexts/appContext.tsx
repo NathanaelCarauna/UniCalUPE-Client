@@ -50,6 +50,7 @@ export const AppContext = createContext({
     updateNotification: () => { },
     getNotificationsByCategory: () => { },
     deleteNotification: () => { },
+    deleteEvent: () => {}
 });
 
 export const AppProvider = ({ children }: { children: React.ReactNode }) => {
@@ -390,7 +391,7 @@ export const AppProvider = ({ children }: { children: React.ReactNode }) => {
                     //console.log(response.data)
                     if (response.status == 200) {
                         console.log(response.data)
-                        getEventsAll();
+                        getEventsByCourse(user.course.id)
                     }
                     else if(response.status == 500){
                         setCurrentError(500);
@@ -407,6 +408,24 @@ export const AppProvider = ({ children }: { children: React.ReactNode }) => {
 
         }
         setLoading(false);
+    }
+
+    async function deleteEvent(id) {
+        try {
+            console.log('Requesting deleteNotification')
+            await EventApi.deleteEvent(id)
+                .then((response: AxiosResponse) => {
+                    if (response.status == 200) {
+                        getEventsByCourse(user.course.id)
+                    }
+                    setLoading(false);
+                })
+                .catch(err => {
+                    console.log(err)
+                })
+        } catch (e) {
+            console.log(e)
+        }
     }
 
     async function getEventsByCategory(category: string) {
@@ -685,6 +704,7 @@ export const AppProvider = ({ children }: { children: React.ReactNode }) => {
             updateNotification,
             getNotificationsByCategory,
             deleteNotification,
+            deleteEvent,
         }}>
             {children}
         </AppContext.Provider>

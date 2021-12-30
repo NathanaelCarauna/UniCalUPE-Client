@@ -45,7 +45,7 @@ export default function NotificationsScreen({ navigation }: RootTabScreenProps<'
   }, [userNotifications])
 
   return (
-    <LinearGradient colors={["#fff", "#A0FFA3"]} style={styles.container}>
+    <LinearGradient colors={["#fff", "#ffffff"]} style={styles.container}>
       <View style={styles.header}>
         <SelectDropdown
           data={filter}
