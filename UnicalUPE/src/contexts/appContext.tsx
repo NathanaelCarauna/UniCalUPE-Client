@@ -427,7 +427,7 @@ export const AppProvider = ({ children }: { children: React.ReactNode }) => {
             // console.log("Json: :", json)
             // console.log("Item: ", item)
             if (!json.hasOwnProperty(item.startDate)) {
-                json[item.startDate] = { dots: [], selected: true, selectedColor: Colors.dark.background }
+                json[item.startDate] = {selected: true, selectedColor: Colors.dark.background }
                 // console.log("Prop added: ", json[item.startDate])
             }
             return json
@@ -442,11 +442,11 @@ export const AppProvider = ({ children }: { children: React.ReactNode }) => {
         // console.log("Json received from creation: ", eventJson)
 
         // console.log("Starting adding object to dots")
-        events.forEach(element => {
-            // console.log("Element: ", element)
-            eventJson[element.startDate].dots.push({ key: element.id, color: setCategoryColor(element) })
-            // console.log("object added: ", eventJson[element.startDate])
-        });
+        // events.forEach(element => {
+        //     // console.log("Element: ", element)
+        //     eventJson[element.startDate].dots.push({ key: element.id, color: setCategoryColor(element) })
+        //     // console.log("object added: ", eventJson[element.startDate])
+        // });
         // console.log("Final list json: ", eventJson)
         return eventJson
     }
