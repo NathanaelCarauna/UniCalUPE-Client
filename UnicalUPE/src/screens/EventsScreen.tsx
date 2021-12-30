@@ -10,8 +10,12 @@ import TitleMainScreen from '../components/TitleMainScreen';
 import Colors from '../constants/Colors';
 import { useEffect, useContext, useState } from 'react';
 import AppContext from '../contexts/appContext';
+import { useNavigation } from '@react-navigation/native';
+import Navigation from '../navigation';
 
 export default function EventsScreen() {
+
+  const navigation = useNavigation();
   const { eventsList, setEventByDateRequested, getEventsByDate, selectedDate } = useContext(AppContext)
   const [refresh, setRefresh] = useState(false);
   const [dates, setDates] = useState(
@@ -104,6 +108,10 @@ export default function EventsScreen() {
     setRefresh(!refresh)
   }, [selectedDate])
 
+  const GetEventsByDate = (item) =>{
+    getEventsByDate(`${item.year}-${item.month + 1}-${item.date}`)
+    navigation.navigate('Eventos')
+  }
 
   const ItemSeprator = () => <View style={{
     width: 6,
@@ -145,7 +153,7 @@ export default function EventsScreen() {
               day={item.day}
               date={item.date}
               selected={item.selected}
-              func={() => getEventsByDate(`${item.year}-${item.month + 1}-${item.date}`)}
+              func={getEventsByDate}
             />)}
         />
       </View>
