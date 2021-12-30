@@ -32,7 +32,7 @@ export default function ProfileScreen({ navigation}) {
 
   return (
     <>
-      <LinearGradient style = {styles.container} colors={["#ffffff","#ffc278"]}>
+      <LinearGradient style = {styles.container} colors={["#ffffff","#ffffff"]}>
         <LinearGradient style={styles.bloco} colors={["#FF7648","#ffc278"]}>
           <Text style={styles.normal}>{user.name}</Text>
           <Text style={styles.normal}>{user.course.name}</Text>

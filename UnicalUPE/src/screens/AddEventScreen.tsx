@@ -104,7 +104,7 @@ export default function Evento() {
 
 
   return (
-    <LinearGradient style={styles.container} colors={["#ffffff", "#8f98ff", "#8F98FF"]}>
+    <LinearGradient style={styles.container} colors={["#ffffff", "#ffffff"]}>
       <ScrollView style={styles.scroll}>
 
         <TextInput style={styles.text} placeholder="Título"

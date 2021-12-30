@@ -50,7 +50,7 @@ export default function Evento({ route, navigation }) {
   }
   return (
     <ScrollView contentContainerStyle={{ flexGrow: 1 }}>
-      <LinearGradient style={styles.container} colors={["#ffffff", "#4c669f"]}>
+      <LinearGradient style={styles.container} colors={["#ffffff", "#ffffff"]}>
         <View style={styles.header}>
           <View style={styles.information}>
             <Text style={styles.title}>{event.title}</Text>

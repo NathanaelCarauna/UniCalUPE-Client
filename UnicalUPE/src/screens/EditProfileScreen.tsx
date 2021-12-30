@@ -35,7 +35,7 @@ export default function EditProfileScreen({ navigation }) {
 
   return (
     <>
-      <LinearGradient style={styles.container} colors={["#ffffff", "#ffc278"]}>
+      <LinearGradient style={styles.container} colors={["#ffffff", "#ffffff"]}>
 
 
         <TextInput style={styles.text} placeholder={user.name}
