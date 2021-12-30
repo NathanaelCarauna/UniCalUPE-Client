@@ -48,6 +48,7 @@ export const AppContext = createContext({
     updateNotification: () => { },
     getNotificationsByCategory: () => { },
     deleteNotification: () => { },
+    deleteEvent: () => {}
 });
 
 export const AppProvider = ({ children }: { children: React.ReactNode }) => {
@@ -377,6 +378,24 @@ export const AppProvider = ({ children }: { children: React.ReactNode }) => {
         setLoading(false);
     }
 
+    async function deleteEvent(id) {
+        try {
+            console.log('Requesting deleteNotification')
+            await EventApi.deleteEvent(id)
+                .then((response: AxiosResponse) => {
+                    if (response.status == 200) {
+                        getEventsByCourse(user.course.id)
+                    }
+                    setLoading(false);
+                })
+                .catch(err => {
+                    console.log(err)
+                })
+        } catch (e) {
+            console.log(e)
+        }
+    }
+
     async function getEventsByCategory(category: string) {
         setLoading(true);
         try {
@@ -618,6 +637,7 @@ export const AppProvider = ({ children }: { children: React.ReactNode }) => {
             updateNotification,
             getNotificationsByCategory,
             deleteNotification,
+            deleteEvent,
         }}>
             {children}
         </AppContext.Provider>
