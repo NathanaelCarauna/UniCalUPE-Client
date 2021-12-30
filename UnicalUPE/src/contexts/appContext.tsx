@@ -60,6 +60,7 @@ export const AppProvider = ({ children }: { children: React.ReactNode }) => {
     const [EventsCalendar, SetEventsCalendar] = useState({});
     const [course, setCurrentCourse] = useState({})
     const [selectedDate, setSelectDate] = useState({})
+    const [currentError, setCurrentError] = useState({})
 
 
     useEffect(() => {
@@ -149,6 +150,10 @@ export const AppProvider = ({ children }: { children: React.ReactNode }) => {
                         console.log("User that came from back after save:", response.data)
                         result = true;
                     }
+                    else if(response.status == 500){
+                        setCurrentError(500);
+                    }
+                    
                     setLoading(false);
                 })
         } catch (e) {
@@ -244,6 +249,12 @@ export const AppProvider = ({ children }: { children: React.ReactNode }) => {
                         setEventList(response.data)
                         SetEventsCalendar(processedList)
                     }
+                    else if(response.status == 500){
+                        setCurrentError(500);
+                    }
+                    else if(response.status == 404){
+                        setCurrentError(404);
+                    }
                     setLoading(false);
                 })
                 .catch(err => {
@@ -278,6 +289,12 @@ export const AppProvider = ({ children }: { children: React.ReactNode }) => {
                         setEventList(list)
                         SetEventsCalendar(processedList)
                     }
+                    else if(response.status == 500){
+                        setCurrentError(500);
+                    }
+                    else if(response.status == 404){
+                        setCurrentError(404);
+                    }
                     setLoading(false);
                 })
                 .catch(err => {
@@ -311,6 +328,12 @@ export const AppProvider = ({ children }: { children: React.ReactNode }) => {
                         setEventList(list)
                         setEventByDateRequested(true);
                     }
+                    else if(response.status == 500){
+                        setCurrentError(500);
+                    }
+                    else if(response.status == 404){
+                        setCurrentError(404);
+                    }
                     // setLoading(false);
                 })
                 .catch(err => {
@@ -336,6 +359,9 @@ export const AppProvider = ({ children }: { children: React.ReactNode }) => {
                         console.log('Event created')
                         getEventsByCourse(user.course.id)
                     }
+                    else if(response.status == 500){
+                        setCurrentError(500);
+                    }
                     setLoading(false);
                 })
                 .catch(err => {
@@ -344,6 +370,7 @@ export const AppProvider = ({ children }: { children: React.ReactNode }) => {
                     setLoading(false);
                 })
         } catch (e) {
+            
             console.log(e)
 
         }
@@ -362,6 +389,9 @@ export const AppProvider = ({ children }: { children: React.ReactNode }) => {
                     if (response.status == 200) {
                         console.log(response.data)
                         getEventsAll();
+                    }
+                    else if(response.status == 500){
+                        setCurrentError(500);
                     }
                     setLoading(false);
                 })
@@ -387,6 +417,12 @@ export const AppProvider = ({ children }: { children: React.ReactNode }) => {
                     //console.log(response.data)
                     if (response.status == 200) {
                         setEventList(response.data)
+                    }
+                    else if(response.status == 500){
+                        setCurrentError(500);
+                    }
+                    else if(response.status == 404){
+                        setCurrentError(404);
                     }
                     setLoading(false);
                 })
@@ -481,6 +517,12 @@ export const AppProvider = ({ children }: { children: React.ReactNode }) => {
                     if (response.status == 200) {
                         setCoursesList([{ id: -1, name: 'Todos' }, ...response.data])
                     }
+                    else if(response.status == 500){
+                        setCurrentError(500);
+                    }
+                    else if(response.status == 404){
+                        setCurrentError(404);
+                    }
                     setLoading(false);
                 })
                 .catch(err => {
@@ -510,6 +552,12 @@ export const AppProvider = ({ children }: { children: React.ReactNode }) => {
                     if (response.status == 200) {
                         setUserNotifications(response.data)
                     }
+                    else if(response.status == 500){
+                        setCurrentError(500);
+                    }
+                    else if(response.status == 404){
+                        setCurrentError(404);
+                    }
                     // setLoading(false);
                 })
                 .catch(err => {
@@ -532,6 +580,9 @@ export const AppProvider = ({ children }: { children: React.ReactNode }) => {
                     if (response.status == 200) {
                         getNotificationByUserEmail(user.email)
                     }
+                    else if(response.status == 500){
+                        setCurrentError(500);
+                    }
                     setLoading(false);
                 })
                 .catch(err => {
@@ -553,6 +604,12 @@ export const AppProvider = ({ children }: { children: React.ReactNode }) => {
                     if (response.status == 200) {
                         getNotificationByUserEmail(user.email)
                     }
+                    else if(response.status == 500){
+                        setCurrentError(500);
+                    }
+                    else if(response.status == 404){
+                        setCurrentError(404);
+                    }
                     setLoading(false);
                 })
                 .catch(err => {
@@ -573,6 +630,12 @@ export const AppProvider = ({ children }: { children: React.ReactNode }) => {
                     //console.log(response.data)
                     if (response.status == 200) {
                         setUserNotifications(response.data)
+                    }
+                    else if(response.status == 500){
+                        setCurrentError(500);
+                    }
+                    else if(response.status == 404){
+                        setCurrentError(404);
                     }
                     // setLoading(false);
                 })
@@ -599,6 +662,8 @@ export const AppProvider = ({ children }: { children: React.ReactNode }) => {
             course,
             selectedDate,
             userNotifications,
+            currentError,
+            setCurrentError,
             setEventByDateRequested,
             setLoading,
             getUser,
