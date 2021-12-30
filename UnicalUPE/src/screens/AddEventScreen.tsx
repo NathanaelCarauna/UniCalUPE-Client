@@ -31,7 +31,7 @@ export default function Evento() {
 
   const navigation = useNavigation()
 
-  const { postEvent, coursesList } = React.useContext(AppContext)
+  const { postEvent, coursesList, currentError, setCurrentError } = React.useContext(AppContext)
   const [event, setEvent] = useState({ title: null, presentor: null, local: null, description: null, link: null });
 
 
@@ -42,6 +42,10 @@ export default function Evento() {
     else if (postEvent(event)) {
       console.log('add event')
       navigation.navigate('Root')
+    }
+    else
+    {
+      Alert.alert("Erro ao salvar evento, tente novamente")
     }
   }
 

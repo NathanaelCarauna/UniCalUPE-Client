@@ -29,6 +29,8 @@ export const AppContext = createContext({
     course: {},
     selectedDate: '',
     userNotifications: [],
+    currentError: {},
+    setCurrentError: () => {},
     setLoading: () => { },
     getUser: (email: email) => { },
     saveUser: (user: user) => { },
@@ -37,7 +39,7 @@ export const AppContext = createContext({
     handleSignIn: () => { },
     getEventsByCourse: () => { },
     getEventsAll: () => { },
-    getEventsByDate: () => { },
+    getEventsByDate: (date: string ) => { },
     setEventByDateRequested: () => { },
     postEvent: () => { },
     updateEvent: () => { },
@@ -310,7 +312,7 @@ export const AppProvider = ({ children }: { children: React.ReactNode }) => {
     }
 
     async function getEventsByDate(date: { date: string }) {
-        // setLoading(true);
+        setLoading(true);
         try {
             console.log('Requesting getEventsByDate')
             return EventApi.getEventByDate(date)
@@ -334,19 +336,19 @@ export const AppProvider = ({ children }: { children: React.ReactNode }) => {
                     else if(response.status == 404){
                         setCurrentError(404);
                     }
-                    // setLoading(false);
+                    setLoading(false);
                 })
                 .catch(err => {
                     console.log(err)
-                    // setLoading(false);
+                    setLoading(false);
                 })
         } catch (e) {
             console.log(e)
         }
-        // setLoading(false);
+        setLoading(false);
     }
 
-    async function postEvent(event) {
+    async function postEvent(event: eventType) {
         setLoading(true);
         try {
             console.log('post Event')
@@ -377,7 +379,7 @@ export const AppProvider = ({ children }: { children: React.ReactNode }) => {
         setLoading(false);
     }
 
-    async function updateEvent(event) {
+    async function updateEvent(event: eventType) {
         setLoading(true);
         try {
             console.log('put Event')
@@ -474,25 +476,25 @@ export const AppProvider = ({ children }: { children: React.ReactNode }) => {
         if (event.category == 'EVENTO' && event.course) {
             switch (event.course.name) {
                 case 'Engenharia de Software':
-                    return '#5e60ce' //azul
-                case 'Psicologia':
-                    return '#f7b538' // amarelo claro
-                case 'Medicina':
-                    return '#e63946' //verde
+                    return '#1f4480' 
                 case 'Licenciatura em Computação':
-                    return '#168aad'
+                    return '#3d70ad'
+                case 'Medicina':
+                    return '#0c3120' 
                 case "Ciências Biológicas":
-                    return '#f4a261'
+                    return '#196e33'
+                case 'Psicologia':
+                    return '#dd5b74' 
                 case "Letras":
-                    return '#5390d9'
+                    return '#e01432'
                 case "Geografia":
-                    return '#6930c3'
+                    return '#dd7e17'
                 case "História":
-                    return '#606c38'
+                    return '#ecb74a'
                 case "Matemática":
-                    return '#ff8fa3'
+                    return '#9eada5'
                 case "Pedagogia":
-                    return '#ddbdfc'
+                    return '#dbe5e0'
                 default:
             }
         } else if (event.category == 'PESQUISA') {
