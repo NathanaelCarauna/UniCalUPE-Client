@@ -6,7 +6,7 @@ export const anonymousButtons = (navigation, signOut) => {
             buttonText: 'sign-in',
             destination: 'Login',
             navigation: navigation,
-            backColor: '',
+            backColor: Colors.Orange.background,
         },
         {
             buttonText: 'question',

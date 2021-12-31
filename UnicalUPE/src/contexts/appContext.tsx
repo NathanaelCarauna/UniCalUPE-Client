@@ -478,14 +478,6 @@ export const AppProvider = ({ children }: { children: React.ReactNode }) => {
         // console.log('Process events started')
         let eventJson = createEventsJsonKeys(events);
         // console.log("Json received from creation: ", eventJson)
-
-        // console.log("Starting adding object to dots")
-        // events.forEach(element => {
-        //     // console.log("Element: ", element)
-        //     eventJson[element.startDate].dots.push({ key: element.id, color: setCategoryColor(element) })
-        //     // console.log("object added: ", eventJson[element.startDate])
-        // });
-        // console.log("Final list json: ", eventJson)
         return eventJson
     }
 

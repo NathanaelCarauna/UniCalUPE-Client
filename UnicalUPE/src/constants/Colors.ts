@@ -4,8 +4,8 @@ const GreenBack = '#01949A';
 const Orange = '#FF7648';
 const Red = '#FF7777';
 const blue = '#8F98FF';
-const green = '#A0FFA3';
-const yellow = '#F9FA9B';
+const green = '#3CB761';
+const yellow = '#ecb74a';
 const pourple = '#D47AE8';
 const darkBlue = '#192f6a';
 
