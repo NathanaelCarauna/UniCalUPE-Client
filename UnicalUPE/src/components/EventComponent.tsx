@@ -64,18 +64,14 @@ const styles = StyleSheet.create({
     container: {
         flex:1,
         backgroundColor: 'transparent',
-        
-        
         //marginHorizontal: 20,
         shadowColor: "#000",
         elevation: 10,
         borderRadius: 20,
-       
     },
     container_out: {
         flexDirection: 'row',
         backgroundColor: 'transparent',
-        
     },
     titleContainer: {
         flexDirection: 'row',

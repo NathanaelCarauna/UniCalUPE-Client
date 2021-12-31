@@ -40,9 +40,9 @@ function RootNavigator() {
       <Stack.Screen name="Eventos" component={EventsScreen}
         options={{
           headerShown: true,
-          title: 'Eventos',
+          title: 'Eventos do Dia',
           headerTintColor: 'white',
-          headerStyle: { backgroundColor: Colors.Red.background }
+          headerStyle: { backgroundColor: '#4ca9df' }
         }}
       />
       <Stack.Screen name="About" component={AboutScreen}
