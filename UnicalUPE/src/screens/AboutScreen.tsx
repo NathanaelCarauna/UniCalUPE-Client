@@ -50,9 +50,10 @@ const styles = StyleSheet.create({
   normal: {
     fontSize: 16,
     textAlign: 'justify',
-    color: '#004369',
+    color: 'white',
     padding: 15,
-    fontWeight: 'bold',
+    fontWeight: '200',
+    lineHeight: 23,
   },
   bloco: {
     backgroundColor: Colors.Red.background,
