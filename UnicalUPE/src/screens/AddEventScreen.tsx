@@ -41,7 +41,7 @@ export default function Evento() {
     }
     else if (postEvent(event)) {
       console.log('add event')
-      navigation.navigate('Root')
+      navigation.navigate('Calendário')
     }
     else
     {
