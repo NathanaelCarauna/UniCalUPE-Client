@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { StyleSheet } from 'react-native';
+import { ActivityIndicator, StyleSheet } from 'react-native';
 
 import MainView from '../components/MainView';
 import { Calendar, CalendarList, Agenda } from 'react-native-calendars';
@@ -45,6 +45,7 @@ export default function CalendarScreen({ navigation }) {
     EventsCalendar,
     eventByDateRequested,
     selectedDate,
+    loading,
     userNotifications,
     getEventsByCourse,
     getEventsAll,
@@ -52,7 +53,7 @@ export default function CalendarScreen({ navigation }) {
     CurrentCourse,
     setSelectDate,
     getNotificationByUserEmail,
-    signOut
+    signOut    
   } = useContext(AppContext)
 
   const [buttons, setButtons] = useState()
@@ -61,27 +62,22 @@ export default function CalendarScreen({ navigation }) {
 
   useEffect(() => {
     if (eventByDateRequested) {
-      // console.log("Should go to events screen")
-      setTimeout(() => {
-        navigation.navigate("Eventos")
-      }, 200)
+      // console.log("Should go to events screen")      
+      navigation.navigate("Eventos")
     }
   }, [eventByDateRequested])
 
-  useEffect(() => {
-    if (user && user.email) {
-      setInterval(() => {
-        getNotificationByUserEmail()
-      }, 60000)
-    }
-  }, [avoid])
+  // useEffect(() => {
+  //   if (user && user.email) {
+  //     setInterval(() => {
+  //       getNotificationByUserEmail()
+  //     }, 60000)
+  //   }
+  // }, [avoid])
 
   useEffect(() => {
-    if (user && !user.course) {
-      setTimeout(() => {
-        navigation.navigate('EditProfile')
-
-      }, 300)
+    if (user && !user.course) {      
+      navigation.navigate('EditProfile')
     }
   }, [user])
 
@@ -115,6 +111,16 @@ export default function CalendarScreen({ navigation }) {
     const calendarEvents = EventsCalendar
     calendarEvents[date] = { ...calendarEvents[date], selected: true, selectedColor: 'black' }
     console.log('---------Calendar events:', date, calendarEvents)
+  }
+
+  if (loading) {
+    return (
+      (
+        <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+          <ActivityIndicator size="large" color='#666' />
+        </View>
+      )
+    )
   }
   return (
     <MainView>
