@@ -20,20 +20,8 @@ import { View } from '../components/Themed';
 import EditProfileScreen from '../screens/EditProfileScreen';
 import UpdadeEventScreen from '../screens/UpdateEventScreen';
 
-export default function Navigation({ colorScheme }: { colorScheme: ColorSchemeName }) {
-  const { signed, loading } = useContext(AppContext)
-  if (loading) {
-    return (
-      (
-        <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-          <ActivityIndicator size="large" color='#666' />
-        </View>
-      )
-    )
-  }
+export default function Navigation({ colorScheme }: { colorScheme: ColorSchemeName }) {  
   return <RootNavigator />
-
-
 }
 
 /**
