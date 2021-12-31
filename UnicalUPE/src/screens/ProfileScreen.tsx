@@ -18,18 +18,34 @@ export default function ProfileScreen({ navigation }) {
     navigation.navigate('EditProfile')
   }
   const calldelete = () => {
-    deleteUser(user.email)
-    // navigation.navigate('EditProfile')
+    const response = deleteUser(user.email)
+    if(response){
+      setResponseMessage({status: true, message: 'Perfil excluído'})
+    }else{      
+      setResponseMessage({status: false, message: 'Algo deu errado, tente novamente mais tarde'})
+    }
+    toggleDeleteModal()
+    toggleResponseModal()
   }
-  const [isModalVisible, setModalVisible] = useState(false);
-
-  const toggleModal = () => {
-    setModalVisible(!isModalVisible);
+  const [isDeleteModalVisible, setDeleteModalVisible] = useState(false);
+  const [isResponseModalVisible, setisResponseModalVisible] = useState(false);
+  const [responseMessage, setResponseMessage] = useState({status: null, message: null});
+  
+  const toggleDeleteModal = () => {
+    setDeleteModalVisible(!isDeleteModalVisible);
   };
-
-  const backnavigate = () => {
-    navigation.backnavigate('Profile')
-  }
+  const toggleResponseModal = () => {
+    setisResponseModalVisible(!isResponseModalVisible);
+  };
+  
+  const handleConfirmation = () => {
+    if(responseMessage.status){
+      navigation.navigate('Calendário')
+    }
+    else{
+      toggleResponseModal()
+    }
+  }   
 
   return (
     <>
@@ -37,12 +53,12 @@ export default function ProfileScreen({ navigation }) {
         <LinearGradient style={styles.bloco} colors={["#ffffff", "#ffffff"]}>
         <View style={styles.field}>
             <TabBarIcon name="user" color={Colors.Orange.background} style={styles.icon} size={20} />
-            <Text style={styles.normal}>{user.name}</Text>
+            <Text style={styles.normal}>{user ? user.name : null}</Text>
             {/* <Text style={styles.tipoLogin}>Tipo{user.accountType}</Text> */}
           </View>
           <View style={styles.field}>
             <TabBarIcon name="certificate" color={Colors.Orange.background} style={styles.icon} size={20} />
-            <Text style={styles.normal}>{user.course.name}</Text>
+            <Text style={styles.normal}>{user? user.course.name : null}</Text>
             
           </View>
           <View style={styles.buttons}>
@@ -54,13 +70,13 @@ export default function ProfileScreen({ navigation }) {
 
             <TouchableOpacity
               style={styles.buttonDelete}
-              onPress={toggleModal}>
+              onPress={toggleDeleteModal}>
               <TabBarIcon name="user-times" color={'white'} style={styles.icon} size={20} />
             </TouchableOpacity>
           </View>
         </LinearGradient>
 
-        <Modal isVisible={isModalVisible}>
+        <Modal isVisible={isDeleteModalVisible}>
           <View style={styles.modal}>
             <LinearGradient colors={["#ffffff", "#ffffff"]}>
               <Text style={styles.textModal} >Você realmente deseja deletar seu perfil?</Text>
@@ -68,13 +84,29 @@ export default function ProfileScreen({ navigation }) {
               <View style={styles.buttons}>
                 <TouchableOpacity
                   style={styles.buttonModalBack}
-                  onPress={toggleModal}>
+                  onPress={toggleDeleteModal}>
                   <TabBarIcon name="arrow-left" color={'white'} style={styles.icon} size={20}/>
                 </TouchableOpacity>
                 <TouchableOpacity
                   style={styles.buttonModal}
                   onPress={calldelete}>
                   <Text style={styles.buttonText}>Deletar Perfil</Text>
+                </TouchableOpacity>
+              </View>
+            </LinearGradient>
+          </View>
+        </Modal>
+
+        <Modal isVisible={isResponseModalVisible}>
+          <View style={styles.modal}>
+            <LinearGradient colors={["#ffffff", "#ffffff"]}>
+              <Text style={styles.textModal} >{responseMessage.message}</Text>
+
+              <View style={styles.buttons}>              
+                <TouchableOpacity
+                  style={styles.buttonModal}
+                  onPress={handleConfirmation}>
+                  <Text style={styles.buttonText}>Ok</Text>
                 </TouchableOpacity>
               </View>
             </LinearGradient>

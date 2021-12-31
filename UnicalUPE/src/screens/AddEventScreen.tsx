@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { StyleSheet, ScrollView, TouchableOpacity, TextInput, Alert } from 'react-native';
+import { StyleSheet, ScrollView, TouchableOpacity, TextInput, Alert, ActivityIndicator } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
 
 import EditScreenInfo from '../components/EditScreenInfo';
@@ -12,6 +12,7 @@ import { useState } from 'react';
 import AppContext from '../contexts/appContext';
 import SelectDropdown from 'react-native-select-dropdown';
 import { useNavigation } from '@react-navigation/native';
+import TabBarIcon from '../components/TabIcon';
 
 
 const processDate = (field: string) => {
@@ -31,7 +32,7 @@ export default function Evento() {
 
   const navigation = useNavigation()
 
-  const { postEvent, coursesList, currentError, setCurrentError } = React.useContext(AppContext)
+  const { postEvent, coursesList, currentError, setCurrentError, loading } = React.useContext(AppContext)
   const [event, setEvent] = useState({ title: null, presentor: null, local: null, description: null, link: null });
 
 
@@ -106,7 +107,15 @@ export default function Evento() {
 
   React.useEffect(() => { }, [date])
 
-
+  if (loading) {
+    return (
+      (
+        <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+          <ActivityIndicator size="large" color='#666' />
+        </View>
+      )
+    )
+  }
   return (
     <LinearGradient style={styles.container} colors={["#ffffff", "#ffffff"]}>
       <ScrollView style={styles.scroll}>
@@ -188,19 +197,19 @@ export default function Evento() {
 
         {categoryState == 'EVENTO' ? <>
           <View style={styles.textView}>
-            <TabBarIcon style={styles.presentorIcon} name="user" color={Colors.Blue.background} />
+            <TabBarIcon size={25} style={styles.presentorIcon} name="user" color={Colors.Blue.background} />
             <TextInput style={styles.text} placeholder="Apresentador"
               onChangeText={(value) => setEvent({ ...event, presentor: value })}
               value={event.presentor} />
           </View>
           <View style={styles.textView}>
-            <TabBarIcon style={styles.localIcon} name="map-marker" color={Colors.Blue.background} />
+            <TabBarIcon size={25} style={styles.localIcon} name="map-marker" color={Colors.Blue.background} />
             <TextInput style={styles.text} placeholder="Local"
               onChangeText={(value) => setEvent({ ...event, local: value })}
               value={event.local} />
           </View>
           <View style={styles.textView}>
-            <TabBarIcon style={styles.icons} name="clock-o" color={Colors.Blue.background} />
+            <TabBarIcon size={25} style={styles.clockIcon} name="clock-o" color={Colors.DarkBlue.background} />
             <TouchableOpacity style={styles.calendar} onPress={
               showTimeMode
             }>
@@ -247,7 +256,7 @@ export default function Evento() {
         }
         {/* Date picker line */}
         <View style={styles.textView}>
-          <TabBarIcon style={styles.icons} name="calendar" color={Colors.Blue.background} />
+          <TabBarIcon size={25} style={styles.calendarIcon} name="calendar" color={Colors.Blue.background} />
           <TouchableOpacity style={styles.calendar} onPress={
             showDataMode
           }>
@@ -298,14 +307,6 @@ export default function Evento() {
   );
 
 }
-function TabBarIcon(props: {
-  name: React.ComponentProps<typeof FontAwesome>['name'];
-  color: string;
-  style: object
-}) {
-  return <FontAwesome size={30}  {...props} />;
-}
-
 
 const styles = StyleSheet.create({
   scroll: {
@@ -338,11 +339,11 @@ const styles = StyleSheet.create({
   hifenSyle: {
     alignSelf: 'center',
     marginHorizontal: 3,
-    fontSize: 16,
+    fontSize: 14,
     fontWeight: 'bold'
   },
   text: {
-    fontSize: 18,
+    fontSize: 14,
     //marginStart: 10,
     marginVertical: 5,
     padding: 12,
@@ -354,10 +355,18 @@ const styles = StyleSheet.create({
     borderColor: 'white',
     borderWidth: 3,    
   },
-  icons: {
+  clockIcon: {
     padding: 10,
     marginTop: 5,
-    // marginRight: 5,
+    marginRight: 5,
+    alignSelf: 'flex-start',
+    alignContent: 'flex-start',
+    color: Colors.DarkBlue.background
+  },
+  calendarIcon: {
+    padding: 10,
+    marginTop: 5,
+    marginRight: 3,
     alignSelf: 'flex-start',
     alignContent: 'flex-start',
     color: Colors.DarkBlue.background
@@ -391,18 +400,18 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     borderRadius: 15,
     alignItems: 'center',
-    backgroundColor: Colors.DarkBlue.background,
+    backgroundColor: Colors.Blue.background,
     borderColor: 'white',
     // borderWidth: 3
   },
   buttonText: {
     fontWeight: 'bold',
     padding: 15,
-    fontSize: 18,
+    fontSize: 14,
     color: 'white'
   },
   calendar: {
-    fontSize: 18,
+    fontSize: 14,
     //marginStart: 10,
     marginVertical: 5,
     padding: 12,
@@ -415,25 +424,24 @@ const styles = StyleSheet.create({
     borderWidth: 3
   },
   Text_Normal: {
-    fontSize: 18,
+    fontSize: 14,
     color: 'gray',
   },
   dropdownBtnStyle: {
-    //marginStart: 10,
     marginVertical: 5,
-    // padding: 12,
+    // padding: 0,
     backgroundColor: '#E9E9E9',
     borderRadius: 16,
-    // textAlign: 'center',
+    textAlign: 'center',
     borderColor: 'white',
     borderWidth: 3,
     width: '100%'
   },
   dropdownBtnTxtStyle: {
-    // padding: 10,
+    padding: 0,
     textAlign: 'left',
-    fontSize: 18,
-    // alignSelf: 'stretch',
+    fontSize: 14,
+    // backgroundColor: 'black',
     color: 'gray',
 
   },
