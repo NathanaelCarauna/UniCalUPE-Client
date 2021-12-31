@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { ScrollView, StyleSheet, TouchableOpacity, Alert, TextInput, Button } from 'react-native';
+import { ScrollView, StyleSheet, TouchableOpacity, Alert, TextInput, Button, ActivityIndicator } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
 import Modal from "react-native-modal";
 
@@ -14,17 +14,17 @@ import TabBarIcon from '../components/TabIcon';
 
 
 export default function EditProfileScreen({ navigation }) {
-  const { user, saveUser, coursesList } = React.useContext(AppContext)
+  const { user, loading, saveUser, coursesList } = React.useContext(AppContext)
   const checkId = () => {
     return typeof user.id == 'number' ? user.id : null
   }
-  const [userData, setUserData] = React.useState({ name: user.name, email: user.email, accountType: user.accountType || 'STUDENT', id: checkId() });
+  const [userData, setUserData] = React.useState({ name: user.name, email: user.email, accountType: user.accountType || 'ADM', id: checkId() });
 
   const handleSubmit = () => {
 
     if (saveUser(userData)) {
       console.log('User data saved')
-      navigation.navigate('Root')
+      navigation.navigate('Calendário')
     }
   }
 
@@ -33,6 +33,16 @@ export default function EditProfileScreen({ navigation }) {
   const toggleModal = () => {
     setModalVisible(!isModalVisible);
   };
+
+  if (loading) {
+    return (
+      (
+        <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+          <ActivityIndicator size="large" color='#666' />
+        </View>
+      )
+    )
+  }
 
   return (
     <>
