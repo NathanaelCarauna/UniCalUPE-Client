@@ -175,7 +175,7 @@ const styles = StyleSheet.create({
     color: '#ffffff'
   },
   text: {
-    fontSize: 18,
+    fontSize: 14,
     //marginStart: 10,
     marginVertical: 5,
     padding: 12,
@@ -188,7 +188,7 @@ const styles = StyleSheet.create({
     borderWidth: 3
   },
   textModal: {
-    fontSize: 23,
+    fontSize: 16,
     margin: 30,
     color: 'gray',
     borderRadius: 16,
@@ -214,7 +214,7 @@ const styles = StyleSheet.create({
     width: '100%'
   },
   dropdownBtnTxtStyle: {
-    fontSize: 18,
+    fontSize: 14,
     alignSelf: 'stretch',
     color: 'gray',
 
