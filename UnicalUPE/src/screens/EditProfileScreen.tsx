@@ -9,6 +9,7 @@ import AppContext from '../contexts/appContext';
 import SelectDropdown from 'react-native-select-dropdown';
 import { FontAwesome } from '@expo/vector-icons';
 import { useEffect, useContext, useState } from 'react';
+import TabBarIcon from '../components/TabIcon';
 
 
 
@@ -88,7 +89,7 @@ export default function EditProfileScreen({ navigation }) {
                 <TouchableOpacity
                   style={styles.buttonModalBack}
                   onPress={toggleModal}>
-                  <TabBarIcon name="arrow-left" color={'white'} style={styles.icon} />
+                  <TabBarIcon name="arrow-left" color={'white'} style={styles.icon} size={20} />
                 </TouchableOpacity>
                 <TouchableOpacity
                   style={styles.buttonModal}
@@ -104,14 +105,6 @@ export default function EditProfileScreen({ navigation }) {
 
     </>
   );
-}
-
-function TabBarIcon(props: {
-  name: React.ComponentProps<typeof FontAwesome>['name'];
-  color: string;
-  style: object
-}) {
-  return <FontAwesome size={20} {...props} />;
 }
 
 const styles = StyleSheet.create({
