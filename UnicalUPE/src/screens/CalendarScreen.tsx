@@ -220,14 +220,14 @@ export default function CalendarScreen({ navigation }) {
       />
       <Modal isVisible={isModalVisible} >
         <View style={styles.modal}>
-          <LinearGradient colors={["#ffffff", "#D47AE8"]}>
+          <LinearGradient colors={["#ffffff", "#ffffff"]}>
             <Text style={styles.textModal} >Você realmente deseja sair da sua conta ?</Text>
 
             <View style={styles.buttons}>
               <TouchableOpacity
                 style={styles.buttonModalBack}
                 onPress={toggleModal}>
-                <TabBarIcon name="arrow-left" color={'white'} style={styles.icon} />
+                <TabBarIcon name="arrow-left" color={'white'} style={styles.icon} size={20}/>
               </TouchableOpacity>
               <TouchableOpacity
                 style={styles.buttonModal}
@@ -309,7 +309,7 @@ const styles = StyleSheet.create({
   buttonModal: {
     //margin: 20,
     fontWeight: 'bold',
-    backgroundColor: Colors.Orange.background,
+    backgroundColor: Colors.Pourple.background,
     borderRadius: 15,
   },
   buttons: {
@@ -321,7 +321,7 @@ const styles = StyleSheet.create({
   },
   buttonModalBack: {
     fontWeight: 'bold',
-    backgroundColor: Colors.Orange.background,
+    backgroundColor: Colors.Pourple.background,
     borderRadius: 15,
 
   },
