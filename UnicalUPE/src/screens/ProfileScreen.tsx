@@ -35,10 +35,15 @@ export default function ProfileScreen({ navigation }) {
     <>
       <LinearGradient style={styles.container} colors={["#ffffff", "#ffffff"]}>
         <LinearGradient style={styles.bloco} colors={["#ffffff", "#ffffff"]}>
-          <View>
+        <View style={styles.field}>
+            <TabBarIcon name="user" color={Colors.Orange.background} style={styles.icon} size={20} />
             <Text style={styles.normal}>{user.name}</Text>
-            <Text style={styles.normal}>{user.course.name}</Text>
             {/* <Text style={styles.tipoLogin}>Tipo{user.accountType}</Text> */}
+          </View>
+          <View style={styles.field}>
+            <TabBarIcon name="certificate" color={Colors.Orange.background} style={styles.icon} size={20} />
+            <Text style={styles.normal}>{user.course.name}</Text>
+            
           </View>
           <View style={styles.buttons}>
             <TouchableOpacity
@@ -172,4 +177,8 @@ const styles = StyleSheet.create({
     borderColor: Colors.Orange.background,
     width: '90%'
   },  
+  field: {
+    flexDirection: 'row',
+    alignItems: 'center',
+  }
 });
