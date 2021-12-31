@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { FlatList, ScrollView, StyleSheet } from 'react-native';
+import { FlatList, ScrollView, StyleSheet, Image} from 'react-native';
 import DateSquare from '../components/DateSquare';
 
 import EditScreenInfo from '../components/EditScreenInfo';
@@ -12,6 +12,7 @@ import { useEffect, useContext, useState } from 'react';
 import AppContext from '../contexts/appContext';
 import { useNavigation } from '@react-navigation/native';
 import Navigation from '../navigation';
+import Timeline from 'react-native-timeline-flatlist'
 
 export default function EventsScreen() {
 
@@ -29,6 +30,15 @@ export default function EventsScreen() {
       { id: 6, day: 'Sab', date: '27', month: null, year: null, selected: false },
     ]
   )
+
+ const data = [
+      {time: '09:00', title: 'Event 1', description: 'Event 1 Description'},
+      {time: '10:45', title: 'Event 2', description: 'Event 2 Description'},
+      {time: '12:00', title: 'Event 3', description: 'Event 3 Description'},
+      {time: '14:00', title: 'Event 4', description: 'Event 4 Description'},
+      {time: '16:30', title: 'Event 5', description: 'Event 5 Description'}
+    ]
+
 
   const fillWeek = (pDates, selectedDate) => {
     var currentDay: Date;
@@ -122,17 +132,30 @@ export default function EventsScreen() {
     backgroundColor: 'transparent',
   }} />
 
-  
+  const renderDetail = (rowData, sectionID, rowID) => {
+
+    return (
+      <View style={{flex: 1}}>
+        <EventComponent event={rowData}></EventComponent>
+      </View>
+    );
+  };
 
   return (
     <>
       <MainView>
         <TitleMainScreen title='Eventos do Dia' />
+        <Timeline
+          data={data}
+          descriptionStyle={{color:'gray'}}
+          //detailContainerStyle={{backgroundColor: 'black'}}
+          renderDetail={renderDetail}
+        />
         <View style={styles.legendContainer}>
           <Text style={styles.text}>Categoria</Text>
           <Text style={styles.text}>Evento</Text>
         </View>
-        {
+        {/* {
           eventsList.length > 0 ?
             <FlatList
               
@@ -143,9 +166,9 @@ export default function EventsScreen() {
               style={styles.eventList}
             />
             : <Text style={styles.notFound}>Nenhum evento encontrado para esse dia</Text>
-        }
-      </MainView >
-      <View style={styles.flat}>
+        }*/}
+      </MainView > 
+      {/* <View style={styles.flat}>
         <FlatList
           ItemSeparatorComponent={ItemSeprator}
           horizontal={true}
@@ -161,7 +184,7 @@ export default function EventsScreen() {
               func={GetEventsByDate}
             />)}
         />
-      </View>
+      </View> */}
     </>
   );
 }
@@ -214,5 +237,29 @@ const styles = StyleSheet.create({
     fontSize: 16,
     alignSelf: 'center',
     marginTop: 40,
-  }
+  },
+  title: {
+    padding: 16,
+    fontSize: 20,
+    textAlign: 'center',
+    fontWeight: 'bold',
+  },
+  rowTitle: {
+    fontSize: 16,
+    fontWeight: 'bold',
+  },
+  descriptionContainer: {
+    flexDirection: 'row',
+    paddingRight: 50,
+  },
+  imageStyle: {
+    width: 50,
+    height: 50,
+    borderRadius: 25,
+  },
+  textDescriptionStyle: {
+    marginLeft: 10,
+    color: 'gray',
+  },
+
 });

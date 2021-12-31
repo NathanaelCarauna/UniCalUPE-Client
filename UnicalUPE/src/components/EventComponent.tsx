@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { StyleSheet, Button, TouchableOpacityBase, TouchableOpacity } from 'react-native';
+import { StyleSheet, Button, TouchableOpacityBase, TouchableOpacity, Image } from 'react-native';
 
 import { Text, View } from './Themed';
 import { FontAwesome } from '@expo/vector-icons';
@@ -25,20 +25,19 @@ type eventType = {
         startHour: string
     }
 }
-export default function EventComponent({ event }: eventType) {
+export default function EventComponent({event}) {
+
     const navigation = useNavigation();
     const { setCategoryColor } = useContext(AppContext)
 
     const categoryColor = setCategoryColor(event)
-
+    console.log(event)
     function navigateEvent(props: { event: eventType }) {
         navigation.navigate('Event', { event: event })
     }
 
     return (
-        <View style={styles.container_out}>
-            <View style={[styles.tagComponent, {backgroundColor: categoryColor}]}></View>
-            <View style={styles.container}>
+        <View style={styles.container}>
                 <TouchableOpacity style={{flex: 1}} onPress={navigateEvent}>
                     <LinearGradient start={{ x: 0, y: 0 }} end={{ x: 1, y: 0 }}
                         style={styles.eventContainer}
@@ -49,7 +48,6 @@ export default function EventComponent({ event }: eventType) {
                         </View>
                     </LinearGradient>
                 </TouchableOpacity>
-            </View>
         </View>
     );
 }
@@ -67,8 +65,7 @@ const styles = StyleSheet.create({
         flex:1,
         backgroundColor: 'transparent',
         
-        marginBottom: 10,
-        marginTop: 6,
+        
         //marginHorizontal: 20,
         shadowColor: "#000",
         elevation: 10,
@@ -78,7 +75,7 @@ const styles = StyleSheet.create({
     container_out: {
         flexDirection: 'row',
         backgroundColor: 'transparent',
-        marginHorizontal: 20,
+        
     },
     titleContainer: {
         flexDirection: 'row',

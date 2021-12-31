@@ -18,6 +18,7 @@ import { Text, View } from '../components/Themed';
 import { LinearGradient } from 'expo-linear-gradient';
 import { FlatList, TouchableOpacity } from 'react-native';
 import ButtonNavigation from '../components/ButtonNavigation'
+import Navigation from '../navigation';
 
 LocaleConfig.locales['pt-br'] = {
   monthNames: ['Janeiro', 'Fevereiro', 'Março', 'Abril', 'Maio', 'Junho', 'Julho', 'Agosto', 'Setembro', 'Outubro', 'Novembro', 'Dezembro'],
@@ -166,6 +167,7 @@ export default function CalendarScreen({ navigation }) {
         onDayPress={(day) => {
           setSelectDate(day.dateString)
           getEventsByDate(day.dateString)
+          navigation.navigate("Eventos")
           // updateCallendar(day.dateString)
           console.log('Selected date:', selectedDate)
         }}
