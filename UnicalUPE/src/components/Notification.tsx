@@ -10,6 +10,7 @@ import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { LinearGradient } from 'expo-linear-gradient';
 import { FontAwesome } from '@expo/vector-icons';
 import { useState } from 'react';
+import TabBarIcon from './TabIcon';
 
 type PropsButton = {
 
@@ -34,34 +35,26 @@ export default function Notification({ title, category, date, event, notificatio
     }
     return (
         <TouchableOpacity style={styles.bloco} onPress={navigateEvent}>
-            <LinearGradient start={{ x: 0, y: 0 }} end={{ x: 1, y: 0 }} style={styles.flex} colors={["#2AB75A", "#A0FFA3"]}>
+            <LinearGradient start={{ x: 0, y: 0 }} end={{ x: 1, y: 0 }} style={styles.flex} colors={["#fff", "#fff"]}>
                 <View style={styles.titleContainer}>
                     <Text style={styles.title}>
                         {category == "PESQUISA" ? 'Nova pesquisa: ' : 'Novo Evento: '} {title}
                     </Text>
-                    {!visualized ? <TabBarIcon style={styles.options} name="exclamation" color={'orange'} />
-                        : <TabBarIcon style={styles.options} name="check" color={'darkgreen'} />
-                    }
-
-                    <TouchableOpacity onPress={handleTogle}>
-                        <TabBarIcon style={styles.options} name="trash" color={Colors.Red.background} />
-                    </TouchableOpacity>
-
+                    <Text style={styles.data}>
+                        {notificationDate.getDate()}/{notificationDate.getMonth()}/{notificationDate.getFullYear()} {notificationDate.getHours()}:{notificationDate.getMinutes()}
+                    </Text>
                 </View>
-                <Text style={styles.data}>
-                    {notificationDate.getDate()}/{notificationDate.getMonth()}/{notificationDate.getFullYear()} {notificationDate.getHours()}:{notificationDate.getMinutes()}
-                </Text>
+                <View style={styles.optionsContainer}>
+                    {!visualized ? <TabBarIcon style={styles.options} name="exclamation" color={'orange'} />
+                        : <TabBarIcon size={20} style={styles.options} name="check" color={'darkgreen'} />
+                    }
+                    <TouchableOpacity onPress={handleTogle}>
+                        <TabBarIcon size={20} style={styles.options} name="trash" color={Colors.Red.background} />
+                    </TouchableOpacity>
+                </View>
             </LinearGradient>
         </TouchableOpacity>
     )
-}
-
-function TabBarIcon(props: {
-    name: React.ComponentProps<typeof FontAwesome>['name'];
-    color: string;
-    style: object
-}) {
-    return <FontAwesome size={30} {...props} />;
 }
 
 const styles = StyleSheet.create({
@@ -71,43 +64,42 @@ const styles = StyleSheet.create({
         alignSelf: 'flex-start',
         // marginBottom:10,
         marginStart: 20,
-        fontSize: 20,
+        fontSize: 16,
         fontWeight: 'bold',
-        color: 'white'
+        color: Colors.Green.background
     },
     data: {
         //alignSelf: 'flex-end',
         marginStart: 20,
         marginBottom: 10,
-        color: 'white'
+        color: 'gray'
     },
     bloco: {
-        alignSelf: 'stretch',
-        backgroundColor: Colors.Red.background,
+        flex:1,
         margin: 10,
         marginBottom: 10,
         borderRadius: 16,
         overflow: 'hidden',
-
+        borderWidth: 2,
+        borderColor: Colors.Green.background
     },
     titleContainer: {
-        flex: 1,
+        flex: 5,
         marginVertical: 8,
-        flexDirection: 'row',
         backgroundColor: 'transparent',
-        justifyContent: 'center',
-        alignItems: 'center',
-        alignContent: 'center'
+        alignContent: 'center',
 
     },
     options: {
         // alignSelf: 'flex-end',
         marginEnd: 15,
+        marginVertical: 4,
         // marginTop: 15,
-        fontSize: 20,
+        fontSize: 16,
     },
     flex: {
-        alignItems: 'baseline'
+        flexDirection: 'row',
+        justifyContent: 'space-around'
     },
     button: {
         position: 'absolute',
@@ -119,7 +111,10 @@ const styles = StyleSheet.create({
         right: 30,
         borderRadius: 15,
         top: 1
-
-
+    },
+    optionsContainer: {
+        flex: 1,
+        alignItems: 'center',
+        justifyContent: 'space-around',
     }
 })

@@ -11,11 +11,12 @@ import SelectDropdown from 'react-native-select-dropdown';
 import { useContext, useState } from 'react';
 import AppContext from '../contexts/appContext';
 import Navigation from '../navigation';
+import TabBarIcon from '../components/TabIcon';
 
 const filter = [{ name: 'Todos', value: -1 }, { name: "Enquete", value: "PESQUISA" }, { name: "Evento", value: "EVENTO" }]
 export default function NotificationsScreen({ navigation }: RootTabScreenProps<'Navigation'>) {
   const { userNotifications, getNotificationsByCategory, getNotificationByUserEmail, deleteNotification } = useContext(AppContext)
-  const [category, setCategory] = useState({ name: 'Todos' })
+  const [category, setCategory] = useState({ name: 'Todos', value: -1 })
   const [refresh, setRefresh] = useState(false)
   const [isModalVisible, setModalVisible] = useState(false);
   const [selectedNotification, setSelectedNotification] = useState();
@@ -105,14 +106,14 @@ export default function NotificationsScreen({ navigation }: RootTabScreenProps<'
       }
       <Modal isVisible={isModalVisible} >
         <View style={styles.modal}>
-          <LinearGradient colors={["#ffffff", "#ffc278"]}>
+          <LinearGradient colors={["#ffffff", "#fff"]}>
             <Text style={styles.textModal} >Você realmente deseja excluir essa notificação?</Text>
 
             <View style={styles.buttons}>
               <TouchableOpacity
                 style={styles.buttonModalBack}
                 onPress={toggleModal}>
-                <TabBarIcon name="arrow-left" color={'white'} style={styles.icon} />
+                <TabBarIcon size={20} name="arrow-left" color={'white'} style={styles.icon} />
               </TouchableOpacity>
               <TouchableOpacity
                 style={styles.buttonModal}
@@ -128,27 +129,15 @@ export default function NotificationsScreen({ navigation }: RootTabScreenProps<'
   );
 }
 
-function TabBarIcon(props: {
-  name: React.ComponentProps<typeof FontAwesome>['name'];
-  color: string;
-}) {
-  return <FontAwesome size={30} style={{ marginBottom: -3 }} {...props} />;
-}
 const styles = StyleSheet.create({
   container: {
     display: 'flex',
     flex: 1,
     backgroundColor: 'white',
 
-  },
-  title: {
-    fontSize: 20,
-    marginTop: 20,
-    color: "#004369",
-    fontWeight: 'bold',
-  },
+  },  
   notFound: {
-    fontSize: 16,
+    fontSize: 14,
     alignSelf: 'center',
     marginTop: 40,
   },
@@ -162,32 +151,16 @@ const styles = StyleSheet.create({
   transparent: {
     backgroundColor: Colors.dark.background,
   },
-  icon: {
-    marginTop: 14,
-    marginHorizontal: 20
+  icon: {    
+    padding: 10,    
   },
   buttons: {
+    margin: 15,
     backgroundColor: 'transparent',
     flexDirection: 'row',
-    //alignContent: 'center'
+    alignContent: 'center',
     justifyContent: 'space-evenly',
-    padding: 10,
-  },
-  modal: {
-    overflow: 'hidden',
-    borderRadius: 15,
-
-  },
-  buttonModal: {
-    fontWeight: 'bold',
-    backgroundColor: Colors.Orange.background,
-    borderRadius: 15,
-  },
-  buttonModalBack: {
-    fontWeight: 'bold',
-    backgroundColor: Colors.Orange.background,
-    borderRadius: 15,
-
+    // padding: 10,
   },
   buttonText: {
     // margin: 40,
@@ -196,9 +169,27 @@ const styles = StyleSheet.create({
     paddingHorizontal: 40,
     textAlign: 'center',
     color: '#ffffff'
+
+  }, 
+  modal: {
+    overflow: 'hidden',
+    borderRadius: 15,
+
+  },
+  buttonModal: {
+
+    fontWeight: 'bold',
+    backgroundColor: Colors.Green.background,
+    borderRadius: 15
+  },
+  buttonModalBack: {
+    justifyContent: 'center',
+    fontWeight: 'bold',
+    backgroundColor: Colors.Green.background,
+    borderRadius: 15
   },
   textModal: {
-    fontSize: 23,
+    fontSize: 16,
     margin: 30,
     color: 'gray',
     borderRadius: 16,
@@ -206,14 +197,14 @@ const styles = StyleSheet.create({
     textAlign: 'center',
   },
   normal: {
-    fontSize: 15,
+    fontSize: 14,
     justifyContent: 'center',
     textAlign: 'left',
     color: 'white',
     paddingEnd: 20
   },
   normal_n: {
-    fontSize: 15,
+    fontSize: 14,
     justifyContent: 'center',
     textAlign: 'left',
     color: 'white',
@@ -239,7 +230,7 @@ const styles = StyleSheet.create({
 
   },
   filtrar: {
-    backgroundColor: '#FFDD63',
+    backgroundColor: Colors.Green.background,
     padding: 10,
     borderRadius: 16,
     // alignSelf: 'center',
@@ -260,7 +251,7 @@ const styles = StyleSheet.create({
   },
   dropdownBtnTxtStyle: {
     color: "#FFF",
-    fontSize: 16,
+    fontSize: 14,
   },
   dropdown: {
     borderRadius: 16,
