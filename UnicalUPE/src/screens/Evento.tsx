@@ -68,13 +68,20 @@ export default function Evento({ route, navigation }) {
               <Text style={styles.text}>{event.local}</Text>
             </View>) : null}
 
-            {event.startHour ? (<View style={styles.line}>
-              <TabBarIcon name="clock-o" color={Colors.Yellow.background} />
-              <Text style={styles.text}>{event.startHour}</Text>
-            </View>) : null}
+            <View style={{ flexDirection: 'row', justifyContent: 'flex-start', flex: 1, backgroundColor: 'transparent', alignItems: 'center' }}>
+              {event.startHour ? (<View style={styles.line}>
+                <TabBarIcon name="clock-o" color={Colors.Yellow.background} />
+                <Text style={styles.text}>{event.startHour}</Text>
+              </View>) 
+              : null}
+              {event.endHour ? (<View style={styles.line}>
+                <TabBarIcon name="clock-o" color={Colors.Yellow.background} />
+                <Text style={styles.text}>{event.endHour}</Text>
+              </View>) 
+              : null}
+            </View>
 
-
-            <View style={{ flexDirection: 'row', justifyContent: 'space-between', height: 60, flex: 1, backgroundColor: 'transparent', alignItems: 'center' }}>
+            <View style={{ flexDirection: 'row', justifyContent: 'space-between', flex: 1, backgroundColor: 'transparent', alignItems: 'center' }}>
               <View style={styles.line}>
                 <TabBarIcon name="calendar" color={Colors.Yellow.background} />
                 <Text style={styles.text}>{splitdate(event.startDate)}</Text>
@@ -90,31 +97,30 @@ export default function Evento({ route, navigation }) {
 
           </View>
         </View>
-        <View style={styles.separator} lightColor="#004369" darkColor="rgba(0,67,105,0.1)" />
-
-        <LinearGradient style={styles.bloco} colors={["#192f6a", "#4c669f"]}>
+        <LinearGradient style={styles.bloco} colors={["#fff", "#fff"]}>
           <Text style={styles.normal}>{event.description}</Text>
         </LinearGradient>
 
         {event.link ? (<TouchableOpacity style={styles.link}>
-          <LinearGradient colors={["#192f6a", "#4c669f"]}>
+          <LinearGradient colors={["#fff", "#fff"]}>
             <Text style={styles.normal}>{event.link}</Text>
           </LinearGradient>
         </TouchableOpacity>) : null}
 
+
         {user && (user.accountType == 'ADM') ?
-          <>
+          <View style={styles.buttonsContainer}>
             <TouchableOpacity
               style={styles.button}
               onPress={navigate}>
-              <Text style={styles.buttonText}>Editar Evento</Text>
+              <TabBarIcon name="edit" color={'white'} style={styles.icon} size={20} />
             </TouchableOpacity>
             <TouchableOpacity
               style={styles.button}
               onPress={toggleModal}>
-              <Text style={styles.buttonText}>Excluir Evento</Text>
+              <TabBarIcon name="trash" color={'white'} style={styles.icon} size={20} />
             </TouchableOpacity>
-          </>
+          </View>
           : null}
 
 
@@ -122,7 +128,7 @@ export default function Evento({ route, navigation }) {
       </LinearGradient>
       <Modal isVisible={isModalVisible} >
         <View style={styles.modal}>
-          <LinearGradient colors={["#ffffff", "#ffc278"]}>
+          <LinearGradient colors={["#ffffff", "#ffffff"]}>
             <Text style={styles.textModal} >Você realmente deseja excluir esse registro?</Text>
 
             <View style={styles.buttons}>
@@ -164,13 +170,14 @@ const styles = StyleSheet.create({
     //justifyContent: 'center',
   },
   title: {
-    fontSize: 30,
+    fontSize: 25,
     color: "#192f6a",
     fontWeight: 'bold',
 
   },
   sub_tittle: {
-    fontSize: 15,
+    marginStart: 10,
+    fontSize: 12,
     color: 'gray'
   },
   separator: {
@@ -187,25 +194,28 @@ const styles = StyleSheet.create({
     color: "#192f6a",
   },
   normal: {
-    fontSize: 18,
+    fontSize: 14,
     justifyContent: 'center',
-    textAlign: 'center',
-    color: 'white',
+    textAlign: 'justify',
+    color: '#004369',
     padding: 15
   },
   bloco: {
     flex: 1,
     margin: 15,
     marginBottom: 10,
+    borderWidth: 2,
+    borderColor: Colors.DarkBlue.background,
     borderRadius: 16,
-    alignSelf: 'stretch'
+    alignSelf: 'stretch',
+
   },
   link: {
     flex: 1,
     margin: 15,
-    //marginBottom: 10,
+    borderWidth: 2,
+    borderColor: Colors.DarkBlue.background,
     borderRadius: 16,
-    borderBottomEndRadius: 16,
     overflow: 'hidden',
     alignSelf: 'stretch'
   },
@@ -219,12 +229,12 @@ const styles = StyleSheet.create({
   },
   text: {
     marginStart: 10,
-    fontSize: 20,
+    fontSize: 14,
     color: "#004369"
   },
   line: {
     padding: 8,
-    margin: 6,
+    // margin: 6,
     //paddingHorizontal:12,
     display: 'flex',
     flexDirection: 'row',
@@ -233,7 +243,6 @@ const styles = StyleSheet.create({
     borderRadius: 15
   },
   button: {
-    margin: 40,
     fontWeight: 'bold',
     backgroundColor: Colors.DarkBlue.background,
     borderRadius: 15
@@ -254,37 +263,43 @@ const styles = StyleSheet.create({
   modal: {
     overflow: 'hidden',
     borderRadius: 15,
-    
-  },  
+
+  },
   buttonModal: {
     //margin: 20,
     fontWeight: 'bold',
-    backgroundColor: Colors.Orange.background,
+    backgroundColor: Colors.DarkBlue.background,
     borderRadius: 15,
   },
-  buttons:{
-    backgroundColor:'transparent',
+  buttons: {
+    backgroundColor: 'transparent',
     flexDirection: 'row',
     //alignContent: 'center'
-    justifyContent:'space-evenly',
+    justifyContent: 'space-evenly',
     padding: 10,
   },
   buttonModalBack: {
     fontWeight: 'bold',
-    backgroundColor: Colors.Orange.background,
-    borderRadius: 15,    
+    backgroundColor: Colors.DarkBlue.background,
+    borderRadius: 15,
   },
-  icon:{
-    marginTop: 14,
-    marginHorizontal: 20
-  },  
+  icon: {
+    padding: 10,
+  },
   textModal: {
-    fontSize: 23,
-    margin:30,
+    fontSize: 16,
+    margin: 30,
     color: 'gray',
     borderRadius: 16,
     alignSelf: 'stretch',
     textAlign: 'center',
   },
+  buttonsContainer: {
+    width: '80%',
+    margin: 15,
+    backgroundColor: 'transparent',
+    flexDirection: 'row',
+    justifyContent: 'space-around',
+  }
 
 });
