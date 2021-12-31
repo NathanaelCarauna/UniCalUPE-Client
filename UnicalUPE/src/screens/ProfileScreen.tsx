@@ -132,7 +132,7 @@ const styles = StyleSheet.create({
     margin: 10,
   },
   textModal: {
-    fontSize: 23,
+    fontSize: 16,
     margin: 30,
     color: 'gray',
     borderRadius: 16,
