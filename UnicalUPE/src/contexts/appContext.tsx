@@ -170,7 +170,7 @@ export const AppProvider = ({ children }: { children: React.ReactNode }) => {
 
     async function deleteUser(email: email) {
         setLoading(true);
-        let localUser;
+        let isSuccess = false;
         try {
             console.log('Requesting deleteUser')
             await userApi.deleteUser(email)
@@ -179,20 +179,21 @@ export const AppProvider = ({ children }: { children: React.ReactNode }) => {
                     console.log(response.data)
                     if (response.status == 200) {
                         signOut()
+                        isSuccess = true
                     }
                     setLoading(false);
                 })
                 .catch(err => {
                     console.log(err)
-                    localUser = null
+                    isSuccess = false
                     setLoading(false);
                 })
         } catch (e) {
             console.log(e)
-            localUser = null
+            isSuccess = false
         }
         setLoading(false);
-        return localUser
+        return isSuccess
     }
 
     function signOut() {
@@ -351,6 +352,7 @@ export const AppProvider = ({ children }: { children: React.ReactNode }) => {
 
     async function postEvent(event: eventType) {
         setLoading(true);
+        let isSuccess = false;
         try {
             console.log('post Event')
             await EventApi.postEvent(event)
@@ -360,24 +362,24 @@ export const AppProvider = ({ children }: { children: React.ReactNode }) => {
                     //console.log(response.data)
                     if (response.status == 200) {
                         console.log('Event created')
+                        isSuccess = true
                         getEventsByCourse(user.course.id)
-                    }
-                    else if(response.status == 500){
-                        setCurrentError(500);
-                    }
+                    }                    
                     setLoading(false);
                 })
                 .catch(err => {
                     console.log(err)
                     //localUser = null
+                    isSuccess = false
                     setLoading(false);
                 })
         } catch (e) {
-            
+            isSuccess = false
             console.log(e)
 
         }
         setLoading(false);
+        return isSuccess;
     }
 
     async function updateEvent(event: eventType) {
