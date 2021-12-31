@@ -85,6 +85,7 @@ export default function CalendarScreen({ navigation }) {
 
   const handleSubmit = () => {
     signOut()
+    toggleModal()
     console.log('logout user')
 
   }

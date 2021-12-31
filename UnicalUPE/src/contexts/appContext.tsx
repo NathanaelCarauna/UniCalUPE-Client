@@ -30,7 +30,7 @@ export const AppContext = createContext({
     selectedDate: '',
     userNotifications: [],
     currentError: {},
-    setCurrentError: () => {},
+    setCurrentError: () => { },
     setLoading: () => { },
     getUser: (email: email) => { },
     saveUser: (user: user) => { },
@@ -39,7 +39,7 @@ export const AppContext = createContext({
     handleSignIn: () => { },
     getEventsByCourse: () => { },
     getEventsAll: () => { },
-    getEventsByDate: (date: string ) => { },
+    getEventsByDate: (date: string) => { },
     setEventByDateRequested: () => { },
     postEvent: () => { },
     updateEvent: () => { },
@@ -50,7 +50,7 @@ export const AppContext = createContext({
     updateNotification: () => { },
     getNotificationsByCategory: () => { },
     deleteNotification: () => { },
-    deleteEvent: () => {}
+    deleteEvent: () => { }
 });
 
 export const AppProvider = ({ children }: { children: React.ReactNode }) => {
@@ -153,10 +153,10 @@ export const AppProvider = ({ children }: { children: React.ReactNode }) => {
                         console.log("User that came from back after save:", response.data)
                         result = true;
                     }
-                    else if(response.status == 500){
+                    else if (response.status == 500) {
                         setCurrentError(500);
                     }
-                    
+
                     setLoading(false);
                 })
         } catch (e) {
@@ -253,10 +253,10 @@ export const AppProvider = ({ children }: { children: React.ReactNode }) => {
                         setEventList(TimeLineEvents(response.data))
                         SetEventsCalendar(processedList)
                     }
-                    else if(response.status == 500){
+                    else if (response.status == 500) {
                         setCurrentError(500);
                     }
-                    else if(response.status == 404){
+                    else if (response.status == 404) {
                         setCurrentError(404);
                     }
                     setLoading(false);
@@ -293,10 +293,10 @@ export const AppProvider = ({ children }: { children: React.ReactNode }) => {
                         setEventList(TimeLineEvents(list))
                         SetEventsCalendar(processedList)
                     }
-                    else if(response.status == 500){
+                    else if (response.status == 500) {
                         setCurrentError(500);
                     }
-                    else if(response.status == 404){
+                    else if (response.status == 404) {
                         setCurrentError(404);
                     }
                     setLoading(false);
@@ -332,10 +332,10 @@ export const AppProvider = ({ children }: { children: React.ReactNode }) => {
                         setEventList(TimeLineEvents(list))
                         setEventByDateRequested(true);
                     }
-                    else if(response.status == 500){
+                    else if (response.status == 500) {
                         setCurrentError(500);
                     }
-                    else if(response.status == 404){
+                    else if (response.status == 404) {
                         setCurrentError(404);
                     }
                     setLoading(false);
@@ -364,7 +364,7 @@ export const AppProvider = ({ children }: { children: React.ReactNode }) => {
                         console.log('Event created')
                         isSuccess = true
                         getEventsByCourse(user.course.id)
-                    }                    
+                    }
                     setLoading(false);
                 })
                 .catch(err => {
@@ -384,6 +384,7 @@ export const AppProvider = ({ children }: { children: React.ReactNode }) => {
 
     async function updateEvent(event: eventType) {
         setLoading(true);
+        let isSuccess = false;
         try {
             console.log('put Event')
             await EventApi.updateEvent(event)
@@ -393,41 +394,51 @@ export const AppProvider = ({ children }: { children: React.ReactNode }) => {
                     //console.log(response.data)
                     if (response.status == 200) {
                         console.log(response.data)
+                        isSuccess = true
                         getEventsByCourse(user.course.id)
                     }
-                    else if(response.status == 500){
+                    else if (response.status == 500) {
                         setCurrentError(500);
                     }
                     setLoading(false);
                 })
                 .catch(err => {
                     console.log(err)
-                    //localUser = null
+                    isSuccess = false
                     setLoading(false);
                 })
         } catch (e) {
             console.log(e)
-
+            isSuccess = false
         }
         setLoading(false);
+        return isSuccess
     }
 
     async function deleteEvent(id) {
+        let isSuccess = false;
+        setLoading(true)
         try {
             console.log('Requesting deleteNotification')
             await EventApi.deleteEvent(id)
                 .then((response: AxiosResponse) => {
                     if (response.status == 200) {
+                        isSuccess = true
                         getEventsByCourse(user.course.id)
                     }
                     setLoading(false);
                 })
                 .catch(err => {
+                    isSuccess = false
                     console.log(err)
+                    setLoading(false)
                 })
         } catch (e) {
             console.log(e)
+            isSuccess = false
+            setLoading(false)
         }
+        return isSuccess
     }
 
     async function getEventsByCategory(category: string) {
@@ -441,10 +452,10 @@ export const AppProvider = ({ children }: { children: React.ReactNode }) => {
                     if (response.status == 200) {
                         setEventList(response.data)
                     }
-                    else if(response.status == 500){
+                    else if (response.status == 500) {
                         setCurrentError(500);
                     }
-                    else if(response.status == 404){
+                    else if (response.status == 404) {
                         setCurrentError(404);
                     }
                     setLoading(false);
@@ -467,7 +478,7 @@ export const AppProvider = ({ children }: { children: React.ReactNode }) => {
             // console.log("Json: :", json)
             // console.log("Item: ", item)
             if (!json.hasOwnProperty(item.startDate)) {
-                json[item.startDate] = {selected: true, selectedColor: Colors.dark.background }
+                json[item.startDate] = { selected: true, selectedColor: Colors.dark.background }
                 // console.log("Prop added: ", json[item.startDate])
             }
             return json
@@ -476,10 +487,10 @@ export const AppProvider = ({ children }: { children: React.ReactNode }) => {
         return list;
     }
     function TimeLineEvents(events) {
-        var list = events.map((event) =>{
+        var list = events.map((event) => {
             event.circleColor = setCategoryColor(event);
             event.lineColor = setCategoryColor(event);
-            event.time = event.startHour 
+            event.time = event.startHour
             return event
         })
         console.log("#####################################################lista processada###################################################")
@@ -500,15 +511,15 @@ export const AppProvider = ({ children }: { children: React.ReactNode }) => {
         if (event.category == 'EVENTO' && event.course) {
             switch (event.course.name) {
                 case 'Engenharia de Software':
-                    return '#1f4480' 
+                    return '#1f4480'
                 case 'Licenciatura em Computação':
                     return '#3d70ad'
                 case 'Medicina':
-                    return '#0c3120' 
+                    return '#0c3120'
                 case "Ciências Biológicas":
                     return '#196e33'
                 case 'Psicologia':
-                    return '#dd5b74' 
+                    return '#dd5b74'
                 case "Letras":
                     return '#e01432'
                 case "Geografia":
@@ -543,10 +554,10 @@ export const AppProvider = ({ children }: { children: React.ReactNode }) => {
                     if (response.status == 200) {
                         setCoursesList([{ id: -1, name: 'Todos' }, ...response.data])
                     }
-                    else if(response.status == 500){
+                    else if (response.status == 500) {
                         setCurrentError(500);
                     }
-                    else if(response.status == 404){
+                    else if (response.status == 404) {
                         setCurrentError(404);
                     }
                     setLoading(false);
@@ -578,10 +589,10 @@ export const AppProvider = ({ children }: { children: React.ReactNode }) => {
                     if (response.status == 200) {
                         setUserNotifications(response.data)
                     }
-                    else if(response.status == 500){
+                    else if (response.status == 500) {
                         setCurrentError(500);
                     }
-                    else if(response.status == 404){
+                    else if (response.status == 404) {
                         setCurrentError(404);
                     }
                     // setLoading(false);
@@ -606,7 +617,7 @@ export const AppProvider = ({ children }: { children: React.ReactNode }) => {
                     if (response.status == 200) {
                         getNotificationByUserEmail(user.email)
                     }
-                    else if(response.status == 500){
+                    else if (response.status == 500) {
                         setCurrentError(500);
                     }
                     setLoading(false);
@@ -630,10 +641,10 @@ export const AppProvider = ({ children }: { children: React.ReactNode }) => {
                     if (response.status == 200) {
                         getNotificationByUserEmail(user.email)
                     }
-                    else if(response.status == 500){
+                    else if (response.status == 500) {
                         setCurrentError(500);
                     }
-                    else if(response.status == 404){
+                    else if (response.status == 404) {
                         setCurrentError(404);
                     }
                     setLoading(false);
@@ -657,10 +668,10 @@ export const AppProvider = ({ children }: { children: React.ReactNode }) => {
                     if (response.status == 200) {
                         setUserNotifications(response.data)
                     }
-                    else if(response.status == 500){
+                    else if (response.status == 500) {
                         setCurrentError(500);
                     }
-                    else if(response.status == 404){
+                    else if (response.status == 404) {
                         setCurrentError(404);
                     }
                     // setLoading(false);
