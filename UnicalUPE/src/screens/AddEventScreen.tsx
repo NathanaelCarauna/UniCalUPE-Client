@@ -201,7 +201,7 @@ export default function Evento() {
               value={event.local} />
           </View>
           <View style={styles.textView}>
-            <TabBarIcon size={25} style={styles.icons} name="clock-o" color={Colors.DarkBlue.background} />
+            <TabBarIcon size={25} style={styles.clockIcon} name="clock-o" color={Colors.DarkBlue.background} />
             <TouchableOpacity style={styles.calendar} onPress={
               showTimeMode
             }>
@@ -248,7 +248,7 @@ export default function Evento() {
         }
         {/* Date picker line */}
         <View style={styles.textView}>
-          <TabBarIcon style={styles.icons} name="calendar" color={Colors.Blue.background} />
+          <TabBarIcon size={25} style={styles.calendarIcon} name="calendar" color={Colors.Blue.background} />
           <TouchableOpacity style={styles.calendar} onPress={
             showDataMode
           }>
@@ -347,10 +347,18 @@ const styles = StyleSheet.create({
     borderColor: 'white',
     borderWidth: 3,    
   },
-  icons: {
+  clockIcon: {
     padding: 10,
     marginTop: 5,
-    // marginRight: 5,
+    marginRight: 5,
+    alignSelf: 'flex-start',
+    alignContent: 'flex-start',
+    color: Colors.DarkBlue.background
+  },
+  calendarIcon: {
+    padding: 10,
+    marginTop: 5,
+    marginRight: 3,
     alignSelf: 'flex-start',
     alignContent: 'flex-start',
     color: Colors.DarkBlue.background
@@ -412,21 +420,20 @@ const styles = StyleSheet.create({
     color: 'gray',
   },
   dropdownBtnStyle: {
-    //marginStart: 10,
     marginVertical: 5,
-    // padding: 12,
+    // padding: 0,
     backgroundColor: '#E9E9E9',
     borderRadius: 16,
-    // textAlign: 'center',
+    textAlign: 'center',
     borderColor: 'white',
     borderWidth: 3,
     width: '100%'
   },
   dropdownBtnTxtStyle: {
-    // padding: 10,
+    padding: 0,
     textAlign: 'left',
     fontSize: 14,
-    // alignSelf: 'stretch',
+    // backgroundColor: 'black',
     color: 'gray',
 
   },
