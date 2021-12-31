@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { StyleSheet, ScrollView, TouchableOpacity, TextInput, Alert } from 'react-native';
+import { StyleSheet, ScrollView, TouchableOpacity, TextInput, Alert, ActivityIndicator } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
 
 import EditScreenInfo from '../components/EditScreenInfo';
@@ -32,7 +32,7 @@ export default function Evento() {
 
   const navigation = useNavigation()
 
-  const { postEvent, coursesList, currentError, setCurrentError } = React.useContext(AppContext)
+  const { postEvent, coursesList, currentError, setCurrentError, loading } = React.useContext(AppContext)
   const [event, setEvent] = useState({ title: null, presentor: null, local: null, description: null, link: null });
 
 
@@ -107,7 +107,15 @@ export default function Evento() {
 
   React.useEffect(() => { }, [date])
 
-
+  if (loading) {
+    return (
+      (
+        <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+          <ActivityIndicator size="large" color='#666' />
+        </View>
+      )
+    )
+  }
   return (
     <LinearGradient style={styles.container} colors={["#ffffff", "#ffffff"]}>
       <ScrollView style={styles.scroll}>
