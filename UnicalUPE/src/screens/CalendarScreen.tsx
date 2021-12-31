@@ -54,7 +54,7 @@ export default function CalendarScreen({ navigation }) {
     CurrentCourse,
     setSelectDate,
     getNotificationByUserEmail,
-    signOut    
+    signOut
   } = useContext(AppContext)
 
   const [buttons, setButtons] = useState()
@@ -77,10 +77,11 @@ export default function CalendarScreen({ navigation }) {
   // }, [avoid])
 
   useEffect(() => {
-    if (user && !user.course) {      
+    if (user && !user.course ) {
+      console.log("USUAAAARIO::::", user)
       navigation.navigate('EditProfile')
     }
-  }, [user])
+  }, [])
 
 
   const handleSubmit = () => {
@@ -236,7 +237,7 @@ export default function CalendarScreen({ navigation }) {
               <TouchableOpacity
                 style={styles.buttonModalBack}
                 onPress={toggleModal}>
-                <TabBarIcon name="arrow-left" color={'white'} style={styles.icon} size={20}/>
+                <TabBarIcon name="arrow-left" color={'white'} style={styles.icon} size={20} />
               </TouchableOpacity>
               <TouchableOpacity
                 style={styles.buttonModal}
