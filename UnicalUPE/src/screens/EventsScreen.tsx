@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { FlatList, ScrollView, StyleSheet } from 'react-native';
+import { FlatList, ScrollView, StyleSheet, Image} from 'react-native';
 import DateSquare from '../components/DateSquare';
 
 import EditScreenInfo from '../components/EditScreenInfo';
@@ -32,11 +32,11 @@ export default function EventsScreen() {
   )
 
  const data = [
-      {time: '09:00', title: 'Event 1', description: 'Event 1 Description',  circleColor:'#1f4480' ,lineColor:'#1f4480'},
-      {time: '12:00', title: 'Event 3', description: 'Event 2 Description',  circleColor:'#3d70ad' ,lineColor:'#3d70ad'},
-      {time: '12:00', title: 'Event 2', description: 'Event 3 Description',  circleColor:'#196e33' ,lineColor:'#196e33'},
-      {time: '09:00', title: 'Event 4', description: 'Event 4 Description',  circleColor:'#dd5b74' ,lineColor:'#dd5b74'},
-      {time: '16:30', title: 'Event 5', description: 'Event 5 Description',  circleColor:'#ecb74a' ,lineColor:'#ecb74a'}
+      {time: '09:00', title: 'Event 1', description: 'Event 1 Description'},
+      {time: '10:45', title: 'Event 2', description: 'Event 2 Description'},
+      {time: '12:00', title: 'Event 3', description: 'Event 3 Description'},
+      {time: '14:00', title: 'Event 4', description: 'Event 4 Description'},
+      {time: '16:30', title: 'Event 5', description: 'Event 5 Description'}
     ]
 
 
@@ -132,7 +132,14 @@ export default function EventsScreen() {
     backgroundColor: 'transparent',
   }} />
 
-  
+  const renderDetail = (rowData, sectionID, rowID) => {
+
+    return (
+      <View style={{flex: 1}}>
+        <EventComponent event={rowData}></EventComponent>
+      </View>
+    );
+  };
 
   return (
     <>
@@ -140,6 +147,9 @@ export default function EventsScreen() {
         <TitleMainScreen title='Eventos do Dia' />
         <Timeline
           data={data}
+          descriptionStyle={{color:'gray'}}
+          //detailContainerStyle={{backgroundColor: 'black'}}
+          renderDetail={renderDetail}
         />
         <View style={styles.legendContainer}>
           <Text style={styles.text}>Categoria</Text>
@@ -227,5 +237,29 @@ const styles = StyleSheet.create({
     fontSize: 16,
     alignSelf: 'center',
     marginTop: 40,
-  }
+  },
+  title: {
+    padding: 16,
+    fontSize: 20,
+    textAlign: 'center',
+    fontWeight: 'bold',
+  },
+  rowTitle: {
+    fontSize: 16,
+    fontWeight: 'bold',
+  },
+  descriptionContainer: {
+    flexDirection: 'row',
+    paddingRight: 50,
+  },
+  imageStyle: {
+    width: 50,
+    height: 50,
+    borderRadius: 25,
+  },
+  textDescriptionStyle: {
+    marginLeft: 10,
+    color: 'gray',
+  },
+
 });
