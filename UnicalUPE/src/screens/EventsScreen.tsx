@@ -146,9 +146,8 @@ export default function EventsScreen() {
       <MainView>
         <TitleMainScreen title='Eventos do Dia' />
         <Timeline
-          data={data}
+          data={eventsList.filter(event => event.startDate == selectedDate)}
           descriptionStyle={{color:'gray'}}
-          //detailContainerStyle={{backgroundColor: 'black'}}
           renderDetail={renderDetail}
         />
         <View style={styles.legendContainer}>

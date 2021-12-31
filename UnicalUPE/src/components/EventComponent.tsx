@@ -30,7 +30,7 @@ export default function EventComponent({event}) {
     const navigation = useNavigation();
     const { setCategoryColor } = useContext(AppContext)
 
-    const categoryColor = setCategoryColor(event)
+    //const categoryColor = setCategoryColor(event)
     console.log(event)
     function navigateEvent(props: { event: eventType }) {
         navigation.navigate('Event', { event: event })

@@ -249,7 +249,7 @@ export const AppProvider = ({ children }: { children: React.ReactNode }) => {
                         let processedList = processEventsCalendar(response.data)
                         //console.log("############### Lista processada ############")
                         //console.log(JSON.stringify(processedList))
-                        setEventList(response.data)
+                        setEventList(TimeLineEvents(response.data))
                         SetEventsCalendar(processedList)
                     }
                     else if(response.status == 500){
@@ -289,7 +289,7 @@ export const AppProvider = ({ children }: { children: React.ReactNode }) => {
                         if (selectedDate != null) {
                             list = list.filter(FilterByDate)
                         }
-                        setEventList(list)
+                        setEventList(TimeLineEvents(list))
                         SetEventsCalendar(processedList)
                     }
                     else if(response.status == 500){
@@ -328,7 +328,7 @@ export const AppProvider = ({ children }: { children: React.ReactNode }) => {
                             list = list.filter(FilterByCourse)
                         }
                         setSelectDate(date)
-                        setEventList(list)
+                        setEventList(TimeLineEvents(list))
                         setEventByDateRequested(true);
                     }
                     else if(response.status == 500){
@@ -471,6 +471,17 @@ export const AppProvider = ({ children }: { children: React.ReactNode }) => {
             return json
         }, {})
         // console.log("Json created: ", list)
+        return list;
+    }
+    function TimeLineEvents(events) {
+        var list = events.map((event) =>{
+            event.circleColor = setCategoryColor(event);
+            event.lineColor = setCategoryColor(event);
+            event.time = event.startHour 
+            return event
+        })
+        console.log("#####################################################lista processada###################################################")
+        console.log(list)
         return list;
     }
 
