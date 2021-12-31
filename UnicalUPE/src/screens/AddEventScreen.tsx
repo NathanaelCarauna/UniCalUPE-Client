@@ -13,6 +13,7 @@ import AppContext from '../contexts/appContext';
 import SelectDropdown from 'react-native-select-dropdown';
 import { useNavigation } from '@react-navigation/native';
 import TabBarIcon from '../components/TabIcon';
+import Modal from "react-native-modal";
 
 
 const processDate = (field: string) => {
@@ -30,25 +31,57 @@ export default function Evento() {
   const [showEndTime, setShowEndTime] = useState(false);
   const [categoryState, setCategoryState] = useState();
 
+  const [isSaveModalVisible, setSaveModalVisible] = useState(false);
+  const [isResponseModalVisible, setisResponseModalVisible] = useState(false);
+  const [modalMessage, setModalMessage] = useState({status: null, message: null});
   const navigation = useNavigation()
 
   const { postEvent, coursesList, currentError, setCurrentError, loading } = React.useContext(AppContext)
   const [event, setEvent] = useState({ title: null, presentor: null, local: null, description: null, link: null });
 
-
-  const handleSubmit = () => {
-    if (event.title == null || event.description == null || event.startDate == null) {
-      Alert.alert('"Titulo", "Descrição" e "Data de Inicio" não podem ser nulos')
+  const toggleSaveModal = () => {
+    if (event.title == null) {
+      setModalMessage({message: 'Um título deve ser adicionado'})
+      toggleResponseModal()
+      return
     }
-    else if (postEvent(event)) {
-      console.log('add event')
+    else if( event.description == null){
+      setModalMessage({message: 'Uma descrição deve ser adicionada'})
+      toggleResponseModal()
+      return
+    }
+    else if( event.startDate == null){
+      setModalMessage({message: 'Uma data de inicio deve ser fornecida'})
+      toggleResponseModal()
+      return
+    }
+    setSaveModalVisible(!isSaveModalVisible);
+  };
+  const toggleResponseModal = () => {
+    setisResponseModalVisible(!isResponseModalVisible);
+  };
+  
+  
+  const handleConfirmation = () => {
+    if(modalMessage.status){
       navigation.navigate('Calendário')
     }
-    else
-    {
-      Alert.alert("Erro ao salvar evento, tente novamente")
+    else{
+      toggleResponseModal()
     }
-  }
+  }   
+
+  const handleSubmit = () => {    
+    const response = postEvent(event)
+    if(response){
+      setModalMessage({status: true, message: 'Evento adicionado com sucesso!'})
+    }    
+    else{      
+      setModalMessage({status: false, message: 'Algo deu errado, tente novamente mais tarde'})
+    }
+    toggleSaveModal()
+    toggleResponseModal()
+  }  
 
   const showDataMode = () => {
     setShowData(!showData);
@@ -298,9 +331,47 @@ export default function Evento() {
 
         <TouchableOpacity
           style={styles.button}
-          onPress={handleSubmit}>
+          onPress={toggleSaveModal}>
           <Text style={styles.buttonText}>Salvar</Text>
         </TouchableOpacity>
+
+        <Modal isVisible={isSaveModalVisible}>
+          <View style={styles.modal}>
+            <LinearGradient colors={["#ffffff", "#ffffff"]}>
+              <Text style={styles.textModal} >Confirmar criação de evento?</Text>
+
+              <View style={styles.buttons}>
+                <TouchableOpacity
+                  style={styles.buttonModalBack}
+                  onPress={toggleSaveModal}>
+                  <TabBarIcon name="arrow-left" color={'white'} style={styles.icon} size={20}/>
+                </TouchableOpacity>
+                <TouchableOpacity
+                  style={styles.buttonModal}
+                  onPress={handleSubmit}>
+                  <Text style={styles.buttonText}>Sim</Text>
+                </TouchableOpacity>
+              </View>
+            </LinearGradient>
+          </View>
+        </Modal>
+
+        <Modal isVisible={isResponseModalVisible}>
+          <View style={styles.modal}>
+            <LinearGradient colors={["#ffffff", "#ffffff"]}>
+              <Text style={styles.textModal} >{modalMessage.message}</Text>
+
+              <View style={styles.buttons}>              
+                <TouchableOpacity
+                  style={styles.buttonModal}
+                  onPress={handleConfirmation}>
+                  <Text style={styles.buttonText}>Ok</Text>
+                </TouchableOpacity>
+              </View>
+            </LinearGradient>
+          </View>
+        </Modal>
+
       </ScrollView>
     </LinearGradient>
 
@@ -459,5 +530,41 @@ const styles = StyleSheet.create({
   dropdownIcon: {
     marginHorizontal: 10,
     
-  }
+  },
+  textModal: {
+    fontSize: 16,
+    margin: 30,
+    color: 'gray',
+    borderRadius: 16,
+    alignSelf: 'stretch',
+    textAlign: 'center',
+  },
+  modal: {
+    overflow: 'hidden',
+    borderRadius: 15,
+    
+  },
+  buttonModal: {
+
+    fontWeight: 'bold',
+    backgroundColor: Colors.Blue.background,
+    borderRadius: 15
+  },
+  buttonModalBack: {
+    justifyContent: 'center',
+    fontWeight: 'bold',
+    backgroundColor: Colors.Blue.background,
+    borderRadius: 15
+  },
+  icon: {    
+    padding: 10,    
+  },
+  buttons: {
+    margin: 15,
+    backgroundColor: 'transparent',
+    flexDirection: 'row',
+    alignContent: 'center',
+    justifyContent: 'space-evenly',
+    // padding: 10,
+  },
 });
