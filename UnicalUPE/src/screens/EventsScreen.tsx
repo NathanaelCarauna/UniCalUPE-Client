@@ -12,6 +12,7 @@ import { useEffect, useContext, useState } from 'react';
 import AppContext from '../contexts/appContext';
 import { useNavigation } from '@react-navigation/native';
 import Navigation from '../navigation';
+import Timeline from 'react-native-timeline-flatlist'
 
 export default function EventsScreen() {
 
@@ -29,6 +30,15 @@ export default function EventsScreen() {
       { id: 6, day: 'Sab', date: '27', month: null, year: null, selected: false },
     ]
   )
+
+ const data = [
+      {time: '09:00', title: 'Event 1', description: 'Event 1 Description',  circleColor:'#1f4480' ,lineColor:'#1f4480'},
+      {time: '12:00', title: 'Event 3', description: 'Event 2 Description',  circleColor:'#3d70ad' ,lineColor:'#3d70ad'},
+      {time: '12:00', title: 'Event 2', description: 'Event 3 Description',  circleColor:'#196e33' ,lineColor:'#196e33'},
+      {time: '09:00', title: 'Event 4', description: 'Event 4 Description',  circleColor:'#dd5b74' ,lineColor:'#dd5b74'},
+      {time: '16:30', title: 'Event 5', description: 'Event 5 Description',  circleColor:'#ecb74a' ,lineColor:'#ecb74a'}
+    ]
+
 
   const fillWeek = (pDates, selectedDate) => {
     var currentDay: Date;
@@ -128,11 +138,14 @@ export default function EventsScreen() {
     <>
       <MainView>
         <TitleMainScreen title='Eventos do Dia' />
+        <Timeline
+          data={data}
+        />
         <View style={styles.legendContainer}>
           <Text style={styles.text}>Categoria</Text>
           <Text style={styles.text}>Evento</Text>
         </View>
-        {
+        {/* {
           eventsList.length > 0 ?
             <FlatList
               
@@ -143,9 +156,9 @@ export default function EventsScreen() {
               style={styles.eventList}
             />
             : <Text style={styles.notFound}>Nenhum evento encontrado para esse dia</Text>
-        }
-      </MainView >
-      <View style={styles.flat}>
+        }*/}
+      </MainView > 
+      {/* <View style={styles.flat}>
         <FlatList
           ItemSeparatorComponent={ItemSeprator}
           horizontal={true}
@@ -161,7 +174,7 @@ export default function EventsScreen() {
               func={GetEventsByDate}
             />)}
         />
-      </View>
+      </View> */}
     </>
   );
 }

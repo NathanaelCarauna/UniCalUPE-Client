@@ -24,6 +24,7 @@ export type RootStackParamList = {
   Notifications: undefined;
   Event: undefined;
   ExpoNotification: undefined;
+  Eventos: undefined;
 };
 
 export type RootStackScreenProps<Screen extends keyof RootStackParamList> = NativeStackScreenProps<
@@ -57,5 +58,6 @@ export type eventType = {
       link: string
       startDate: string
       startHour: string
+
   }
 };
