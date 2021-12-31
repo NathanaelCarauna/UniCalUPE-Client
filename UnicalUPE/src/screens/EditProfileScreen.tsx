@@ -9,19 +9,20 @@ import AppContext from '../contexts/appContext';
 import SelectDropdown from 'react-native-select-dropdown';
 import { FontAwesome } from '@expo/vector-icons';
 import { useEffect, useContext, useState } from 'react';
+import TabBarIcon from '../components/TabIcon';
 
 
 
 export default function EditProfileScreen({ navigation }) {
-  const { user, saveUser, coursesList} = React.useContext(AppContext)
+  const { user, saveUser, coursesList } = React.useContext(AppContext)
   const checkId = () => {
     return typeof user.id == 'number' ? user.id : null
   }
-  const [userData, setUserData] = React.useState({ name: user.name, email: user.email, accountType: user.accountType || 'STUDENT', id: checkId()});
+  const [userData, setUserData] = React.useState({ name: user.name, email: user.email, accountType: user.accountType || 'STUDENT', id: checkId() });
 
   const handleSubmit = () => {
-    
-    if(saveUser(userData)){
+
+    if (saveUser(userData)) {
       console.log('User data saved')
       navigation.navigate('Root')
     }
@@ -58,7 +59,7 @@ export default function EditProfileScreen({ navigation }) {
           }}
           onSelect={(selectedItem, index) => {
             console.log(selectedItem, index)
-            setUserData({ ...userData, course: {id: selectedItem.id} })
+            setUserData({ ...userData, course: { id: selectedItem.id } })
           }}
           buttonTextAfterSelection={(selectedItem, index) => {
             // text represented after item is selected
@@ -78,40 +79,32 @@ export default function EditProfileScreen({ navigation }) {
           <Text style={styles.buttonText}>Salvar</Text>
         </TouchableOpacity>
 
-        
+
         <Modal isVisible={isModalVisible} >
-        <View style={styles.modal}>
-          <LinearGradient colors={["#ffffff", "#ffc278"]}>
-          <Text style={styles.textModal} >Você realmente deseja salvar essas alterações ?</Text>
+          <View style={styles.modal}>
+            <LinearGradient colors={["#ffffff", "#ffffff"]}>
+              <Text style={styles.textModal} >Você realmente deseja salvar essas alterações ?</Text>
 
-          <View style={styles.buttons}>
-            <TouchableOpacity
-            style={styles.buttonModalBack}
-            onPress={toggleModal}>
-            <TabBarIcon name="arrow-left" color={'white'} style={styles.icon} />
-            </TouchableOpacity>
-            <TouchableOpacity
-            style={styles.buttonModal}
-            onPress={handleSubmit}>
-            <Text style={styles.buttonText}>Salvar Alterações</Text>
-            </TouchableOpacity>
+              <View style={styles.buttons}>
+                <TouchableOpacity
+                  style={styles.buttonModalBack}
+                  onPress={toggleModal}>
+                  <TabBarIcon name="arrow-left" color={'white'} style={styles.icon} size={20} />
+                </TouchableOpacity>
+                <TouchableOpacity
+                  style={styles.buttonModal}
+                  onPress={handleSubmit}>
+                  <Text style={styles.buttonText}>Salvar Alterações</Text>
+                </TouchableOpacity>
 
+              </View>
+            </LinearGradient>
           </View>
-          </LinearGradient>
-        </View>
-      </Modal> 
+        </Modal>
       </LinearGradient>
 
     </>
   );
-}
-
-function TabBarIcon(props: {
-  name: React.ComponentProps<typeof FontAwesome>['name'];
-  color: string;
-  style: object
-}) {
-  return <FontAwesome size={20} {...props} />;
 }
 
 const styles = StyleSheet.create({
@@ -133,7 +126,7 @@ const styles = StyleSheet.create({
   modal: {
     overflow: 'hidden',
     borderRadius: 15,
-    
+
   },
   button: {
     margin: 40,
@@ -147,22 +140,21 @@ const styles = StyleSheet.create({
     backgroundColor: Colors.Orange.background,
     borderRadius: 15,
   },
-  buttons:{
-    backgroundColor:'transparent',
+  buttons: {
+    margin: 15,
+    backgroundColor: 'transparent',
     flexDirection: 'row',
-    //alignContent: 'center'
-    justifyContent:'space-evenly',
-    padding: 10,
+    alignContent: 'center',
+    justifyContent: 'space-evenly',
   },
   buttonModalBack: {
+    justifyContent: 'center',
     fontWeight: 'bold',
     backgroundColor: Colors.Orange.background,
-    borderRadius: 15,
-    
+    borderRadius: 15
   },
-  icon:{
-    marginTop: 14,
-    marginHorizontal: 20
+  icon: {
+    padding: 10,    
   },
   buttonText: {
     // margin: 40,
@@ -187,7 +179,7 @@ const styles = StyleSheet.create({
   },
   textModal: {
     fontSize: 23,
-    margin:30,
+    margin: 30,
     color: 'gray',
     borderRadius: 16,
     alignSelf: 'stretch',

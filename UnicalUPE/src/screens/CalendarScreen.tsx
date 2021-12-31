@@ -5,7 +5,7 @@ import MainView from '../components/MainView';
 import { Calendar, CalendarList, Agenda } from 'react-native-calendars';
 import Colors from '../constants/Colors';
 import { LocaleConfig } from 'react-native-calendars';
-import { anonymousButtons, studentButtons, adminButtons} from '../constants/NavigationButtons';
+import { anonymousButtons, studentButtons, adminButtons } from '../constants/NavigationButtons';
 import SelectDropdown from 'react-native-select-dropdown'
 import { FontAwesome } from '@expo/vector-icons';
 import TitleMainScreen from '../components/TitleMainScreen';
@@ -55,7 +55,7 @@ export default function CalendarScreen({ navigation }) {
     getNotificationByUserEmail,
     signOut
   } = useContext(AppContext)
-  
+
   const [buttons, setButtons] = useState()
   const [isModalVisible, setModalVisible] = useState(false);
   const [avoid, setvoid] = useState(false)
@@ -63,9 +63,9 @@ export default function CalendarScreen({ navigation }) {
   useEffect(() => {
     if (eventByDateRequested) {
       // console.log("Should go to events screen")
-      navigation.navigate("Eventos")
-      // setTimeout(() => {
-      // }, 1000)
+      setTimeout(() => {
+        navigation.navigate("Eventos")
+      }, 200)
     }
   }, [eventByDateRequested])
 
@@ -90,7 +90,7 @@ export default function CalendarScreen({ navigation }) {
   const handleSubmit = () => {
     signOut()
     console.log('logout user')
-    
+
   }
 
   const toggleModal = () => {
@@ -101,12 +101,12 @@ export default function CalendarScreen({ navigation }) {
   useEffect(() => {
     console.log('Filter buttons called')
     if (user) {
-      if(user.accountType == 'STUDENT')
+      if (user.accountType == 'STUDENT')
         setButtons(studentButtons(navigation, toggleModal))
-      else if(user.accountType == 'ADM')
+      else if (user.accountType == 'ADM')
         setButtons(adminButtons(navigation, toggleModal))
       else
-        setButtons(anonymousButtons(navigation, toggleModal))      
+        setButtons(anonymousButtons(navigation, toggleModal))
     } else {
       setButtons(anonymousButtons(navigation, toggleModal))
     }
@@ -120,27 +120,6 @@ export default function CalendarScreen({ navigation }) {
   return (
     <MainView>
       {/* <TitleMainScreen title='Eventos do Mês' /> */}
-      <FlatList
-        key={'_'}
-        data={buttons}
-        horizontal={true}
-        renderItem={({ item }) => {
-          return (
-            <ButtonNavigation
-              buttonText={item.buttonText}
-              destination={item.destination}
-              navigation={item.navigation}
-              backColor={item.backColor}
-            />
-          )
-        }}
-        keyExtractor={(item) => item.buttonText}
-        style={{
-          alignSelf: 'center',
-          margin: 10,
-        }}
-
-      />
       <SelectDropdown
         data={coursesList}
         defaultButtonText={course.name ? course.name : 'Escolha um filtro'}
@@ -189,7 +168,7 @@ export default function CalendarScreen({ navigation }) {
         onDayLongPress={(day) => { console.log('selected day', day) }}
         // monthFormat={'dd MM yyyy'}
         onMonthChange={(month) => { console.log('month changed', month) }}
-        hideExtraDays={false}
+        hideExtraDays={true}
         disableMonthChange={false}
         firstDay={1}
         hideDayNames={false}
@@ -204,6 +183,7 @@ export default function CalendarScreen({ navigation }) {
         style={styles.calendar}
 
         theme={{
+          backgroundColor: 'black',
           textSectionTitleColor: 'black',
           textSectionTitleDisabledColor: '#d9e1e8',
           selectedDayBackgroundColor: '#00adf5',
@@ -219,16 +199,37 @@ export default function CalendarScreen({ navigation }) {
           textMonthFontSize: 18,
         }}
       />
+      <FlatList
+        key={'_'}
+        data={buttons}
+        contentContainerStyle={{ flexGrow: 1, justifyContent: 'space-around', alignSelf: 'flex-end' }}
+        horizontal={true}
+        renderItem={({ item }) => {
+          return (
+            <ButtonNavigation
+              buttonText={item.buttonText}
+              destination={item.destination}
+              navigation={item.navigation}
+              backColor={item.backColor}
+            />
+          )
+        }}
+        keyExtractor={(item) => item.buttonText}
+        style={{
+          margin: 10,
+        }}
+
+      />
       <Modal isVisible={isModalVisible} >
         <View style={styles.modal}>
-          <LinearGradient colors={["#ffffff", "#D47AE8"]}>
+          <LinearGradient colors={["#ffffff", "#ffffff"]}>
             <Text style={styles.textModal} >Você realmente deseja sair da sua conta ?</Text>
 
             <View style={styles.buttons}>
               <TouchableOpacity
                 style={styles.buttonModalBack}
                 onPress={toggleModal}>
-                <TabBarIcon name="arrow-left" color={'white'} style={styles.icon} />
+                <TabBarIcon name="arrow-left" color={'white'} style={styles.icon} size={20}/>
               </TouchableOpacity>
               <TouchableOpacity
                 style={styles.buttonModal}
@@ -257,19 +258,26 @@ const styles = StyleSheet.create({
     color: Colors.dark.tint
   },
   calendar: {
-    marginVertical: 15,
+    // flex: 1,    
+    justifyContent: 'space-around',
+    alignContent: 'space-around',
+    marginVertical: 10,
     marginHorizontal: 15,
+    paddingVertical: 20,
+    borderWidth: 2,
+    borderRadius: 16,
+    borderColor: Colors.dark.tint
   },
   dropdownBtnStyle: {
     margin: 15,
     marginTop: 30,
-    padding: 10,
+    alignSelf: 'center',
     backgroundColor: Colors.dark.tint,
     paddingHorizontal: 0,
     borderRadius: 10,
     textAlign: "left",
     height: 40,
-    width: '50%'
+    width: '80%'
   },
   dropdownBtnTxtStyle: {
     color: "#FFF",
@@ -288,5 +296,55 @@ const styles = StyleSheet.create({
   },
   dropdownIcon: {
     marginHorizontal: 10
-  }
+  },
+  modal: {
+    overflow: 'hidden',
+    borderRadius: 15,
+
+  },
+  button: {
+    margin: 40,
+    fontWeight: 'bold',
+    backgroundColor: Colors.Orange.background,
+    borderRadius: 15,
+  },
+  buttonModal: {
+    //margin: 20,
+    fontWeight: 'bold',
+    backgroundColor: Colors.Pourple.background,
+    borderRadius: 15,
+  },
+  buttons: {
+    backgroundColor: 'transparent',
+    flexDirection: 'row',
+    //alignContent: 'center'
+    justifyContent: 'space-evenly',
+    padding: 10,
+  },
+  buttonModalBack: {
+    fontWeight: 'bold',
+    backgroundColor: Colors.Pourple.background,
+    borderRadius: 15,
+
+  },
+  icon: {
+    marginTop: 14,
+    marginHorizontal: 20
+  },
+  buttonText: {
+    // margin: 40,
+    fontWeight: 'bold',
+    padding: 15,
+    paddingHorizontal: 40,
+    textAlign: 'center',
+    color: '#ffffff'
+  },
+  textModal: {
+    fontSize: 23,
+    margin: 30,
+    color: 'gray',
+    borderRadius: 16,
+    alignSelf: 'stretch',
+    textAlign: 'center',
+  },
 });
