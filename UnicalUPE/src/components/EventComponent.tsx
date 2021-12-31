@@ -36,36 +36,21 @@ export default function EventComponent({ event }: eventType) {
     }
 
     return (
-        <TouchableOpacity style={styles.container} onPress={navigateEvent}>
-            <View style={[styles.tagComponent, { backgroundColor: categoryColor }]}></View>
-            <LinearGradient start={{ x: 0, y: 0 }} end={{ x: 1, y: 0 }}
-                style={styles.eventContainer}
-                colors={['#4c669f', '#3b5998', '#192f6a']}
-            >
-                <View style={styles.titleContainer}>
-                    <Text style={styles.title}>{event.title}</Text>
-                </View>
-                {
-                    event.course ? <Text style={styles.detailsText}>Curso: {event.course.name}</Text>
-                        : <></>
-                }
-                {
-                    event.local ? <View style={styles.localContainer}>
-
-                        <TabBarIcon name="map-marker" color={'white'} style={styles.icon} />
-                        <Text style={styles.detailsText}>{event.local}</Text>
-                    </View>
-                        : <></>
-                }
-                {
-                    event.presentor ? <View style={styles.presentorContainer}>
-                        <TabBarIcon name="user" color={'white'} style={styles.icon} />
-                        <Text style={styles.detailsText}>{event.presentor}</Text>
-                    </View>
-                        : <></>
-                }
-            </LinearGradient>
-        </TouchableOpacity>
+        <View style={styles.container_out}>
+            <View style={[styles.tagComponent, {backgroundColor: categoryColor}]}></View>
+            <View style={styles.container}>
+                <TouchableOpacity style={{flex: 1}} onPress={navigateEvent}>
+                    <LinearGradient start={{ x: 0, y: 0 }} end={{ x: 1, y: 0 }}
+                        style={styles.eventContainer}
+                        colors={['#4ca9df', '#a1ffb3']}
+                    >
+                        <View style={styles.titleContainer}>
+                            <Text style={styles.title}>{event.title}</Text>
+                        </View>
+                    </LinearGradient>
+                </TouchableOpacity>
+            </View>
+        </View>
     );
 }
 
@@ -79,10 +64,20 @@ function TabBarIcon(props: {
 
 const styles = StyleSheet.create({
     container: {
+        flex:1,
+        backgroundColor: 'transparent',
+        
+        marginBottom: 10,
+        marginTop: 6,
+        //marginHorizontal: 20,
+        shadowColor: "#000",
+        elevation: 10,
+        borderRadius: 20,
+       
+    },
+    container_out: {
         flexDirection: 'row',
-        //alignItems: 'stretch',
-        //justifyContent: 'space-around',
-        marginTop: 15,
+        backgroundColor: 'transparent',
         marginHorizontal: 20,
     },
     titleContainer: {
@@ -98,9 +93,13 @@ const styles = StyleSheet.create({
     },
     tagComponent: {
         backgroundColor: '#666',
-        paddingVertical: 60,
-        paddingHorizontal: 25,
-        borderRadius: 22,
+        //paddingVertical: 60,
+        paddingHorizontal: 20,
+        borderRadius: 15,
+        marginBottom: 6,
+        marginTop: 6,
+        shadowColor: "#000",
+        elevation: 2,
     },
     eventContainer: {
         borderRadius: 20,
@@ -109,19 +108,11 @@ const styles = StyleSheet.create({
         marginLeft: 10,
         backgroundColor: '#004369',
         flex: 1,
+        
+        
+
         //alignSelf:"stretch",
         //width: 230,
-    },
-    localContainer: {
-        flexDirection: 'row',
-        backgroundColor: 'transparent',
-    },
-    presentorContainer: {
-        flexDirection: 'row',
-        backgroundColor: 'transparent',
-    },
-    icon: {
-        marginRight: 10,
     },
     detailsText: {
         backgroundColor: 'transparent',

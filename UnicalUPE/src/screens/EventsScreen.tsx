@@ -117,6 +117,10 @@ export default function EventsScreen() {
     width: 6,
     backgroundColor: 'transparent',
   }} />
+  const ItemHorizontalSeprator = () => <View style={{
+    height: 6,
+    backgroundColor: 'transparent',
+  }} />
 
   
 
@@ -131,6 +135,7 @@ export default function EventsScreen() {
         {
           eventsList.length > 0 ?
             <FlatList
+              
               data={eventsList.filter(event => event.startDate == selectedDate)}
               extraData={refresh}
               keyExtractor={item => item.id}
@@ -153,7 +158,7 @@ export default function EventsScreen() {
               day={item.day}
               date={item.date}
               selected={item.selected}
-              func={getEventsByDate}
+              func={GetEventsByDate}
             />)}
         />
       </View>
@@ -187,6 +192,7 @@ const styles = StyleSheet.create({
     marginBottom: 10,
     marginHorizontal: 10,
     height: '85%',
+    
   },
   back: {
     flex: 1,
