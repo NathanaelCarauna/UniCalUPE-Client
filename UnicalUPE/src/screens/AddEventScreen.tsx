@@ -12,6 +12,7 @@ import { useState } from 'react';
 import AppContext from '../contexts/appContext';
 import SelectDropdown from 'react-native-select-dropdown';
 import { useNavigation } from '@react-navigation/native';
+import TabBarIcon from '../components/TabIcon';
 
 
 const processDate = (field: string) => {
@@ -188,19 +189,19 @@ export default function Evento() {
 
         {categoryState == 'EVENTO' ? <>
           <View style={styles.textView}>
-            <TabBarIcon style={styles.presentorIcon} name="user" color={Colors.Blue.background} />
+            <TabBarIcon size={25} style={styles.presentorIcon} name="user" color={Colors.Blue.background} />
             <TextInput style={styles.text} placeholder="Apresentador"
               onChangeText={(value) => setEvent({ ...event, presentor: value })}
               value={event.presentor} />
           </View>
           <View style={styles.textView}>
-            <TabBarIcon style={styles.localIcon} name="map-marker" color={Colors.Blue.background} />
+            <TabBarIcon size={25} style={styles.localIcon} name="map-marker" color={Colors.Blue.background} />
             <TextInput style={styles.text} placeholder="Local"
               onChangeText={(value) => setEvent({ ...event, local: value })}
               value={event.local} />
           </View>
           <View style={styles.textView}>
-            <TabBarIcon style={styles.icons} name="clock-o" color={Colors.Blue.background} />
+            <TabBarIcon size={25} style={styles.icons} name="clock-o" color={Colors.DarkBlue.background} />
             <TouchableOpacity style={styles.calendar} onPress={
               showTimeMode
             }>
@@ -298,14 +299,6 @@ export default function Evento() {
   );
 
 }
-function TabBarIcon(props: {
-  name: React.ComponentProps<typeof FontAwesome>['name'];
-  color: string;
-  style: object
-}) {
-  return <FontAwesome size={30}  {...props} />;
-}
-
 
 const styles = StyleSheet.create({
   scroll: {
@@ -338,11 +331,11 @@ const styles = StyleSheet.create({
   hifenSyle: {
     alignSelf: 'center',
     marginHorizontal: 3,
-    fontSize: 16,
+    fontSize: 14,
     fontWeight: 'bold'
   },
   text: {
-    fontSize: 18,
+    fontSize: 14,
     //marginStart: 10,
     marginVertical: 5,
     padding: 12,
@@ -391,18 +384,18 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     borderRadius: 15,
     alignItems: 'center',
-    backgroundColor: Colors.DarkBlue.background,
+    backgroundColor: Colors.Blue.background,
     borderColor: 'white',
     // borderWidth: 3
   },
   buttonText: {
     fontWeight: 'bold',
     padding: 15,
-    fontSize: 18,
+    fontSize: 14,
     color: 'white'
   },
   calendar: {
-    fontSize: 18,
+    fontSize: 14,
     //marginStart: 10,
     marginVertical: 5,
     padding: 12,
@@ -415,7 +408,7 @@ const styles = StyleSheet.create({
     borderWidth: 3
   },
   Text_Normal: {
-    fontSize: 18,
+    fontSize: 14,
     color: 'gray',
   },
   dropdownBtnStyle: {
@@ -432,7 +425,7 @@ const styles = StyleSheet.create({
   dropdownBtnTxtStyle: {
     // padding: 10,
     textAlign: 'left',
-    fontSize: 18,
+    fontSize: 14,
     // alignSelf: 'stretch',
     color: 'gray',
 
