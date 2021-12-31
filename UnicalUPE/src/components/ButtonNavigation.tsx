@@ -1,5 +1,5 @@
 import * as WebBrowser from 'expo-web-browser';
-import React from 'react';
+import React, { useContext } from 'react';
 import { StyleSheet, TouchableOpacity } from 'react-native';
 
 import Colors from '../constants/Colors';
@@ -9,6 +9,7 @@ import { BottomTabNavigationProp } from '@react-navigation/bottom-tabs';
 import { CompositeNavigationProp } from '@react-navigation/native';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { FontAwesome } from '@expo/vector-icons';
+import { AppContext } from '../contexts/appContext';
 
 type PropsButton = {
     navigation: CompositeNavigationProp<BottomTabNavigationProp<RootTabParamList, "Navigation">, NativeStackNavigationProp<RootStackParamList, string>>
@@ -18,6 +19,14 @@ type PropsButton = {
 }
 
 export default function ButtonNavigation(props: PropsButton) {
+    const { userNotifications } = useContext(AppContext);
+
+    const getNotificationsSize = () => {
+        return userNotifications.reduce((size, item, i) => {
+            return !item.visualized ? size+1 : size
+        },
+            0)
+    }
 
     const buttonText = props.buttonText
     const backgroundColor = props.backColor || Colors.Orange.background
@@ -35,6 +44,11 @@ export default function ButtonNavigation(props: PropsButton) {
             onPress={navigate}
         >
             <TabBarIcon name={buttonText} color={props.backColor} style={styles.icon} />
+            {
+                userNotifications.length > 0 && props.backColor == Colors.Green.background ?
+                    <Text style={styles.indicator}>{getNotificationsSize()}</Text>
+                    : <></>
+            }
         </TouchableOpacity>
 
     )
@@ -51,6 +65,7 @@ function TabBarIcon(props: {
 const styles = StyleSheet.create({
     navButton: {
         // flex: 1,
+        flexDirection: 'row',
         backgroundColor: Colors.Orange.background,
         alignItems: 'center',
         justifyContent: 'center',
@@ -74,5 +89,9 @@ const styles = StyleSheet.create({
     },
     icon: {
         alignSelf: 'center'
+    },
+    indicator: {
+        fontWeight: 'bold',
+        fontSize: 12,
     }
 })
