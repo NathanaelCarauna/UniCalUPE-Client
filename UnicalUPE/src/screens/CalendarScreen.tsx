@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { ActivityIndicator, StyleSheet } from 'react-native';
+import { ActivityIndicator, RefreshControl, ScrollView, StyleSheet } from 'react-native';
 
 import MainView from '../components/MainView';
 import { Calendar, CalendarList, Agenda } from 'react-native-calendars';
@@ -59,7 +59,7 @@ export default function CalendarScreen({ navigation }) {
 
   const [buttons, setButtons] = useState()
   const [isModalVisible, setModalVisible] = useState(false);
-  const [avoid, setvoid] = useState(false)
+  const [refreshing, setRefreshing] = React.useState(false);
 
   useEffect(() => {
     if (eventByDateRequested) {
@@ -68,13 +68,16 @@ export default function CalendarScreen({ navigation }) {
     }
   }, [eventByDateRequested])
 
-  // useEffect(() => {
-  //   if (user && user.email) {
-  //     setInterval(() => {
-  //       getNotificationByUserEmail()
-  //     }, 60000)
-  //   }
-  // }, [avoid])
+  const onRefresh = React.useCallback(() => {
+    setRefreshing(true);
+    if(user && user.course){
+      getNotificationByUserEmail();
+      getEventsByCourse(course && course.id ? course.id : user.course.id);
+    }else{
+      getEventsAll()
+    }
+    setRefreshing(false)
+  }, []);
 
   useEffect(() => {
     if (user && !user.course ) {
@@ -127,6 +130,15 @@ export default function CalendarScreen({ navigation }) {
   }
   return (
     <MainView>
+      <ScrollView
+        contentContainerStyle={styles.scrollView}
+        refreshControl={
+          <RefreshControl
+            refreshing={refreshing}
+            onRefresh={onRefresh}
+          />
+        }
+      >
       {/* <TitleMainScreen title='Eventos do Mês' /> */}
       <SelectDropdown
         data={coursesList}
@@ -207,27 +219,7 @@ export default function CalendarScreen({ navigation }) {
           textMonthFontSize: 18,
         }}
       />
-      <FlatList
-        key={'_'}
-        data={buttons}
-        contentContainerStyle={{ flexGrow: 1, justifyContent: 'space-around', alignSelf: 'flex-end' }}
-        horizontal={true}
-        renderItem={({ item }) => {
-          return (
-            <ButtonNavigation
-              buttonText={item.buttonText}
-              destination={item.destination}
-              navigation={item.navigation}
-              backColor={item.backColor}
-            />
-          )
-        }}
-        keyExtractor={(item) => item.buttonText}
-        style={{
-          margin: 10,
-        }}
-
-      />
+     
       <Modal isVisible={isModalVisible} >
         <View style={styles.modal}>
           <LinearGradient colors={["#ffffff", "#ffffff"]}>
@@ -249,6 +241,28 @@ export default function CalendarScreen({ navigation }) {
           </LinearGradient>
         </View>
       </Modal>
+      </ScrollView>
+      <FlatList
+        key={'_'}
+        data={buttons}
+        contentContainerStyle={{ flexGrow: 1, justifyContent: 'space-around', alignSelf: 'flex-end' }}
+        horizontal={true}
+        renderItem={({ item }) => {
+          return (
+            <ButtonNavigation
+              buttonText={item.buttonText}
+              destination={item.destination}
+              navigation={item.navigation}
+              backColor={item.backColor}
+            />
+          )
+        }}
+        keyExtractor={(item) => item.buttonText}
+        style={{
+          margin: 10,
+        }}
+
+      />
     </MainView>
   );
 }
