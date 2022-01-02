@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { StyleSheet, ScrollView, TouchableOpacity } from 'react-native';
+import { StyleSheet, ScrollView, TouchableOpacity, Linking } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
 
 import Modal from "react-native-modal";
@@ -101,7 +101,7 @@ export default function Evento({ route, navigation }) {
           <Text style={styles.normal}>{event.description}</Text>
         </LinearGradient>
 
-        {event.link ? (<TouchableOpacity style={styles.link}>
+        {event.link ? (<TouchableOpacity style={styles.link} onPress={() => {Linking.openURL(event.link)}}>
           <LinearGradient colors={["#fff", "#fff"]}>
             <Text style={styles.normal}>{event.link}</Text>
           </LinearGradient>
