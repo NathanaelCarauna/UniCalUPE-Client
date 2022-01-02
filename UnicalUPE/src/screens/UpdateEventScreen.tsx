@@ -39,7 +39,7 @@ export default function Evento({ route }) {
     }
     else if (updateEvent(event)) {
       console.log('update event')
-      navigation.navigate('Root')
+      navigation.navigate('Calendário')
     }
   }
 
