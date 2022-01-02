@@ -20,6 +20,10 @@ export function getEventById(id: { id: number }) {
     return new api.get(`/event/${id}`)
 }
 
+export function getEventByUser(id: number) {
+    return new api.get(`/event/${id}`)
+}
+
 export function postEvent(event){
     return new api.post('/event/', event)
 
