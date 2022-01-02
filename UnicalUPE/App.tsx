@@ -21,7 +21,7 @@ export default function App() {
         <AppProvider>
           <NavigationContainer
             linking={LinkingConfiguration}
-            theme={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
+            theme={DefaultTheme}>
             {/* <StatusBar /> */}
             <Navigation colorScheme={colorScheme} />
           </NavigationContainer>

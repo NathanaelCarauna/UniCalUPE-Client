@@ -144,6 +144,23 @@ export default function EventsScreen() {
   return (
     <>
       <MainView>        
+          <View style={styles.flat}>
+            <FlatList
+              ItemSeparatorComponent={ItemSeprator}
+              horizontal={true}
+              data={dates}
+              extraData={refresh}
+              style={styles.transparent}
+              keyExtractor={item => item.day}
+              renderItem={({ item }) => (
+                <DateSquare
+                  day={item.day}
+                  date={item.date}
+                  selected={item.selected}
+                  func={GetEventsByDate}
+                />)}
+            />
+          </View>
         <View style={styles.legendContainer}>
           <Text style={styles.text}>Hora</Text>
           <Text style={styles.text}>Curso</Text>
@@ -175,23 +192,6 @@ export default function EventsScreen() {
             : <Text style={styles.notFound}>Nenhum evento encontrado para esse dia</Text>
         }*/}
       </MainView >
-      {/* <View style={styles.flat}>
-        <FlatList
-          ItemSeparatorComponent={ItemSeprator}
-          horizontal={true}
-          data={dates}
-          extraData={refresh}
-          style={styles.transparent}
-          keyExtractor={item => item.day}
-          renderItem={({ item }) => (
-            <DateSquare
-              day={item.day}
-              date={item.date}
-              selected={item.selected}
-              func={GetEventsByDate}
-            />)}
-        />
-      </View> */}
     </>
   );
 }
@@ -233,12 +233,12 @@ const styles = StyleSheet.create({
     backgroundColor: Colors.dark.background
   },
   transparent: {
-    backgroundColor: Colors.dark.background,
+    backgroundColor: 'white',
   },
   flat: {
     alignItems: 'center',
     padding: 5,
-    backgroundColor: Colors.dark.background,
+    
   },
   notFound: {
     fontSize: 16,

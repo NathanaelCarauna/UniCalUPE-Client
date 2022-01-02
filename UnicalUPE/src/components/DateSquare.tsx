@@ -11,17 +11,15 @@ type propsType = { day: string, date: string, selected: boolean, func: Function 
 export default function DateSquare({ day, date, selected, func }: propsType) {
     const setSelected = (selected: boolean) => {
         return selected
-            ? { color: {color: 'white'}, backColorTop: '#EA3636', backColorBottom: '#FFAB91' }
+            ? { color: {color: 'white'}, background: '#4ca9df'}
             : { backColorTop: '#fff', backColorBottom: '#fff' }
     }
     const selectStyle = setSelected(selected);    
 
     return (
-        <TouchableOpacity onPress={func}>
-            <LinearGradient style={styles.square} colors={[selectStyle.backColorTop, selectStyle.backColorBottom]}>
-                <Text style={[styles.Text, selectStyle.color]}>{day }</Text>                                    
-                <Text style={[styles.number, date == new Date().getDate() ? {color: Colors.dark.background} :  selectStyle.color]}>{date}</Text>
-            </LinearGradient>
+        <TouchableOpacity style={[styles.square, {backgroundColor: selectStyle.background}]} onPress={func}>
+            <Text style={[styles.Text, selectStyle.color]}>{day }</Text>                                    
+            <Text style={[styles.number, date == new Date().getDate() ? {color: Colors.dark.background} :  selectStyle.color]}>{date}</Text>
         </TouchableOpacity>
 
     )
@@ -30,10 +28,11 @@ export default function DateSquare({ day, date, selected, func }: propsType) {
 const styles = StyleSheet.create({
     square: {
         width: 48,
-        height: 70,
-        //margin: 5,
-        paddingVertical: 10,
+        height: 65,
+        paddingVertical: 5,
         borderRadius: 15,
+        borderColor: Colors.dark.background,
+        borderWidth: 1,
         justifyContent: 'space-around',
         alignItems: 'center'
     },
@@ -44,7 +43,7 @@ const styles = StyleSheet.create({
     },
     Text: {
         fontSize: 12,
-        color: '#BCC1CD'
+        color: Colors.dark.background
         // color: '#BCC1CD'
     }
 })
