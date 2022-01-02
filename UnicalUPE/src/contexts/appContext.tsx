@@ -30,6 +30,7 @@ export const AppContext = createContext({
     selectedDate: '',
     userNotifications: [],
     currentError: {},
+    myEventsList: [],
     setCurrentError: () => { },
     setLoading: () => { },
     getUser: (email: email) => { },
@@ -38,6 +39,7 @@ export const AppContext = createContext({
     signOut: () => { },
     handleSignIn: () => { },
     getEventsByCourse: () => { },
+    getEventByUser: () => { },
     getEventsAll: () => { },
     getEventsByDate: (date: string) => { },
     setEventByDateRequested: () => { },
@@ -64,6 +66,7 @@ export const AppProvider = ({ children }: { children: React.ReactNode }) => {
     const [course, setCurrentCourse] = useState({})
     const [selectedDate, setSelectDate] = useState({})
     const [currentError, setCurrentError] = useState({})
+    const [myEventsList, setMyEventsList] = useState({})
 
 
     useEffect(() => {
@@ -81,6 +84,7 @@ export const AppProvider = ({ children }: { children: React.ReactNode }) => {
                 setCurrentCourse(localUser.course)
                 getEventsByCourse(localUser.course.id)
                 getNotificationByUserEmail(localUser.email);
+                getEventByUser(localUser.id)
             }
             else {
                 getEventsAll();
@@ -211,7 +215,7 @@ export const AppProvider = ({ children }: { children: React.ReactNode }) => {
 
     async function handleSignIn() {
         const CLIENT_ID = '162955034296-ah2keq2dk20d7qvpm0qj4h9bi7iratcr.apps.googleusercontent.com'
-        const REDIRECT_URI = 'https://auth.expo.io/@dahisedias/UnicalUPE'
+        const REDIRECT_URI = 'https://auth.expo.io/@clara.araujo/UnicalUPE'
         const RESPONSE_TYPE = 'token'
         const SCOPE = encodeURI('profile email')
 
@@ -350,6 +354,32 @@ export const AppProvider = ({ children }: { children: React.ReactNode }) => {
         setLoading(false);
     }
 
+    async function getEventByUser(Id) {
+        setLoading(true);
+        try {
+            console.log('Requesting getEvents by User')
+            await EventApi.getEventByUser(Id)
+                .then((response: AxiosResponse) => {
+                    console.log('Events by id user requested')
+                    if (response.status == 200) {
+                        setMyEventsList(response.data);
+                        console.log('My Events requested')
+
+                    }
+                    setLoading(false);
+                })
+                .catch(err => {
+                    console.log(err)
+                    setLoading(false);
+                })
+        } catch (e) {
+            console.log(e)
+
+        }
+        setLoading(false);
+    }
+
+
     async function postEvent(event: eventType) {
         setLoading(true);
         let isSuccess = false;
@@ -364,6 +394,7 @@ export const AppProvider = ({ children }: { children: React.ReactNode }) => {
                         console.log('Event created')
                         isSuccess = true
                         getEventsByCourse(user.course.id)
+                        setMyEventsList([...myEventsList, response.data]);
                     }
                     setLoading(false);
                 })
@@ -700,6 +731,7 @@ export const AppProvider = ({ children }: { children: React.ReactNode }) => {
             selectedDate,
             userNotifications,
             currentError,
+            myEventsList,
             setCurrentError,
             setEventByDateRequested,
             setLoading,
@@ -709,6 +741,7 @@ export const AppProvider = ({ children }: { children: React.ReactNode }) => {
             signOut,
             handleSignIn,
             getEventsByCourse,
+            getEventByUser,
             getEventsAll,
             getEventsByDate,
             postEvent,
