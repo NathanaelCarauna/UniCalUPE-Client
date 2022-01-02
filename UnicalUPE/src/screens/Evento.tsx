@@ -18,20 +18,42 @@ export default function Evento({ route, navigation }) {
   const { event } = route.params
   const { notification } = route.params
   const [isModalVisible, setModalVisible] = useState<boolean | undefined>(false);
+  const [isResponseModalVisible, setisResponseModalVisible] = useState(false);
+  const [responseMessage, setResponseMessage] = useState({status: null, message: null});
 
   const toggleModal = () => {
     setModalVisible(!isModalVisible);
   };
+
+  const handleConfirmation = () => {
+    if(responseMessage.status){
+      navigation.navigate('Calendário')
+    }
+    else{
+      toggleResponseModal()
+    }
+  }   
 
   const navigate = () => {
     navigation.navigate('UpdateEvent', { routeEvent: event })
   }
 
   const handleDeleteEvent = () => {
-    deleteEvent(event.id)
+    const response = deleteEvent(event.id)
+    if(response){
+      setResponseMessage({status: true, message: 'Evento excluído'})
+    }else{      
+      setResponseMessage({status: false, message: 'Algo deu errado, tente novamente mais tarde'})
+    }
+    toggleModal()
+    toggleResponseModal()
     console.log('Event deleted')
   }
 
+  const toggleResponseModal = () => {
+    setisResponseModalVisible(!isResponseModalVisible);
+  };
+  
   useEffect(() => {
     console.log('Event Details screen, useEffect')
     console.log(notification)
@@ -147,6 +169,21 @@ export default function Evento({ route, navigation }) {
           </LinearGradient>
         </View>
       </Modal>
+      <Modal isVisible={isResponseModalVisible}>
+          <View style={styles.modal}>
+            <LinearGradient colors={["#ffffff", "#ffffff"]}>
+              <Text style={styles.textModal} >{responseMessage.message}</Text>
+
+              <View style={styles.buttons}>              
+                <TouchableOpacity
+                  style={styles.buttonModal}
+                  onPress={handleConfirmation}>
+                  <Text style={styles.buttonText}>Ok</Text>
+                </TouchableOpacity>
+              </View>
+            </LinearGradient>
+          </View>
+        </Modal>
     </ScrollView>
 
   );
