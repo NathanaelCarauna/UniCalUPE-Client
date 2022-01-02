@@ -26,11 +26,12 @@ export default function Evento({ route }) {
   const [showTime, setShowTime] = useState(false);
   const [showEndTime, setShowEndTime] = useState(false);
   const [categoryState, setCategoryState] = useState();
+  const {user} = React.useContext(AppContext);
 
   const navigation = useNavigation()
 
   const { updateEvent, coursesList, loading } = React.useContext(AppContext)
-  const [event, setEvent] = useState({ title: null, presentor: null, local: null, description: null, link: null });
+  const [event, setEvent] = useState({ user: {id: user.id}, title: null, presentor: null, local: null, description: null, link: null });
 
   const handleSubmit = () => {
     if (event.title == null || event.description == null || event.startDate == null) {

@@ -36,8 +36,8 @@ export default function Evento() {
   const [modalMessage, setModalMessage] = useState({status: null, message: null});
   const navigation = useNavigation()
 
-  const { postEvent, coursesList, currentError, setCurrentError, loading } = React.useContext(AppContext)
-  const [event, setEvent] = useState({ title: null, presentor: null, local: null, description: null, link: null });
+  const { postEvent, coursesList, user, loading } = React.useContext(AppContext)
+  const [event, setEvent] = useState({ user: {id: user.id}, title: null, presentor: null, local: null, description: null, link: null });
 
   const toggleSaveModal = () => {
     if (event.title == null) {
