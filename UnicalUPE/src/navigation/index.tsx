@@ -19,8 +19,9 @@ import AppContext from '../contexts/appContext';
 import { View } from '../components/Themed';
 import EditProfileScreen from '../screens/EditProfileScreen';
 import UpdadeEventScreen from '../screens/UpdateEventScreen';
+import MyEventsScreen from '../screens/MyEventsScreen';
 
-export default function Navigation({ colorScheme }: { colorScheme: ColorSchemeName }) {  
+export default function Navigation({ colorScheme }: { colorScheme: ColorSchemeName }) {
   return <RootNavigator />
 }
 
@@ -102,6 +103,15 @@ function RootNavigator() {
         }}
       />
 
+      <Stack.Screen name="MyEvents" component={MyEventsScreen}
+        options={{
+          headerShown: true,
+          title: 'Meus Eventos',
+          headerTintColor: 'white',
+          headerStyle: { backgroundColor: Colors.dark.background }
+        }}
+      />
+
       <Stack.Screen name="Notifications" component={NotificationsScreen}
         options={{
           headerShown: true,
@@ -109,7 +119,7 @@ function RootNavigator() {
           headerTintColor: 'white',
           headerStyle: { backgroundColor: Colors.Green.background }
         }}
-      />      
+      />
     </Stack.Navigator>
   );
 }
