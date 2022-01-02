@@ -17,7 +17,7 @@ import Timeline from 'react-native-timeline-flatlist'
 export default function EventsScreen() {
 
   const navigation = useNavigation();
-  const { eventsList, setEventByDateRequested, getEventsByDate, selectedDate } = useContext(AppContext)
+  const { eventsList, setEventByDateRequested, getEventsByDate, selectedDate, setSelectDate} = useContext(AppContext)
   const [refresh, setRefresh] = useState(false);
   const [dates, setDates] = useState(
     [
@@ -31,13 +31,6 @@ export default function EventsScreen() {
     ]
   )
 
-  const data = [
-    { time: '09:00', title: 'Event 1', description: 'Event 1 Description' },
-    { time: '10:45', title: 'Event 2', description: 'Event 2 Description' },
-    { time: '12:00', title: 'Event 3', description: 'Event 3 Description' },
-    { time: '14:00', title: 'Event 4', description: 'Event 4 Description' },
-    { time: '16:30', title: 'Event 5', description: 'Event 5 Description' }
-  ]
 
 
   const fillWeek = (pDates, selectedDate) => {
@@ -118,10 +111,7 @@ export default function EventsScreen() {
     setRefresh(!refresh)
   }, [selectedDate])
 
-  const GetEventsByDate = (item) => {
-    getEventsByDate(`${item.year}-${item.month + 1}-${item.date}`)
-    navigation.navigate('Eventos')
-  }
+  
 
   const ItemSeprator = () => <View style={{
     width: 6,
@@ -157,7 +147,7 @@ export default function EventsScreen() {
                   day={item.day}
                   date={item.date}
                   selected={item.selected}
-                  func={GetEventsByDate}
+                  selectedDate= {`${item.year}-${item.month + 1}-${item.date}`}
                 />)}
             />
           </View>
@@ -167,7 +157,7 @@ export default function EventsScreen() {
           <Text style={styles.text}>Evento</Text>
         </View>
         <Timeline
-          data={eventsList.filter(event => event.startDate == selectedDate)}
+          data={eventsList}
           descriptionStyle={{ color: 'gray' }}
           renderDetail={renderDetail}
           timeStyle={{ textAlign: 'center', backgroundColor: '#4ca9df', color: 'white', padding: 5, borderRadius: 13, marginTop: -4 }}
@@ -179,18 +169,7 @@ export default function EventsScreen() {
           innerCircle='dot'
           circleSize={20}
         />
-        {/* {
-          eventsList.length > 0 ?
-            <FlatList
-              
-              data={eventsList.filter(event => event.startDate == selectedDate)}
-              extraData={refresh}
-              keyExtractor={item => item.id}
-              renderItem={({ item }) => (<EventComponent event={item} />)}
-              style={styles.eventList}
-            />
-            : <Text style={styles.notFound}>Nenhum evento encontrado para esse dia</Text>
-        }*/}
+
       </MainView >
     </>
   );
