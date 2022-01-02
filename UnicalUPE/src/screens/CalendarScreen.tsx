@@ -83,8 +83,8 @@ export default function CalendarScreen({ navigation }) {
     if (user && !user.course ) {
       console.log("USUAAAARIO::::", user)
       navigation.navigate('EditProfile')
-    }
-  }, [])
+    }  
+  }, [user])
 
 
   const handleSubmit = () => {
