@@ -48,6 +48,7 @@ export default function CalendarScreen({ navigation }) {
     selectedDate,
     loading,
     userNotifications,
+    getEventByUser,
     getEventsByCourse,
     getEventsAll,
     getEventsByDate,
@@ -71,8 +72,9 @@ export default function CalendarScreen({ navigation }) {
   const onRefresh = React.useCallback(() => {
     setRefreshing(true);
     if(user && user.course){
-      getNotificationByUserEmail();
+      getNotificationByUserEmail(user.email);
       getEventsByCourse(course && course.id ? course.id : user.course.id);
+      getEventByUser(user.id);
     }else{
       getEventsAll()
     }
