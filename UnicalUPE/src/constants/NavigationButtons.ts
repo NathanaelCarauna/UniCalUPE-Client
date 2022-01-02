@@ -78,6 +78,12 @@ export const adminButtons = (navigation, showModal) => {
             backColor: Colors.Blue.background,
         },
         {
+            buttonText: 'list',
+            destination: 'MyEvents',
+            navigation: navigation,
+            backColor: Colors.dark.background,
+        },
+        {
             buttonText: 'question',
             destination: 'About',
             navigation: navigation,
