@@ -1,14 +1,16 @@
 import * as WebBrowser from 'expo-web-browser';
-import React from 'react';
+import React, { useContext } from 'react';
 import { Alert, StyleSheet, TouchableOpacity } from 'react-native';
 
 import { Text} from './Themed';
 import { LinearGradient } from 'expo-linear-gradient';
 import Colors from '../constants/Colors';
+import AppContext from '../contexts/appContext';
 
-type propsType = { day: string, date: string, selected: boolean, func: Function }
+type propsType = { day: string, date: string, selected: boolean, selectDate: string }
 
-export default function DateSquare({ day, date, selected, func }: propsType) {
+export default function DateSquare({ day, date, selected, selectDate }: propsType) {
+    const { eventsList, setEventByDateRequested, getEventsByDate, selectedDate, setSelectDate} = useContext(AppContext)
     const setSelected = (selected: boolean) => {
         return selected
             ? { color: {color: 'white'}, background: '#4ca9df'}
@@ -16,8 +18,16 @@ export default function DateSquare({ day, date, selected, func }: propsType) {
     }
     const selectStyle = setSelected(selected);    
 
+    const GetEventsByDate = () => {
+        console.log("########################dia selecionado: " +selectedDate)
+        setSelectDate(selectDate)
+        console.log(selectDate)
+        getEventsByDate(selectedDate)
+        //navigation.navigate('Eventos')
+      }
+
     return (
-        <TouchableOpacity style={[styles.square, {backgroundColor: selectStyle.background}]} onPress={func}>
+        <TouchableOpacity style={[styles.square, {backgroundColor: selectStyle.background}]} onPress={GetEventsByDate}>
             <Text style={[styles.Text, selectStyle.color]}>{day }</Text>                                    
             <Text style={[styles.number, date == new Date().getDate() ? {color: Colors.dark.background} :  selectStyle.color]}>{date}</Text>
         </TouchableOpacity>

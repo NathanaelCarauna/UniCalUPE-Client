@@ -324,7 +324,7 @@ export const AppProvider = ({ children }: { children: React.ReactNode }) => {
                     if (response.status == 200) {
                         //console.log("EVENTS BY DATE:", response.data)
                         var list = response.data
-                        console.log(course)
+                        //console.log(course)
                         if (course.id != null && course.id != -1) {
                             list = list.filter(FilterByCourse)
                         }
@@ -493,8 +493,8 @@ export const AppProvider = ({ children }: { children: React.ReactNode }) => {
             event.time = event.startHour
             return event
         })
-        console.log("#####################################################lista processada###################################################")
-        console.log(list)
+        //console.log("#####################################################lista processada###################################################")
+        //console.log(list)
         return list;
     }
 
@@ -585,7 +585,7 @@ export const AppProvider = ({ children }: { children: React.ReactNode }) => {
             console.log('Requesting getNotificationByUserEmail')
             await NotificationApi.getNotificationByUserEmail(email)
                 .then((response: AxiosResponse) => {
-                    console.log('Notifications:', response.data)
+                    //console.log('Notifications:', response.data)
                     if (response.status == 200) {
                         setUserNotifications(response.data)
                     }
