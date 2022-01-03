@@ -21,7 +21,7 @@ export function getEventById(id: { id: number }) {
 }
 
 export function getEventByUser(id: number) {
-    return new api.get(`/event/${id}`)
+    return new api.get(`/event/findByUser/${id}`)
 }
 
 export function postEvent(event){

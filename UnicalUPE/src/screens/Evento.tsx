@@ -130,7 +130,7 @@ export default function Evento({ route, navigation }) {
         </TouchableOpacity>) : null}
 
 
-        {user && (user.accountType == 'ADM') ?
+        {user && event.user && (user.id == event.user.id) ?
           <View style={styles.buttonsContainer}>
             <TouchableOpacity
               style={styles.button}
