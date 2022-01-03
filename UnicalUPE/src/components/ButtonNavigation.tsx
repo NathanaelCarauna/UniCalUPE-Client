@@ -4,19 +4,13 @@ import { StyleSheet, TouchableOpacity } from 'react-native';
 
 import Colors from '../constants/Colors';
 import { Text, View } from './Themed';
-import { RootStackParamList, RootTabParamList, RootTabScreenProps } from '../types';
+import { PropsButton, RootStackParamList, RootTabParamList, RootTabScreenProps } from '../types';
 import { BottomTabNavigationProp } from '@react-navigation/bottom-tabs';
 import { CompositeNavigationProp } from '@react-navigation/native';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { FontAwesome } from '@expo/vector-icons';
 import { AppContext } from '../contexts/appContext';
 
-type PropsButton = {
-    navigation: CompositeNavigationProp<BottomTabNavigationProp<RootTabParamList, "Navigation">, NativeStackNavigationProp<RootStackParamList, string>>
-    buttonText: string,
-    backColor: string,
-    destination: string | Function
-}
 
 export default function ButtonNavigation(props: PropsButton) {
     const { userNotifications } = useContext(AppContext);

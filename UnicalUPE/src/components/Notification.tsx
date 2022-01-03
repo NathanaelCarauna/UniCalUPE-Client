@@ -3,7 +3,7 @@ import { Alert, StyleSheet, TouchableOpacity } from 'react-native';
 
 import Colors from '../constants/Colors';
 import { Text, View } from './Themed';
-import { RootStackParamList, RootTabParamList, RootTabScreenProps } from '../types';
+import { eventType, PropsButtonNotification, RootStackParamList, RootTabParamList, RootTabScreenProps } from '../types';
 import { BottomTabNavigationProp } from '@react-navigation/bottom-tabs';
 import { CompositeNavigationProp, useNavigation } from '@react-navigation/native';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
@@ -12,15 +12,8 @@ import { FontAwesome } from '@expo/vector-icons';
 import { useState } from 'react';
 import TabBarIcon from './TabIcon';
 
-type PropsButton = {
 
-    title: string,
-    date: string,
-    category: string,
-    event: object
-}
-
-export default function Notification({ title, category, date, event, notification, visualized, toggleModal, setSelectedNotification }: PropsButton) {
+export default function Notification({ title, category, date, event, notification, visualized, toggleModal, setSelectedNotification }: PropsButtonNotification) {
     const notificationDate = new Date(date);
     const navigation = useNavigation();
     const [showData, setShowData] = useState(false);
