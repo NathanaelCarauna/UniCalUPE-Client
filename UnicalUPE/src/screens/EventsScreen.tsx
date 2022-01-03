@@ -21,13 +21,13 @@ export default function EventsScreen() {
   const [refresh, setRefresh] = useState(false);
   const [dates, setDates] = useState(
     [
-      { id: 0, day: 'Dom', date: '21', month: null, year: null, selected: false },
-      { id: 1, day: 'Seg', date: '22', month: null, year: null, selected: false },
-      { id: 2, day: 'Ter', date: '23', month: null, year: null, selected: false },
-      { id: 3, day: 'Qua', date: '24', month: null, year: null, selected: false },
-      { id: 4, day: 'Qui', date: '25', month: null, year: null, selected: false },
-      { id: 5, day: 'Sex', date: '26', month: null, year: null, selected: false },
-      { id: 6, day: 'Sab', date: '27', month: null, year: null, selected: false },
+      { id: 0, day: 'Dom', date: '21', month: '0', year: '2022', selected: false },
+      { id: 1, day: 'Seg', date: '22', month: '0', year: '2022', selected: false },
+      { id: 2, day: 'Ter', date: '23', month: '0', year: '2022', selected: false },
+      { id: 3, day: 'Qua', date: '24', month: '0', year: '2022', selected: false },
+      { id: 4, day: 'Qui', date: '25', month: '0', year: '2022', selected: false },
+      { id: 5, day: 'Sex', date: '26', month: '0', year: '2022', selected: false },
+      { id: 6, day: 'Sab', date: '27', month: '0', year: '2022', selected: false },
     ]
   )
 
@@ -38,12 +38,13 @@ export default function EventsScreen() {
     if (selectedDate.length > 0) {
       currentDay = new Date(selectedDate)
       currentDay.setDate(currentDay.getDate())
-      console.log('Custom date initialized', selectedDate)
+      console.log('Data refresh:', selectedDate)
     } else {
       currentDay = new Date();
       console.log('Current date initialized')
     }
 
+    console.log('##########################################################################################')
     console.log(currentDay.getDay(), currentDay.getDate(), currentDay.getMonth(), currentDay.getFullYear());
     pDates.forEach(item => {
       item.month = currentDay.getMonth()
@@ -147,7 +148,8 @@ export default function EventsScreen() {
                   day={item.day}
                   date={item.date}
                   selected={item.selected}
-                  selectedDate= {`${item.year}-${item.month + 1}-${item.date}`}
+                  month= {item.month}
+                  year={item.year}
                 />)}
             />
           </View>

@@ -7,9 +7,9 @@ import { LinearGradient } from 'expo-linear-gradient';
 import Colors from '../constants/Colors';
 import AppContext from '../contexts/appContext';
 
-type propsType = { day: string, date: string, selected: boolean, selectDate: string }
+type propsType = { day: string, date: string, selected: boolean, month: string, year: string }
 
-export default function DateSquare({ day, date, selected, selectDate }: propsType) {
+export default function DateSquare({ day, date, selected, month, year}: propsType) {
     const { eventsList, setEventByDateRequested, getEventsByDate, selectedDate, setSelectDate} = useContext(AppContext)
     const setSelected = (selected: boolean) => {
         return selected
@@ -19,9 +19,15 @@ export default function DateSquare({ day, date, selected, selectDate }: propsTyp
     const selectStyle = setSelected(selected);    
 
     const GetEventsByDate = () => {
-        console.log("########################dia selecionado: " +selectedDate)
-        setSelectDate(selectDate)
-        console.log(selectDate)
+        console.log("######################## data: " +selectedDate)
+        if(date.length <2){
+            setSelectDate(`${year}-${month + 1}-0${date}`)
+        }else{
+            
+            setSelectDate(`${year}-${month + 1}-${date}`)
+        }
+        console.log("######################## data atualizada #############################" )
+        console.log(selectedDate)
         getEventsByDate(selectedDate)
         //navigation.navigate('Eventos')
       }
