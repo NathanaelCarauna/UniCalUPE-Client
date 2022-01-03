@@ -19,20 +19,20 @@ export default function Evento({ route, navigation }) {
   const { notification } = route.params
   const [isModalVisible, setModalVisible] = useState<boolean | undefined>(false);
   const [isResponseModalVisible, setisResponseModalVisible] = useState(false);
-  const [responseMessage, setResponseMessage] = useState({status: null, message: null});
+  const [responseMessage, setResponseMessage] = useState({ status: null, message: null });
 
   const toggleModal = () => {
     setModalVisible(!isModalVisible);
   };
 
   const handleConfirmation = () => {
-    if(responseMessage.status){
+    if (responseMessage.status) {
       navigation.navigate('Calendário')
     }
-    else{
+    else {
       toggleResponseModal()
     }
-  }   
+  }
 
   const navigate = () => {
     navigation.navigate('UpdateEvent', { routeEvent: event })
@@ -40,10 +40,10 @@ export default function Evento({ route, navigation }) {
 
   const handleDeleteEvent = () => {
     const response = deleteEvent(event.id)
-    if(response){
-      setResponseMessage({status: true, message: 'Evento excluído'})
-    }else{      
-      setResponseMessage({status: false, message: 'Algo deu errado, tente novamente mais tarde'})
+    if (response) {
+      setResponseMessage({ status: true, message: 'Evento excluído' })
+    } else {
+      setResponseMessage({ status: false, message: 'Algo deu errado, tente novamente mais tarde' })
     }
     toggleModal()
     toggleResponseModal()
@@ -53,7 +53,7 @@ export default function Evento({ route, navigation }) {
   const toggleResponseModal = () => {
     setisResponseModalVisible(!isResponseModalVisible);
   };
-  
+
   useEffect(() => {
     console.log('Event Details screen, useEffect')
     console.log(notification)
@@ -94,13 +94,13 @@ export default function Evento({ route, navigation }) {
               {event.startHour ? (<View style={styles.line}>
                 <TabBarIcon name="clock-o" color={Colors.Yellow.background} />
                 <Text style={styles.text}>{event.startHour}</Text>
-              </View>) 
-              : null}
+              </View>)
+                : null}
               {event.endHour ? (<View style={styles.line}>
                 <TabBarIcon name="clock-o" color={Colors.Yellow.background} />
                 <Text style={styles.text}>{event.endHour}</Text>
-              </View>) 
-              : null}
+              </View>)
+                : null}
             </View>
 
             <View style={{ flexDirection: 'row', justifyContent: 'space-between', flex: 1, backgroundColor: 'transparent', alignItems: 'center' }}>
@@ -123,10 +123,9 @@ export default function Evento({ route, navigation }) {
           <Text style={styles.normal}>{event.description}</Text>
         </LinearGradient>
 
-        {event.link ? (<TouchableOpacity style={styles.link} onPress={() => {Linking.openURL(event.link)}}>
-          <LinearGradient colors={["#fff", "#fff"]}>
-            <Text style={styles.normal}>{event.link}</Text>
-          </LinearGradient>
+        {event.link ? (<TouchableOpacity style={styles.link} onPress={() => { Linking.openURL(event.link) }}>
+          <Text style={styles.normal}>{event.link}</Text>
+
         </TouchableOpacity>) : null}
 
 
@@ -170,20 +169,20 @@ export default function Evento({ route, navigation }) {
         </View>
       </Modal>
       <Modal isVisible={isResponseModalVisible}>
-          <View style={styles.modal}>
-            <LinearGradient colors={["#ffffff", "#ffffff"]}>
-              <Text style={styles.textModal} >{responseMessage.message}</Text>
+        <View style={styles.modal}>
+          <LinearGradient colors={["#ffffff", "#ffffff"]}>
+            <Text style={styles.textModal} >{responseMessage.message}</Text>
 
-              <View style={styles.buttons}>              
-                <TouchableOpacity
-                  style={styles.buttonModal}
-                  onPress={handleConfirmation}>
-                  <Text style={styles.buttonText}>Ok</Text>
-                </TouchableOpacity>
-              </View>
-            </LinearGradient>
-          </View>
-        </Modal>
+            <View style={styles.buttons}>
+              <TouchableOpacity
+                style={styles.buttonModal}
+                onPress={handleConfirmation}>
+                <Text style={styles.buttonText}>Ok</Text>
+              </TouchableOpacity>
+            </View>
+          </LinearGradient>
+        </View>
+      </Modal>
     </ScrollView>
 
   );
@@ -248,7 +247,7 @@ const styles = StyleSheet.create({
 
   },
   link: {
-    flex: 1,
+    height: 55,
     margin: 15,
     borderWidth: 2,
     borderColor: Colors.DarkBlue.background,
