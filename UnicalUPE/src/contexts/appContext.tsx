@@ -6,7 +6,7 @@ import * as NotificationApi from '../services/NotificationApi';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import * as AuthSession from 'expo-auth-session';
 import { AxiosResponse } from 'axios';
-import { AuthResponse, eventType, user, email } from '../types'
+import { AuthResponse, eventType, user, email, eventCourse, eventDate } from '../types'
 import Colors from '../constants/Colors';
 
 
@@ -50,12 +50,12 @@ export const AppContext = createContext({
 export const AppProvider = ({ children }: { children: React.ReactNode }) => {
     const [loading, setLoading] = useState<boolean | undefined>()
     const [eventByDateRequested, setEventByDateRequested] = useState<boolean | undefined>()
-    const [user, setUser] = useState();
+    const [user, setUser] = useState({course: '', email: ''});
     const [userNotifications, setUserNotifications] = useState([]);
     const [eventsList, setEventList] = useState([]);
     const [coursesList, setCoursesList] = useState([]);
     const [EventsCalendar, SetEventsCalendar] = useState({});
-    const [course, setCurrentCourse] = useState({})
+    const [course, setCurrentCourse] = useState({name: ''})
     const [selectedDate, setSelectDate] = useState({})
     const [currentError, setCurrentError] = useState({})
     const [myEventsList, setMyEventsList] = useState({})
@@ -67,7 +67,7 @@ export const AppProvider = ({ children }: { children: React.ReactNode }) => {
         async function loadStorageData() {
             const storagedUser = await AsyncStorage.getItem('@TGAuth:user');
             getAllCourses()
-            setCurrentCourse({})
+            setCurrentCourse({name: ''})
             console.log("storagedUser: ", storagedUser)
             if (storagedUser) {
                 const localUser = JSON.parse(storagedUser)
@@ -123,7 +123,7 @@ export const AppProvider = ({ children }: { children: React.ReactNode }) => {
                     }
                     setLoading(false);
                 })
-                .catch(err => {
+                .catch((err: any) => {
                     console.log(err)
                     localUser = null
                     setLoading(false);
@@ -179,7 +179,7 @@ export const AppProvider = ({ children }: { children: React.ReactNode }) => {
                     }
                     setLoading(false);
                 })
-                .catch(err => {
+                .catch((err: any) => {
                     console.log(err)
                     isSuccess = false
                     setLoading(false);
@@ -197,9 +197,9 @@ export const AppProvider = ({ children }: { children: React.ReactNode }) => {
 
         AsyncStorage.clear().then(() => {
             const currentDate = new Date();
-            setUser(null);
+            setUser({course: '', email: ''});
             setSelectDate(`${currentDate.getFullYear()}-${currentDate.getMonth() + 1}-${currentDate.getDate()}`)
-            setCurrentCourse({})
+            setCurrentCourse({name: ''})
             console.log('LocalStorage cleaned')
             getEventsAll()
         })
@@ -257,7 +257,7 @@ export const AppProvider = ({ children }: { children: React.ReactNode }) => {
                     }
                     setLoading(false);
                 })
-                .catch(err => {
+                .catch((err: any) => {
                     console.log(err)
                     //localUser = null
                     setLoading(false);
@@ -269,7 +269,7 @@ export const AppProvider = ({ children }: { children: React.ReactNode }) => {
         setLoading(false);
     }
 
-    async function getEventsByCourse(courseId) {
+    async function getEventsByCourse(courseId: { courseId: number; }) {
         setLoading(true);
         try {
             console.log('Requesting getEvents')
@@ -297,7 +297,7 @@ export const AppProvider = ({ children }: { children: React.ReactNode }) => {
                     }
                     setLoading(false);
                 })
-                .catch(err => {
+                .catch((err: any) => {
                     console.log(err)
                     //localUser = null
                     setLoading(false);
@@ -336,7 +336,7 @@ export const AppProvider = ({ children }: { children: React.ReactNode }) => {
                     }
                     setLoading(false);
                 })
-                .catch(err => {
+                .catch((err: any) => {
                     console.log(err)
                     setLoading(false);
                 })
@@ -346,7 +346,7 @@ export const AppProvider = ({ children }: { children: React.ReactNode }) => {
         setLoading(false);
     }
 
-    async function getEventByUser(Id) {
+    async function getEventByUser(Id: number) {
         setLoading(true);
         try {
             console.log('Requesting getEvents by User')
@@ -360,7 +360,7 @@ export const AppProvider = ({ children }: { children: React.ReactNode }) => {
                     }
                     setLoading(false);
                 })
-                .catch(err => {
+                .catch((err: any) => {
                     console.log(err)
                     setLoading(false);
                 })
@@ -390,7 +390,7 @@ export const AppProvider = ({ children }: { children: React.ReactNode }) => {
                     }
                     setLoading(false);
                 })
-                .catch(err => {
+                .catch((err: any) => {
                     console.log(err)
                     //localUser = null
                     isSuccess = false
@@ -425,7 +425,7 @@ export const AppProvider = ({ children }: { children: React.ReactNode }) => {
                     }
                     setLoading(false);
                 })
-                .catch(err => {
+                .catch((err: any) => {
                     console.log(err)
                     isSuccess = false
                     setLoading(false);
@@ -438,7 +438,7 @@ export const AppProvider = ({ children }: { children: React.ReactNode }) => {
         return isSuccess
     }
 
-    async function deleteEvent(id) {
+    async function deleteEvent(id: { id: number; }) {
         let isSuccess = false;
         setLoading(true)
         try {
@@ -451,7 +451,7 @@ export const AppProvider = ({ children }: { children: React.ReactNode }) => {
                     }
                     setLoading(false);
                 })
-                .catch(err => {
+                .catch((err: any) => {
                     isSuccess = false
                     console.log(err)
                     setLoading(false)
@@ -464,7 +464,7 @@ export const AppProvider = ({ children }: { children: React.ReactNode }) => {
         return isSuccess
     }
 
-    async function getEventsByCategory(category: string) {
+    async function getEventsByCategory(category: { category: string; }) {
         setLoading(true);
         try {
             console.log('Requesting getEvents')
@@ -483,7 +483,7 @@ export const AppProvider = ({ children }: { children: React.ReactNode }) => {
                     }
                     setLoading(false);
                 })
-                .catch(err => {
+                .catch((err: any) => {
                     console.log(err)
                     //localUser = null
                     setLoading(false);
@@ -495,7 +495,7 @@ export const AppProvider = ({ children }: { children: React.ReactNode }) => {
         setLoading(false);
     }
 
-    function createEventsJsonKeys(events) {
+    function createEventsJsonKeys(events: any[]) {
         // console.log("Create Json")
         var list = events.reduce((json, item, i) => {
             // console.log("Json: :", json)
@@ -509,7 +509,7 @@ export const AppProvider = ({ children }: { children: React.ReactNode }) => {
         // console.log("Json created: ", list)
         return list;
     }
-    function TimeLineEvents(events) {
+    function TimeLineEvents(events: eventType[]) {
         var list = events.map((event) => {
             event.circleColor = setCategoryColor(event);
             event.lineColor = setCategoryColor(event);
@@ -521,7 +521,7 @@ export const AppProvider = ({ children }: { children: React.ReactNode }) => {
         return list;
     }
 
-    function processEventsCalendar(events) {
+    function processEventsCalendar(events: any[]) {
         // console.log('Process events started')
         let eventJson = createEventsJsonKeys(events);
         // console.log("Json received from creation: ", eventJson)
@@ -585,7 +585,7 @@ export const AppProvider = ({ children }: { children: React.ReactNode }) => {
                     }
                     setLoading(false);
                 })
-                .catch(err => {
+                .catch((err: any) => {
                     console.log(err)
                     setLoading(false);
                 })
@@ -596,7 +596,7 @@ export const AppProvider = ({ children }: { children: React.ReactNode }) => {
         setLoading(false);
     }
 
-    function CurrentCourse(course) {
+    function CurrentCourse(course: React.SetStateAction<{name: string;}>) {
         setCurrentCourse(course)
     }
 
@@ -620,7 +620,7 @@ export const AppProvider = ({ children }: { children: React.ReactNode }) => {
                     }
                     // setLoading(false);
                 })
-                .catch(err => {
+                .catch((err: any) => {
                     console.log(err)
                     // setLoading(false);
                 })
@@ -631,7 +631,7 @@ export const AppProvider = ({ children }: { children: React.ReactNode }) => {
         // setLoading(false);
     }
 
-    async function updateNotification(notification) {
+    async function updateNotification(notification: any) {
         // setLoading(true);
         try {
             console.log('Requesting updateNotification')
@@ -645,7 +645,7 @@ export const AppProvider = ({ children }: { children: React.ReactNode }) => {
                     }
                     setLoading(false);
                 })
-                .catch(err => {
+                .catch((err: any) => {
                     console.log(err)
                     // setLoading(false);
                 })
@@ -656,7 +656,7 @@ export const AppProvider = ({ children }: { children: React.ReactNode }) => {
         // setLoading(false);
     }
 
-    async function deleteNotification(id) {
+    async function deleteNotification(id: any) {
         try {
             console.log('Requesting deleteNotification')
             await NotificationApi.deleteNotification(user.email, id)
@@ -672,7 +672,7 @@ export const AppProvider = ({ children }: { children: React.ReactNode }) => {
                     }
                     setLoading(false);
                 })
-                .catch(err => {
+                .catch((err: any) => {
                     console.log(err)
                 })
         } catch (e) {
@@ -699,7 +699,7 @@ export const AppProvider = ({ children }: { children: React.ReactNode }) => {
                     }
                     // setLoading(false);
                 })
-                .catch(err => {
+                .catch((err: any) => {
                     console.log(err)
                     // setLoading(false);
                 })

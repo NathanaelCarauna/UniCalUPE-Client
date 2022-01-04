@@ -69,7 +69,12 @@ export type PropsButtonNotification = {
   title: string,
   date: string,
   category: string,
-  event: object
+  event: object,
+  notification: any,
+  visualized: any,
+  toggleModal: any,
+  setSelectedNotification: any,
+
 };
 
 export type ThemeProps = {
@@ -97,19 +102,30 @@ export type user = {
 export type email = { email: string };
 
 export type eventType = {
-  event: {
       id: string,
       title: string
       local: string
       presentor: string
-      course: string
+      course: eventCourse
       category: string
       description: string
-      endDate: string
+      endDate: eventDate
       endHour: string
       link: string
-      startDate: string
+      startDate: eventDate
       startHour: string
-
-  }
+      circleColor: any
+      lineColor: any
+      time: any
+  
 };
+
+export type eventCourse = {
+  name: string
+
+};
+
+export type eventDate = {
+  name: string
+
+}
