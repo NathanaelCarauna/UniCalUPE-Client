@@ -50,12 +50,12 @@ export const AppContext = createContext({
 export const AppProvider = ({ children }: { children: React.ReactNode }) => {
     const [loading, setLoading] = useState<boolean | undefined>()
     const [eventByDateRequested, setEventByDateRequested] = useState<boolean | undefined>()
-    const [user, setUser] = useState({course: '', email: ''});
+    const [user, setUser] = useState({ course: '', email: '' });
     const [userNotifications, setUserNotifications] = useState([]);
     const [eventsList, setEventList] = useState([]);
     const [coursesList, setCoursesList] = useState([]);
     const [EventsCalendar, SetEventsCalendar] = useState({});
-    const [course, setCurrentCourse] = useState({name: ''})
+    const [course, setCurrentCourse] = useState({ name: '' })
     const [selectedDate, setSelectDate] = useState({})
     const [currentError, setCurrentError] = useState({})
     const [myEventsList, setMyEventsList] = useState({})
@@ -67,7 +67,7 @@ export const AppProvider = ({ children }: { children: React.ReactNode }) => {
         async function loadStorageData() {
             const storagedUser = await AsyncStorage.getItem('@TGAuth:user');
             getAllCourses()
-            setCurrentCourse({name: ''})
+            setCurrentCourse({ name: '' })
             console.log("storagedUser: ", storagedUser)
             if (storagedUser) {
                 const localUser = JSON.parse(storagedUser)
@@ -165,31 +165,26 @@ export const AppProvider = ({ children }: { children: React.ReactNode }) => {
     }
 
     async function deleteUser(email: email) {
-        setLoading(true);
-        let isSuccess = false;
-        try {
+        return new Promise((resolve, reject) => {
+            setLoading(true);
             console.log('Requesting deleteUser')
-            await userApi.deleteUser(email)
+            userApi.deleteUser(email)
                 .then((response: AxiosResponse) => {
                     console.log('DeleteUser requested')
                     console.log(response.data)
                     if (response.status == 200) {
+                        resolve(response)
                         signOut()
-                        isSuccess = true
                     }
                     setLoading(false);
                 })
                 .catch((err: any) => {
+                    reject(err)
                     console.log(err)
-                    isSuccess = false
                     setLoading(false);
                 })
-        } catch (e) {
-            console.log(e)
-            isSuccess = false
-        }
-        setLoading(false);
-        return isSuccess
+            setLoading(false);
+        })
     }
 
     function signOut() {
@@ -197,9 +192,9 @@ export const AppProvider = ({ children }: { children: React.ReactNode }) => {
 
         AsyncStorage.clear().then(() => {
             const currentDate = new Date();
-            setUser({course: '', email: ''});
+            setUser({ course: '', email: '' });
             setSelectDate(`${currentDate.getFullYear()}-${currentDate.getMonth() + 1}-${currentDate.getDate()}`)
-            setCurrentCourse({name: ''})
+            setCurrentCourse({ name: '' })
             console.log('LocalStorage cleaned')
             getEventsAll()
         })
@@ -414,7 +409,7 @@ export const AppProvider = ({ children }: { children: React.ReactNode }) => {
                         resolve(response)
                     }
                     setLoading(false);
-                })                
+                })
                 .catch((err: any) => {
                     reject(err)
                     console.log(err)
@@ -577,7 +572,7 @@ export const AppProvider = ({ children }: { children: React.ReactNode }) => {
         setLoading(false);
     }
 
-    function CurrentCourse(course: React.SetStateAction<{name: string;}>) {
+    function CurrentCourse(course: React.SetStateAction<{ name: string; }>) {
         setCurrentCourse(course)
     }
 
