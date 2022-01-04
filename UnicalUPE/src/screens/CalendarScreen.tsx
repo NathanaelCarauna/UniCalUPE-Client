@@ -80,10 +80,13 @@ export default function CalendarScreen({ navigation }) {
   }, []);
 
   useEffect(() => {
-    if (user && !user.course) {
-      console.log("USUAAAARIO::::", user)
-      navigation.navigate('EditProfile')
-    }
+    setTimeout(() => {
+      if (user && !user.course) {
+        console.log("USUAAAARIO::::", user)
+        navigation.navigate('EditProfile')
+      }
+
+    }, 200)
   }, [])
 
 

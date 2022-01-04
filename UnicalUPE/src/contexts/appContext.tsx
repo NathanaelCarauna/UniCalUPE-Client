@@ -210,11 +210,13 @@ export const AppProvider = ({ children }: { children: React.ReactNode }) => {
         const userinfo = await response.json()
         // console.log(userinfo)
         getUser(userinfo.email).then(response => {
+            console.log('Setou com o que veio do back', response.data)
             setUser(response.data)
             getEventsByCourse(response.data.course.id)
             getEventByUser(response.data.id)
             getNotificationByUserEmail(response.data.email)
         }).catch(err => {
+            console.log('Deu erro no load')
             setUser({ name: userinfo.name, email: userinfo.email })
         })
         console.log('User email: ' + userinfo.email)
