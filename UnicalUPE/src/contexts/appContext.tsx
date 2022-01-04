@@ -372,37 +372,31 @@ export const AppProvider = ({ children }: { children: React.ReactNode }) => {
     }
 
 
-    async function postEvent(event: eventType) {
-        setLoading(true);
-        let isSuccess = false;
-        try {
+    async function postEvent(event: eventType, callback) {
+        return new Promise((resolve, reject) => {
+            setLoading(true);
             console.log('post Event')
-            await EventApi.postEvent(event)
+            EventApi.postEvent(event)
                 .then((response: AxiosResponse) => {
                     console.log('Add Event')
 
                     //console.log(response.data)
                     if (response.status == 200) {
                         console.log('Event created')
-                        isSuccess = true
                         getEventsByCourse(user.course.id)
                         setMyEventsList([...myEventsList, response.data]);
+                        resolve(response)
                     }
                     setLoading(false);
                 })
                 .catch(err => {
                     console.log(err)
-                    //localUser = null
-                    isSuccess = false
                     setLoading(false);
+                    reject(err)
                 })
-        } catch (e) {
-            isSuccess = false
-            console.log(e)
+            setLoading(false);
+        })
 
-        }
-        setLoading(false);
-        return isSuccess;
     }
 
     async function updateEvent(event: eventType) {
