@@ -60,7 +60,7 @@ export const AppProvider = ({ children }: { children: React.ReactNode }) => {
     const [course, setCurrentCourse] = useState({ name: '' })
     const [selectedDate, setSelectDate] = useState({})
     const [currentError, setCurrentError] = useState({})
-    const [myEventsList, setMyEventsList] = useState({})
+    const [myEventsList, setMyEventsList] = useState([])
 
 
     useEffect(() => {
