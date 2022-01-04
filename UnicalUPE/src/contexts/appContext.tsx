@@ -433,30 +433,24 @@ export const AppProvider = ({ children }: { children: React.ReactNode }) => {
     }
 
     async function deleteEvent(id) {
-        let isSuccess = false;
-        setLoading(true)
-        try {
+        return new Promise((resolve, reject) => {
+            setLoading(true)
             console.log('Requesting deleteNotification')
-            await EventApi.deleteEvent(id)
+            EventApi.deleteEvent(id)
                 .then((response: AxiosResponse) => {
                     if (response.status == 200) {
-                        isSuccess = true
                         getEventByUser(user.id)
                         getEventsByCourse(user.course.id)
+                        resolve(response)
                     }
                     setLoading(false);
                 })
                 .catch(err => {
-                    isSuccess = false
+                    reject(err);
                     console.log(err)
                     setLoading(false)
                 })
-        } catch (e) {
-            console.log(e)
-            isSuccess = false
-            setLoading(false)
-        }
-        return isSuccess
+        })
     }
 
     async function getEventsByCategory(category: string) {
