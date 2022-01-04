@@ -400,36 +400,27 @@ export const AppProvider = ({ children }: { children: React.ReactNode }) => {
     }
 
     async function updateEvent(event: eventType) {
-        setLoading(true);
-        let isSuccess = false;
-        try {
+        return new Promise((resolve, reject) => {
+            setLoading(true);
             console.log('put Event')
-            await EventApi.updateEvent(event)
+            EventApi.updateEvent(event)
                 .then((response: AxiosResponse) => {
                     console.log('Update Event')
-
                     //console.log(response.data)
                     if (response.status == 200) {
                         console.log(response.data)
-                        isSuccess = true
                         getEventsByCourse(user.course.id)
-                    }
-                    else if (response.status == 500) {
-                        setCurrentError(500);
+                        resolve(response)
                     }
                     setLoading(false);
                 })
                 .catch(err => {
+                    reject(err)
                     console.log(err)
-                    isSuccess = false
                     setLoading(false);
                 })
-        } catch (e) {
-            console.log(e)
-            isSuccess = false
-        }
-        setLoading(false);
-        return isSuccess
+            setLoading(false);
+        })
     }
 
     async function deleteEvent(id) {
