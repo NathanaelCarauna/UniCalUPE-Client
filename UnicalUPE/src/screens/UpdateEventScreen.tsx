@@ -13,6 +13,7 @@ import AppContext from '../contexts/appContext';
 import SelectDropdown from 'react-native-select-dropdown';
 import { useNavigation } from '@react-navigation/native';
 import TabBarIcon from '../components/TabIcon';
+import Modal from "react-native-modal";
 
 const processDate = (field: string) => {
   return `${field}`.length == 1 ? `0${field}` : field
@@ -30,43 +31,84 @@ export default function Evento({ route }) {
   const [showTime, setShowTime] = useState(false);
   const [showEndTime, setShowEndTime] = useState(false);
   const [categoryState, setCategoryState] = useState();
-  const {user} = React.useContext(AppContext);
+  const { user } = React.useContext(AppContext);
 
   const navigation = useNavigation()
 
   const { updateEvent, coursesList, loading } = React.useContext(AppContext)
-  const [event, setEvent] = useState({ user: {id: user.id}, title: null, presentor: null, local: null, description: null, link: null });
+  const [event, setEvent] = useState({ user: { id: user.id }, title: null, presentor: null, local: null, description: null, link: null });
 
-  const handleSubmit = () => {
-    if (event.title == null || event.description == null || event.startDate == null) {
-      Alert.alert("'Titulo', 'descrição' e 'Data de Inicio' não podem ser nulos")
+  const [isSaveModalVisible, setSaveModalVisible] = useState(false);
+  const [isResponseModalVisible, setisResponseModalVisible] = useState(false);
+  const [modalMessage, setModalMessage] = useState({ status: null, message: null });
+
+  const toggleUpdateModal = () => {
+    if (event.title == null) {
+      setModalMessage({ message: 'Um título deve ser adicionado' })
+      toggleResponseModal()
+      return
     }
-    else if (updateEvent(event)) {
-      console.log('update event')
+    else if (event.description == null) {
+      setModalMessage({ message: 'Uma descrição deve ser adicionada' })
+      toggleResponseModal()
+      return
+    }
+    else if (event.startDate == null) {
+      setModalMessage({ message: 'Uma data de inicio deve ser fornecida' })
+      toggleResponseModal()
+      return
+    }
+    setSaveModalVisible(!isSaveModalVisible);
+  };
+  const toggleResponseModal = () => {
+    setisResponseModalVisible(!isResponseModalVisible);
+  };
+
+
+  const handleConfirmation = () => {
+    if (modalMessage.status) {
       navigation.navigate('Calendário')
+    }
+    else {
+      toggleResponseModal()
     }
   }
 
+
+  const handleSubmit = () => {
+    updateEvent(event).then(response => {
+      if (response) {
+        setModalMessage({ status: true, message: 'Evento atualizado com sucesso!' })
+        toggleUpdateModal()
+        toggleResponseModal()
+      }
+    }).catch(() => {
+      setModalMessage({ status: false, message: 'Algo deu errado, tente novamente mais tarde' })
+      toggleUpdateModal()
+      toggleResponseModal()
+    })
+  }
+
   const setTimeValue = (time) => {
-    return typeof time == 'string' ? new Date(0,0,0, time.substring(0,2), time.substring(0,2)) : (time || new Date())
+    return typeof time == 'string' ? new Date(0, 0, 0, time.substring(0, 2), time.substring(0, 2)) : (time || new Date())
   }
   useEffect(() => {
     console.log("testando route", routeEvent.startDate, routeEvent.title)
     setDate(routeEvent.startDate ? new Date(routeEvent.startDate) : null)
     setEndDate(routeEvent.endDate ? new Date(routeEvent.endDate) : null)
     setCategoryState(routeEvent.category)
-    setEvent({ 
-      title: routeEvent.title, 
-      id: routeEvent.id, 
-      presentor: routeEvent.presentor, 
+    setEvent({
+      title: routeEvent.title,
+      id: routeEvent.id,
+      presentor: routeEvent.presentor,
       description: routeEvent.description,
       link: routeEvent.link,
-      local: routeEvent.local,      
+      local: routeEvent.local,
       startDate: routeEvent.startDate,
       endDate: routeEvent.endDate,
       startHour: routeEvent.startHour,
       endHour: routeEvent.endHour,
-      course: {id: routeEvent.course ? routeEvent.course.id : null}
+      course: { id: routeEvent.course ? routeEvent.course.id : null }
     })
     setTime(routeEvent.startHour)
     setEndTime(routeEvent.endHour)
@@ -209,7 +251,7 @@ export default function Evento({ route }) {
         />
         <SelectDropdown
           data={coursesList}
-          defaultButtonText={routeEvent.course ? routeEvent.course.name :  'Selecione o seu curso'}
+          defaultButtonText={routeEvent.course ? routeEvent.course.name : 'Selecione o seu curso'}
           buttonStyle={styles.dropdownBtnStyle}
           dropdownStyle={styles.dropdown}
           buttonTextStyle={styles.dropdownBtnTxtStyle}
@@ -249,24 +291,24 @@ export default function Evento({ route }) {
 
         {categoryState == 'EVENTO' ? <>
           <View style={styles.textView}>
-            <TabBarIcon  size={25} style={styles.presentorIcon} name="user" color={Colors.DarkBlue.background} />
+            <TabBarIcon size={25} style={styles.presentorIcon} name="user" color={Colors.DarkBlue.background} />
             <TextInput style={styles.text} placeholder="Apresentador"
               onChangeText={(value) => setEvent({ ...event, presentor: value })}
               value={event.presentor} />
           </View>
           <View style={styles.textView}>
-            <TabBarIcon  size={25} style={styles.localIcon} name="map-marker" color={Colors.DarkBlue.background} />
+            <TabBarIcon size={25} style={styles.localIcon} name="map-marker" color={Colors.DarkBlue.background} />
             <TextInput style={styles.text} placeholder="Local"
               onChangeText={(value) => setEvent({ ...event, local: value })}
               value={event.local} />
           </View>
           <View style={styles.textView}>
-            <TabBarIcon  size={25} style={styles.clockIcon} name="clock-o" color={Colors.DarkBlue.background} />
+            <TabBarIcon size={25} style={styles.clockIcon} name="clock-o" color={Colors.DarkBlue.background} />
             <TouchableOpacity style={styles.calendar} onPress={
               showTimeMode
             }>
               {
-                time ? <Text style={styles.Text_Normal}> { typeof time == 'string' ? time : `${time.getHours()}:${time.getMinutes()}`}</Text>
+                time ? <Text style={styles.Text_Normal}> {typeof time == 'string' ? time : `${time.getHours()}:${time.getMinutes()}`}</Text>
                   : <Text style={styles.Text_Normal}>Hora de inicio</Text>
               }
 
@@ -286,7 +328,7 @@ export default function Evento({ route }) {
               showEndTimeMode
             }>
               {
-                endTime ? <Text style={styles.Text_Normal}> { typeof endTime == 'string' ? endTime : `${endTime.getHours()}:${endTime.getMinutes()}`}</Text>
+                endTime ? <Text style={styles.Text_Normal}> {typeof endTime == 'string' ? endTime : `${endTime.getHours()}:${endTime.getMinutes()}`}</Text>
                   : <Text style={styles.Text_Normal}>Hora de fim</Text>
               }
 
@@ -350,9 +392,46 @@ export default function Evento({ route }) {
 
         <TouchableOpacity
           style={styles.button}
-          onPress={handleSubmit}>
+          onPress={toggleUpdateModal}>
           <Text style={styles.buttonText}>Salvar</Text>
         </TouchableOpacity>
+
+        <Modal isVisible={isSaveModalVisible}>
+          <View style={styles.modal}>
+            <LinearGradient colors={["#ffffff", "#ffffff"]}>
+              <Text style={styles.textModal} >Deseja atualizar esse evento?</Text>
+
+              <View style={styles.buttons}>
+                <TouchableOpacity
+                  style={styles.buttonModalBack}
+                  onPress={toggleUpdateModal}>
+                  <TabBarIcon name="arrow-left" color={'white'} style={styles.icon} size={20} />
+                </TouchableOpacity>
+                <TouchableOpacity
+                  style={styles.buttonModal}
+                  onPress={handleSubmit}>
+                  <Text style={styles.buttonText}>Sim</Text>
+                </TouchableOpacity>
+              </View>
+            </LinearGradient>
+          </View>
+        </Modal>
+
+        <Modal isVisible={isResponseModalVisible}>
+          <View style={styles.modal}>
+            <LinearGradient colors={["#ffffff", "#ffffff"]}>
+              <Text style={styles.textModal} >{modalMessage.message}</Text>
+
+              <View style={styles.buttons}>
+                <TouchableOpacity
+                  style={styles.buttonModal}
+                  onPress={handleConfirmation}>
+                  <Text style={styles.buttonText}>Ok</Text>
+                </TouchableOpacity>
+              </View>
+            </LinearGradient>
+          </View>
+        </Modal>
       </ScrollView>
     </LinearGradient>
 
@@ -406,7 +485,7 @@ const styles = StyleSheet.create({
     alignSelf: 'stretch',
     // textAlign: 'center',
     borderColor: 'white',
-    borderWidth: 3,    
+    borderWidth: 3,
   },
   clockIcon: {
     padding: 10,
@@ -511,6 +590,42 @@ const styles = StyleSheet.create({
   },
   dropdownIcon: {
     marginHorizontal: 10,
-    
-  }
+
+  },
+  textModal: {
+    fontSize: 16,
+    margin: 30,
+    color: 'gray',
+    borderRadius: 16,
+    alignSelf: 'stretch',
+    textAlign: 'center',
+  },
+  modal: {
+    overflow: 'hidden',
+    borderRadius: 15,
+
+  },
+  buttonModal: {
+
+    fontWeight: 'bold',
+    backgroundColor: Colors.Blue.background,
+    borderRadius: 15
+  },
+  buttonModalBack: {
+    justifyContent: 'center',
+    fontWeight: 'bold',
+    backgroundColor: Colors.Blue.background,
+    borderRadius: 15
+  },
+  icon: {
+    padding: 10,
+  },
+  buttons: {
+    margin: 15,
+    backgroundColor: 'transparent',
+    flexDirection: 'row',
+    alignContent: 'center',
+    justifyContent: 'space-evenly',
+    // padding: 10,
+  },
 });
