@@ -20,7 +20,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,    
     paddingTop: 15,
-    justifyContent: 'center'
+    // justifyContent: 'center'
   },
   title: {
     fontSize: 20,

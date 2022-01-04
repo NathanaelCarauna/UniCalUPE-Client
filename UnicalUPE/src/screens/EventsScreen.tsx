@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { FlatList, ScrollView, StyleSheet, Image } from 'react-native';
+import { FlatList, ScrollView, StyleSheet, Image, ActivityIndicator } from 'react-native';
 import DateSquare from '../components/DateSquare';
 
 import EditScreenInfo from '../components/EditScreenInfo';
@@ -16,9 +16,8 @@ import Timeline from 'react-native-timeline-flatlist'
 
 export default function EventsScreen() {
 
-  const navigation = useNavigation();
-  const { eventsList, setEventByDateRequested, getEventsByDate, selectedDate, setSelectDate} = useContext(AppContext)
-  const [refresh, setRefresh] = useState(false);
+  const { eventsList, setEventByDateRequested, selectedDate } = useContext(AppContext)
+  const [refresh, setRefresh, loading] = useState(false);
   const [dates, setDates] = useState(
     [
       { id: 0, day: 'Dom', date: '21', month: '0', year: '2022', selected: false },
@@ -35,7 +34,7 @@ export default function EventsScreen() {
 
   const fillWeek = (pDates, selectedDate) => {
     var currentDay: Date;
-    if (selectedDate.length > 0) {
+    if (selectedDate.length > 3) {
       currentDay = new Date(selectedDate)
       currentDay.setDate(currentDay.getDate())
       console.log('Data refresh:', selectedDate)
@@ -112,7 +111,7 @@ export default function EventsScreen() {
     setRefresh(!refresh)
   }, [selectedDate])
 
-  
+
 
   const ItemSeprator = () => <View style={{
     width: 6,
@@ -132,45 +131,58 @@ export default function EventsScreen() {
     );
   };
 
+  if (loading) {
+    return (
+      (
+        <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+          <ActivityIndicator size="large" color='#666' />
+        </View>
+      )
+    )
+  }
   return (
     <>
-      <MainView>        
-          <View style={styles.flat}>
-            <FlatList
-              ItemSeparatorComponent={ItemSeprator}
-              horizontal={true}
-              data={dates}
-              extraData={refresh}
-              style={styles.transparent}
-              keyExtractor={item => item.day}
-              renderItem={({ item }) => (
-                <DateSquare
-                  day={item.day}
-                  date={item.date}
-                  selected={item.selected}
-                  month= {item.month}
-                  year={item.year}
-                />)}
-            />
-          </View>
+      <MainView>
+        <View style={styles.flat}>
+          <FlatList
+            ItemSeparatorComponent={ItemSeprator}
+            horizontal={true}
+            data={dates}
+            extraData={refresh}
+            style={styles.transparent}
+            keyExtractor={item => item.day}
+            renderItem={({ item }) => (
+              <DateSquare
+                day={item.day}
+                date={item.date}
+                selected={item.selected}
+                month={item.month}
+                year={item.year}
+              />)}
+          />
+        </View>
         <View style={styles.legendContainer}>
           <Text style={styles.text}>Hora</Text>
           <Text style={styles.text}>Curso</Text>
           <Text style={styles.text}>Evento</Text>
         </View>
-        <Timeline
-          data={eventsList}
-          descriptionStyle={{ color: 'gray' }}
-          renderDetail={renderDetail}
-          timeStyle={{ textAlign: 'center', backgroundColor: '#4ca9df', color: 'white', padding: 5, borderRadius: 13, marginTop: -4 }}
-          lineWidth={0}
-          rowContainerStyle={{ marginTop: 20 }}
-          // eventDetailStyle={{ marginTop: -20 }}
-          detailContainerStyle={{ marginTop: -26 }}
-          style={{ margin: 10 }}
-          innerCircle='dot'
-          circleSize={20}
-        />
+        {
+          eventsList.length > 0 ? 
+          <Timeline
+            data={eventsList}
+            descriptionStyle={{ color: 'gray' }}
+            renderDetail={renderDetail}
+            timeStyle={{ textAlign: 'center', backgroundColor: '#4ca9df', color: 'white', padding: 5, borderRadius: 13, marginTop: -4 }}
+            lineWidth={0}
+            rowContainerStyle={{ marginTop: 20 }}
+            // eventDetailStyle={{ marginTop: -20 }}
+            detailContainerStyle={{ marginTop: -26 }}
+            style={{ margin: 10 }}
+            innerCircle='dot'
+            circleSize={20}
+          />
+          : <Text style={styles.notFound}>Nenhum evento encontrado para esse dia</Text>
+      }
 
       </MainView >
     </>
@@ -219,7 +231,7 @@ const styles = StyleSheet.create({
   flat: {
     alignItems: 'center',
     padding: 5,
-    
+
   },
   notFound: {
     fontSize: 16,
