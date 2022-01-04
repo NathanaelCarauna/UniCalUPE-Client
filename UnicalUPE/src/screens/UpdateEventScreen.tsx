@@ -355,7 +355,7 @@ export default function Evento({ route }) {
             showDataMode
           }>
             {
-              date ? <Text style={styles.Text_Normal}>{date.getDate()}/{date.getMonth() + 1}/{date.getFullYear()}</Text>
+              date ? <Text style={styles.Text_Normal}>{date.getDate()+1}/{date.getMonth() + 1}/{date.getFullYear()}</Text>
                 : <Text style={styles.Text_Normal}>Data de inicio</Text>
             }
           </TouchableOpacity >
@@ -373,7 +373,7 @@ export default function Evento({ route }) {
             showEndDataMode
           }>
             {
-              endDate ? <Text style={styles.Text_Normal}> {endDate.getDate()}/{endDate.getMonth() + 1}/{endDate.getFullYear()}</Text>
+              endDate ? <Text style={styles.Text_Normal}> {endDate.getDate()+1}/{endDate.getMonth() + 1}/{endDate.getFullYear()}</Text>
                 : <Text style={styles.Text_Normal}>Data de fim</Text>
             }
 
