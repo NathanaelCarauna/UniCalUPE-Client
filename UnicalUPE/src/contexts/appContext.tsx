@@ -77,7 +77,7 @@ export const AppProvider = ({ children }: { children: React.ReactNode }) => {
                 console.log(localUser.course)
                 setCurrentCourse(localUser.course)
                 getEventsByCourse(localUser.course.id)
-                getNotificationByUserEmail(localUser.email);
+                getNotificationByUserEmail(localUser.email);                
                 getEventByUser(localUser.id)
             }
             else {
@@ -117,8 +117,7 @@ export const AppProvider = ({ children }: { children: React.ReactNode }) => {
                     if (response.status == 200) {
                         resolve(response)
                         setSelectDate({})
-                        setCurrentCourse(response.data.course)
-                        getEventsByCourse(localUser.course.id)
+                        setCurrentCourse(response.data.course)                        
                         AsyncStorage.setItem("@TGAuth:user", JSON.stringify(response.data));
                     }
                     setLoading(false);
@@ -212,6 +211,9 @@ export const AppProvider = ({ children }: { children: React.ReactNode }) => {
         // console.log(userinfo)
         getUser(userinfo.email).then(response => {
             setUser(response.data)
+            getEventsByCourse(response.data.course.id)
+            getEventByUser(response.data.id)
+            getNotificationByUserEmail(response.data.email)
         }).catch(err => {
             setUser({ name: userinfo.name, email: userinfo.email })
         })
