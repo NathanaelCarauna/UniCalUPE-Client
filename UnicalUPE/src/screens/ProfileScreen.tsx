@@ -18,14 +18,18 @@ export default function ProfileScreen({ navigation }) {
     navigation.navigate('EditProfile')
   }
   const calldelete = () => {
-    const response = deleteUser(user.email)
-    if(response){
-      setResponseMessage({status: true, message: 'Perfil excluído'})
-    }else{      
+    deleteUser(user.email).then(response => {
+      if(response){
+        setResponseMessage({status: true, message: 'Perfil excluído'})
+        toggleDeleteModal()
+        toggleResponseModal()
+      }
+    }).catch(err => {
       setResponseMessage({status: false, message: 'Algo deu errado, tente novamente mais tarde'})
-    }
-    toggleDeleteModal()
-    toggleResponseModal()
+      toggleDeleteModal()
+      toggleResponseModal()
+
+    })    
   }
   const [isDeleteModalVisible, setDeleteModalVisible] = useState(false);
   const [isResponseModalVisible, setisResponseModalVisible] = useState(false);
