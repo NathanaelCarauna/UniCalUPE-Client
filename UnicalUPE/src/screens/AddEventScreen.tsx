@@ -19,7 +19,6 @@ import Modal from "react-native-modal";
 const processDate = (field: string) => {
   return `${field}`.length == 1 ? `0${field}` : field
 }
-
 export default function Evento() {
   const [date, setDate] = useState();
   const [endDate, setEndDate] = useState();
@@ -33,25 +32,25 @@ export default function Evento() {
 
   const [isSaveModalVisible, setSaveModalVisible] = useState(false);
   const [isResponseModalVisible, setisResponseModalVisible] = useState(false);
-  const [modalMessage, setModalMessage] = useState({status: null, message: null});
+  const [modalMessage, setModalMessage] = useState({ status: null, message: null });
   const navigation = useNavigation()
 
   const { postEvent, coursesList, user, loading } = React.useContext(AppContext)
-  const [event, setEvent] = useState({ user: {id: user.id}, title: null, presentor: null, local: null, description: null, link: null });
+  const [event, setEvent] = useState({ user: { id: user.id }, title: null, presentor: null, local: null, description: null, link: null });
 
   const toggleSaveModal = () => {
     if (event.title == null) {
-      setModalMessage({message: 'Um título deve ser adicionado'})
+      setModalMessage({ message: 'Um título deve ser adicionado' })
       toggleResponseModal()
       return
     }
-    else if( event.description == null){
-      setModalMessage({message: 'Uma descrição deve ser adicionada'})
+    else if (event.description == null) {
+      setModalMessage({ message: 'Uma descrição deve ser adicionada' })
       toggleResponseModal()
       return
     }
-    else if( event.startDate == null){
-      setModalMessage({message: 'Uma data de inicio deve ser fornecida'})
+    else if (event.startDate == null) {
+      setModalMessage({ message: 'Uma data de inicio deve ser fornecida' })
       toggleResponseModal()
       return
     }
@@ -60,28 +59,31 @@ export default function Evento() {
   const toggleResponseModal = () => {
     setisResponseModalVisible(!isResponseModalVisible);
   };
-  
-  
+
+
   const handleConfirmation = () => {
-    if(modalMessage.status){
+    if (modalMessage.status) {
       navigation.navigate('Calendário')
     }
-    else{
+    else {
       toggleResponseModal()
     }
-  }   
+  }
 
-  const handleSubmit = () => {    
-    const response = postEvent(event)
-    if(response){
-      setModalMessage({status: true, message: 'Evento adicionado com sucesso!'})
-    }    
-    else{      
-      setModalMessage({status: false, message: 'Algo deu errado, tente novamente mais tarde'})
-    }
-    toggleSaveModal()
-    toggleResponseModal()
-  }  
+
+  const handleSubmit = () => {
+    postEvent(event).then(response => {
+      if (response) {
+        setModalMessage({ status: true, message: 'Evento adicionado com sucesso!' })
+        toggleSaveModal()
+        toggleResponseModal()
+      }      
+    }).catch(() => {
+      setModalMessage({ status: false, message: 'Algo deu errado, tente novamente mais tarde' })
+      toggleSaveModal()
+      toggleResponseModal()
+    })
+  }
 
   const showDataMode = () => {
     setShowData(!showData);
@@ -114,7 +116,7 @@ export default function Evento() {
     if (endDate) {
       console.log("end date setado")
       setEndDate(endDate)
-      setEvent({ ...event, endDate: `${endDate.getFullYear()}-${endDate.getMonth() + 1}-${endDate.getDate()}` })
+      setEvent({ ...event, endDate: `${processDate(endDate.getFullYear())}-${processDate(endDate.getMonth() + 1)}-${processDate(endDate.getDate())}` })
     }
     setShowEndData(!showEndData)
   }
@@ -123,7 +125,7 @@ export default function Evento() {
     let startHour = value.nativeEvent.timestamp
     if (startHour) {
       setTime(startHour)
-      setEvent({ ...event, startHour: `${startHour.getHours()}:${startHour.getMinutes()}` })
+      setEvent({ ...event, startHour: `${processDate(startHour.getHours())}:${processDate(startHour.getMinutes())}` })
 
     }
     setShowTime(!showTime)
@@ -133,11 +135,11 @@ export default function Evento() {
     let endHour = value.nativeEvent.timestamp
     if (endHour) {
       setEndTime(endHour)
-      setEvent({ ...event, endHour: `${endHour.getHours()}:${endHour.getMinutes()}` })
+      setEvent({ ...event, endHour: `${processDate(endHour.getHours())}:${processDate(endHour.getMinutes())}` })
     }
     setShowEndTime(!showEndTime)
   }
-
+  ''
   React.useEffect(() => { }, [date])
 
   if (loading) {
@@ -344,7 +346,7 @@ export default function Evento() {
                 <TouchableOpacity
                   style={styles.buttonModalBack}
                   onPress={toggleSaveModal}>
-                  <TabBarIcon name="arrow-left" color={'white'} style={styles.icon} size={20}/>
+                  <TabBarIcon name="arrow-left" color={'white'} style={styles.icon} size={20} />
                 </TouchableOpacity>
                 <TouchableOpacity
                   style={styles.buttonModal}
@@ -361,7 +363,7 @@ export default function Evento() {
             <LinearGradient colors={["#ffffff", "#ffffff"]}>
               <Text style={styles.textModal} >{modalMessage.message}</Text>
 
-              <View style={styles.buttons}>              
+              <View style={styles.buttons}>
                 <TouchableOpacity
                   style={styles.buttonModal}
                   onPress={handleConfirmation}>
@@ -424,7 +426,7 @@ const styles = StyleSheet.create({
     alignSelf: 'stretch',
     // textAlign: 'center',
     borderColor: 'white',
-    borderWidth: 3,    
+    borderWidth: 3,
   },
   clockIcon: {
     padding: 10,
@@ -529,7 +531,7 @@ const styles = StyleSheet.create({
   },
   dropdownIcon: {
     marginHorizontal: 10,
-    
+
   },
   textModal: {
     fontSize: 16,
@@ -542,7 +544,7 @@ const styles = StyleSheet.create({
   modal: {
     overflow: 'hidden',
     borderRadius: 15,
-    
+
   },
   buttonModal: {
 
@@ -556,8 +558,8 @@ const styles = StyleSheet.create({
     backgroundColor: Colors.Blue.background,
     borderRadius: 15
   },
-  icon: {    
-    padding: 10,    
+  icon: {
+    padding: 10,
   },
   buttons: {
     margin: 15,

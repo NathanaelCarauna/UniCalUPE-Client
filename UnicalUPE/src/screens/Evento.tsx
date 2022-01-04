@@ -39,15 +39,18 @@ export default function Evento({ route, navigation }) {
   }
 
   const handleDeleteEvent = () => {
-    const response = deleteEvent(event.id)
-    if (response) {
-      setResponseMessage({ status: true, message: 'Evento excluído' })
-    } else {
+    deleteEvent(event.id).then(response => {
+      if (response) {
+        setResponseMessage({ status: true, message: 'Evento excluído' })
+        console.log('Event deleted')
+        toggleModal()
+        toggleResponseModal()
+      }
+    }).catch(()=>{
       setResponseMessage({ status: false, message: 'Algo deu errado, tente novamente mais tarde' })
-    }
-    toggleModal()
-    toggleResponseModal()
-    console.log('Event deleted')
+      toggleModal()
+      toggleResponseModal()
+    })         
   }
 
   const toggleResponseModal = () => {

@@ -207,7 +207,7 @@ export const AppProvider = ({ children }: { children: React.ReactNode }) => {
 
     async function handleSignIn() {
         const CLIENT_ID = '162955034296-ah2keq2dk20d7qvpm0qj4h9bi7iratcr.apps.googleusercontent.com'
-        const REDIRECT_URI = 'https://auth.expo.io/@clara.araujo/UnicalUPE'
+        const REDIRECT_URI = 'https://auth.expo.io/@nathanaelcarauna/UnicalUPE'
         const RESPONSE_TYPE = 'token'
         const SCOPE = encodeURI('profile email')
 
@@ -372,37 +372,31 @@ export const AppProvider = ({ children }: { children: React.ReactNode }) => {
     }
 
 
-    async function postEvent(event: eventType) {
-        setLoading(true);
-        let isSuccess = false;
-        try {
+    async function postEvent(event: eventType, callback) {
+        return new Promise((resolve, reject) => {
+            setLoading(true);
             console.log('post Event')
-            await EventApi.postEvent(event)
+            EventApi.postEvent(event)
                 .then((response: AxiosResponse) => {
                     console.log('Add Event')
 
                     //console.log(response.data)
                     if (response.status == 200) {
                         console.log('Event created')
-                        isSuccess = true
                         getEventsByCourse(user.course.id)
                         setMyEventsList([...myEventsList, response.data]);
+                        resolve(response)
                     }
                     setLoading(false);
                 })
                 .catch((err: any) => {
                     console.log(err)
-                    //localUser = null
-                    isSuccess = false
                     setLoading(false);
+                    reject(err)
                 })
-        } catch (e) {
-            isSuccess = false
-            console.log(e)
+            setLoading(false);
+        })
 
-        }
-        setLoading(false);
-        return isSuccess;
     }
 
     async function updateEvent(event: eventType) {
@@ -438,30 +432,25 @@ export const AppProvider = ({ children }: { children: React.ReactNode }) => {
         return isSuccess
     }
 
-    async function deleteEvent(id: { id: number; }) {
-        let isSuccess = false;
-        setLoading(true)
-        try {
+    async function deleteEvent(id) {
+        return new Promise((resolve, reject) => {
+            setLoading(true)
             console.log('Requesting deleteNotification')
-            await EventApi.deleteEvent(id)
+            EventApi.deleteEvent(id)
                 .then((response: AxiosResponse) => {
                     if (response.status == 200) {
-                        isSuccess = true
+                        getEventByUser(user.id)
                         getEventsByCourse(user.course.id)
+                        resolve(response)
                     }
                     setLoading(false);
                 })
-                .catch((err: any) => {
-                    isSuccess = false
+                .catch(err => {
+                    reject(err);
                     console.log(err)
                     setLoading(false)
                 })
-        } catch (e) {
-            console.log(e)
-            isSuccess = false
-            setLoading(false)
-        }
-        return isSuccess
+        })
     }
 
     async function getEventsByCategory(category: { category: string; }) {

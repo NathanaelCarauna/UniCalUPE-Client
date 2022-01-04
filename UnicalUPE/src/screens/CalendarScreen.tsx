@@ -115,12 +115,6 @@ export default function CalendarScreen({ navigation }) {
     }
   }, [user])
 
-  const updateCallendar = (date) => {
-    const calendarEvents = EventsCalendar
-    calendarEvents[date] = { ...calendarEvents[date], selected: true, selectedColor: 'black' }
-    console.log('---------Calendar events:', date, calendarEvents)
-  }
-
   if (loading) {
     return (
       (
@@ -181,6 +175,7 @@ export default function CalendarScreen({ navigation }) {
       <Calendar
         // current={'2021-12-12'}
         onDayPress={(day) => {
+          console.log('Calendar select date:', day.dateString)
           setSelectDate(day.dateString)
           getEventsByDate(day.dateString)
           navigation.navigate("Eventos")
