@@ -10,7 +10,7 @@
     "splash": {
       "image": "./assets/images/Unical-Logo_icon.png",
       "resizeMode": "contain",
-      "backgroundColor": "#ffffff"
+      "backgroundColor": "#01949A"
     },
     "updates": {
       "fallbackToCacheTimeout": 0
