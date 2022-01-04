@@ -13,6 +13,7 @@ import Colors from '../constants/Colors';
 export const AppContext = createContext({
     signed: false,
     user: {},
+    userGAPI: {},
     eventsList: {},
     coursesList: {},
     loading: false,
@@ -50,7 +51,8 @@ export const AppContext = createContext({
 export const AppProvider = ({ children }: { children: React.ReactNode }) => {
     const [loading, setLoading] = useState<boolean | undefined>()
     const [eventByDateRequested, setEventByDateRequested] = useState<boolean | undefined>()
-    const [user, setUser] = useState({ course: '', email: '' });
+    const [user, setUser] = useState({});
+    const [userGAPI, setUserGAPI] = useState();
     const [userNotifications, setUserNotifications] = useState([]);
     const [eventsList, setEventList] = useState([]);
     const [coursesList, setCoursesList] = useState([]);
@@ -105,17 +107,15 @@ export const AppProvider = ({ children }: { children: React.ReactNode }) => {
     }
 
     async function getUser(email: email) {
-        setLoading(true);
-        let localUser;
-        try {
+        return new Promise((resolve, reject) => {
+            setLoading(true);
             console.log('Requesting getUser')
-            await userApi.getUser(email)
+            userApi.getUser(email)
                 .then((response: AxiosResponse) => {
                     console.log('GetUser requested')
                     console.log(response.data)
                     if (response.status == 200) {
-                        setUser(response.data)
-                        localUser = response.data
+                        resolve(response)
                         setSelectDate({})
                         setCurrentCourse(response.data.course)
                         getEventsByCourse(localUser.course.id)
@@ -124,44 +124,33 @@ export const AppProvider = ({ children }: { children: React.ReactNode }) => {
                     setLoading(false);
                 })
                 .catch((err: any) => {
+                    reject(err)
                     console.log(err)
-                    localUser = null
                     setLoading(false);
                 })
-        } catch (e) {
-            console.log(e)
-            localUser = null
-        }
-        setLoading(false);
-        return localUser
+        })
     }
 
     async function saveUser(user: user) {
-        setLoading(true);
-        let result = false;
-        try {
-            await userApi.saveUser(user)
+        return new Promise((resolve, reject) => {
+            setLoading(true);
+            userApi.saveUser(user)
                 .then((response: AxiosResponse) => {
                     if (response.status = 200) {
                         setUser(response.data)
                         setCurrentCourse(response.data.course)
                         getEventsByCourse(response.data.course.id)
                         console.log("User that came from back after save:", response.data)
-                        result = true;
+                        resolve(response)
                     }
-                    else if (response.status == 500) {
-                        setCurrentError(500);
-                    }
-
+                    setLoading(false);
+                }).catch((err) => {
+                    reject(err)
+                    console.log(err)
                     setLoading(false);
                 })
-        } catch (e) {
-            console.log(e)
             setLoading(false);
-            return false;
-        }
-        return result
-
+        })
     }
 
     async function deleteUser(email: email) {
@@ -192,7 +181,7 @@ export const AppProvider = ({ children }: { children: React.ReactNode }) => {
 
         AsyncStorage.clear().then(() => {
             const currentDate = new Date();
-            setUser({ course: '', email: '' });
+            setUser({});
             setSelectDate(`${currentDate.getFullYear()}-${currentDate.getMonth() + 1}-${currentDate.getDate()}`)
             setCurrentCourse({ name: '' })
             console.log('LocalStorage cleaned')
@@ -221,9 +210,12 @@ export const AppProvider = ({ children }: { children: React.ReactNode }) => {
         const response = await fetch(`https://www.googleapis.com/oauth2/v2/userinfo?alt=json&access_token=${token}`)
         const userinfo = await response.json()
         // console.log(userinfo)
-        setUser({ name: userinfo.name, email: userinfo.email })
+        getUser(userinfo.email).then(response => {
+            setUser(response.data)
+        }).catch(err => {
+            setUser({ name: userinfo.name, email: userinfo.email })
+        })
         console.log('User email: ' + userinfo.email)
-        await getUser(userinfo.email)
         setLoading(false)
     }
 
@@ -690,6 +682,7 @@ export const AppProvider = ({ children }: { children: React.ReactNode }) => {
         <AppContext.Provider value={{
             signed: !!user,
             user,
+            userGAPI,
             loading,
             EventsCalendar,
             coursesList,

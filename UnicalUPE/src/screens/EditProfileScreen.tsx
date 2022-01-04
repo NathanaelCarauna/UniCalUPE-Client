@@ -16,26 +16,47 @@ import TabBarIcon from '../components/TabIcon';
 export default function EditProfileScreen({ navigation }) {
   const { user, loading, saveUser, coursesList } = React.useContext(AppContext)
   const checkId = () => {
-    return typeof user.id == 'number' ? user.id : null
+    return typeof parseInt(user.id) == 'number' ? user.id : null
   }
   const checkCourse = () => {
-    return user.course  ? user.course.id : null
+    return user.course ? user.course.id : null
   }
   const [userData, setUserData] = React.useState({ name: user.name, email: user.email, accountType: user.accountType || 'ADM', id: checkId(), course: { id: checkCourse() } });
 
-  const handleSubmit = () => {
+  const callSave = () => {
+    console.log("user to be saved:", userData)
+    saveUser(userData).then(response => {
+      if (response) {
+        setResponseMessage({ status: true, message: 'Perfil atualizado!' })
+        toggleSaveModal()
+        toggleResponseModal()
+      }
+    }).catch(err => {
+      setResponseMessage({ status: false, message: 'Algo deu errado, tente novamente mais tarde' })
+      toggleSaveModal()
+      toggleResponseModal()
 
-    if (saveUser(userData)) {
-      console.log('User data saved')
+    })
+  }
+  const [isSaveModalVisible, setSaveModalVisible] = useState(false);
+  const [isResponseModalVisible, setisResponseModalVisible] = useState(false);
+  const [responseMessage, setResponseMessage] = useState({ status: null, message: null });
+
+  const toggleSaveModal = () => {
+    setSaveModalVisible(!isSaveModalVisible);
+  };
+  const toggleResponseModal = () => {
+    setisResponseModalVisible(!isResponseModalVisible);
+  };
+
+  const handleConfirmation = () => {
+    if (responseMessage.status) {
       navigation.navigate('Calendário')
     }
+    else {
+      toggleResponseModal()
+    }
   }
-
-  const [isModalVisible, setModalVisible] = useState(false);
-
-  const toggleModal = () => {
-    setModalVisible(!isModalVisible);
-  };
 
   if (loading) {
     return (
@@ -88,28 +109,43 @@ export default function EditProfileScreen({ navigation }) {
 
         <TouchableOpacity
           style={styles.button}
-          onPress={toggleModal}>
+          onPress={toggleSaveModal}>
           <Text style={styles.buttonText}>Salvar</Text>
         </TouchableOpacity>
 
 
-        <Modal isVisible={isModalVisible} >
+        <Modal isVisible={isSaveModalVisible}>
           <View style={styles.modal}>
             <LinearGradient colors={["#ffffff", "#ffffff"]}>
-              <Text style={styles.textModal} >Você realmente deseja salvar essas alterações ?</Text>
+              <Text style={styles.textModal} >Você deseja atualizar seu perfil?</Text>
 
               <View style={styles.buttons}>
                 <TouchableOpacity
                   style={styles.buttonModalBack}
-                  onPress={toggleModal}>
+                  onPress={toggleSaveModal}>
                   <TabBarIcon name="arrow-left" color={'white'} style={styles.icon} size={20} />
                 </TouchableOpacity>
                 <TouchableOpacity
                   style={styles.buttonModal}
-                  onPress={handleSubmit}>
-                  <Text style={styles.buttonText}>Salvar Alterações</Text>
+                  onPress={callSave}>
+                  <Text style={styles.buttonText}>Salvar</Text>
                 </TouchableOpacity>
+              </View>
+            </LinearGradient>
+          </View>
+        </Modal>
 
+        <Modal isVisible={isResponseModalVisible}>
+          <View style={styles.modal}>
+            <LinearGradient colors={["#ffffff", "#ffffff"]}>
+              <Text style={styles.textModal} >{responseMessage.message}</Text>
+
+              <View style={styles.buttons}>
+                <TouchableOpacity
+                  style={styles.buttonModal}
+                  onPress={handleConfirmation}>
+                  <Text style={styles.buttonText}>Ok</Text>
+                </TouchableOpacity>
               </View>
             </LinearGradient>
           </View>
@@ -167,7 +203,7 @@ const styles = StyleSheet.create({
     borderRadius: 15
   },
   icon: {
-    padding: 10,    
+    padding: 10,
   },
   buttonText: {
     // margin: 40,

@@ -82,10 +82,11 @@ export default function CalendarScreen({ navigation }) {
   }, []);
 
   useEffect(() => {
-    if (user && !user.course ) {
-      console.log("USUAAAARIO::::", user)
-      navigation.navigate('EditProfile')
-    }  
+    console.log("*********************", user)
+      if (user.name && !user.course) {
+        console.log("USUAAAARIO::::", user)
+        navigation.navigate('EditProfile')
+      }      
   }, [user])
 
 

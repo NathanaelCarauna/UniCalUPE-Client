@@ -62,7 +62,7 @@ export default function ProfileScreen({ navigation }) {
           </View>
           <View style={styles.field}>
             <TabBarIcon name="certificate" color={Colors.Orange.background} style={styles.icon} size={20} />
-            <Text style={styles.normal}>{user? user.course.name : null}</Text>
+            <Text style={styles.normal}>{user.course ? user.course.name : null}</Text>
             
           </View>
           <View style={styles.buttons}>
