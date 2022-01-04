@@ -19,7 +19,6 @@ import Modal from "react-native-modal";
 const processDate = (field: string) => {
   return `${field}`.length == 1 ? `0${field}` : field
 }
-
 export default function Evento() {
   const [date, setDate] = useState();
   const [endDate, setEndDate] = useState();
@@ -114,7 +113,7 @@ export default function Evento() {
     if (endDate) {
       console.log("end date setado")
       setEndDate(endDate)
-      setEvent({ ...event, endDate: `${endDate.getFullYear()}-${endDate.getMonth() + 1}-${endDate.getDate()}` })
+      setEvent({ ...event, endDate: `${processDate(endDate.getFullYear())}-${processDate(endDate.getMonth() + 1)}-${processDate(endDate.getDate())}` })
     }
     setShowEndData(!showEndData)
   }
@@ -123,7 +122,7 @@ export default function Evento() {
     let startHour = value.nativeEvent.timestamp
     if (startHour) {
       setTime(startHour)
-      setEvent({ ...event, startHour: `${startHour.getHours()}:${startHour.getMinutes()}` })
+      setEvent({ ...event, startHour: `${processDate(startHour.getHours())}:${processDate(startHour.getMinutes())}` })
 
     }
     setShowTime(!showTime)
@@ -133,11 +132,11 @@ export default function Evento() {
     let endHour = value.nativeEvent.timestamp
     if (endHour) {
       setEndTime(endHour)
-      setEvent({ ...event, endHour: `${endHour.getHours()}:${endHour.getMinutes()}` })
+      setEvent({ ...event, endHour: `${processDate(endHour.getHours())}:${processDate(endHour.getMinutes())}` })
     }
     setShowEndTime(!showEndTime)
   }
-
+''
   React.useEffect(() => { }, [date])
 
   if (loading) {

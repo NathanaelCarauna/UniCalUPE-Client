@@ -20,6 +20,7 @@ export default function DateSquare({ day, date, selected, month, year}: propsTyp
 
     const GetEventsByDate = () => {
         console.log("######################## data: " +selectedDate)
+        console.log(date)
         if(date.length <2){
             setSelectDate(`${year}-${month + 1}-0${date}`)
         }else{
