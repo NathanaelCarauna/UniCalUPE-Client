@@ -14,6 +14,10 @@ import SelectDropdown from 'react-native-select-dropdown';
 import { useNavigation } from '@react-navigation/native';
 import TabBarIcon from '../components/TabIcon';
 
+const processDate = (field: string) => {
+  return `${field}`.length == 1 ? `0${field}` : field
+}
+
 export default function Evento({ route }) {
   const { routeEvent } = route.params
 
@@ -86,12 +90,31 @@ export default function Evento({ route }) {
     console.log(endTime)
   };
 
+  // const HandleDate = (value) => {
+  //   let startDate = value.nativeEvent.timestamp;
+  //   if (startDate) {
+  //     console.log("Start date setado")
+  //     setDate(startDate)
+  //     setEvent({ ...event, startDate: `${startDate.getFullYear()}-${startDate.getMonth() + 1}-${startDate.getDate()}` })
+  //   }
+  //   setShowData(!showData)
+  // }
+  // const HandleEndDate = (value) => {
+  //   let endDate = value.nativeEvent.timestamp
+  //   if (endDate) {
+  //     console.log("end date setado")
+  //     setEndDate(endDate)
+  //     setEvent({ ...event, endDate: `${endDate.getFullYear()}-${endDate.getMonth() + 1}-${endDate.getDate()}` })
+  //   }
+  //   setShowEndData(!showEndData)
+  // }
+
   const HandleDate = (value) => {
     let startDate = value.nativeEvent.timestamp;
     if (startDate) {
       console.log("Start date setado")
       setDate(startDate)
-      setEvent({ ...event, startDate: `${startDate.getFullYear()}-${startDate.getMonth() + 1}-${startDate.getDate()}` })
+      setEvent({ ...event, startDate: `${processDate(startDate.getFullYear())}-${processDate(startDate.getMonth() + 1)}-${processDate(startDate.getDate())}` })
     }
     setShowData(!showData)
   }
@@ -100,7 +123,7 @@ export default function Evento({ route }) {
     if (endDate) {
       console.log("end date setado")
       setEndDate(endDate)
-      setEvent({ ...event, endDate: `${endDate.getFullYear()}-${endDate.getMonth() + 1}-${endDate.getDate()}` })
+      setEvent({ ...event, endDate: `${processDate(endDate.getFullYear())}-${processDate(endDate.getMonth() + 1)}-${processDate(endDate.getDate())}` })
     }
     setShowEndData(!showEndData)
   }

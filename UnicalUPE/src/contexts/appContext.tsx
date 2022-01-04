@@ -447,6 +447,7 @@ export const AppProvider = ({ children }: { children: React.ReactNode }) => {
                 .then((response: AxiosResponse) => {
                     if (response.status == 200) {
                         isSuccess = true
+                        getEventByUser(user.id)
                         getEventsByCourse(user.course.id)
                     }
                     setLoading(false);

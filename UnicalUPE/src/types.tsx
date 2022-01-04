@@ -113,3 +113,4 @@ export type eventType = {
 
   }
 };
+export type user = { email: string, name: string, id: number, accountType: string }
