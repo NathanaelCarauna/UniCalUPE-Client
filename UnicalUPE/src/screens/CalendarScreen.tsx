@@ -48,7 +48,6 @@ export default function CalendarScreen({ navigation }) {
     selectedDate,
     loading,
     userNotifications,
-    getEventByUser,
     getEventsByCourse,
     getEventsAll,
     getEventsByDate,
@@ -71,23 +70,21 @@ export default function CalendarScreen({ navigation }) {
 
   const onRefresh = React.useCallback(() => {
     setRefreshing(true);
-    if(user && user.course){
+    if (user && user.course) {
       getNotificationByUserEmail();
       getEventsByCourse(course && course.id ? course.id : user.course.id);
-      getEventByUser(user.id);
-    }else{
+    } else {
       getEventsAll()
     }
     setRefreshing(false)
   }, []);
 
   useEffect(() => {
-    console.log("*********************", user)
-      if (user.name && !user.course) {
-        console.log("USUAAAARIO::::", user)
-        navigation.navigate('EditProfile')
-      }      
-  }, [user])
+    if (user && !user.course) {
+      console.log("USUAAAARIO::::", user)
+      navigation.navigate('EditProfile')
+    }
+  }, [])
 
 
   const handleSubmit = () => {
@@ -116,6 +113,12 @@ export default function CalendarScreen({ navigation }) {
     }
   }, [user])
 
+  const updateCallendar = (date) => {
+    const calendarEvents = EventsCalendar
+    calendarEvents[date] = { ...calendarEvents[date], selected: true, selectedColor: 'black' }
+    console.log('---------Calendar events:', date, calendarEvents)
+  }
+
   if (loading) {
     return (
       (
@@ -136,131 +139,130 @@ export default function CalendarScreen({ navigation }) {
           />
         }
       >
-      {/* <TitleMainScreen title='Eventos do Mês' /> */}
-      <SelectDropdown
-        data={coursesList}
-        defaultButtonText={course.name ? course.name : 'Escolha um filtro'}
-        buttonStyle={styles.dropdownBtnStyle}
-        dropdownStyle={styles.dropdown}
-        buttonTextStyle={styles.dropdownBtnTxtStyle}
-        dropdownIconPosition={"right"}
-        rowStyle={styles.dropdownRowStyle}
-        rowTextStyle={styles.dropdownRowTxtStyle}
-        renderDropdownIcon={() => {
-          return (
-            <FontAwesome name="chevron-down" color={"#FFF"} size={18} style={styles.dropdownIcon} />
-          );
-        }}
-        onSelect={(selectedItem, index) => {
-          //console.log("SELECTED ITEM: ", selectedItem, index)
-          //console.log("SELECTED ID: ", selectedItem.id)
-          CurrentCourse(selectedItem)
-          console.log("curso: " + course)
-          if (selectedItem.id == -1) {
-            getEventsAll()
-          } else {
-            getEventsByCourse(selectedItem.id);
-          }
-        }}
-        buttonTextAfterSelection={(selectedItem, index) => {
-          // text represented after item is selected
-          // if data array is an array of objects then return selectedItem.property to render after item is selected
-          return selectedItem.name
-        }}
-        rowTextForSelection={(item, index) => {
-          // text represented for each item in dropdown
-          // if data array is an array of objects then return item.property to represent item in dropdown
-          return item.name
-        }}
-      />
-      <Calendar
-        // current={'2021-12-12'}
-        onDayPress={(day) => {
-          console.log('Calendar select date:', day.dateString)
-          setSelectDate(day.dateString)
-          getEventsByDate(day.dateString)
-          navigation.navigate("Eventos")
-          // updateCallendar(day.dateString)
-          console.log('Selected date:', selectedDate)
-        }}
-        onDayLongPress={(day) => { console.log('selected day', day) }}
-        // monthFormat={'dd MM yyyy'}
-        onMonthChange={(month) => { console.log('month changed', month) }}
-        hideExtraDays={true}
-        disableMonthChange={false}
-        firstDay={1}
-        hideDayNames={false}
-        showWeekNumbers={false}
-        onPressArrowLeft={subtractMonth => subtractMonth()} rrr
-        onPressArrowRight={addMonth => addMonth()}
-        disableAllTouchEventsForDisabledDays={true}
-        // renderHeader={(date) => {<Text>Teste</Text> }}
-        enableSwipeMonths={true}
-        markingType={'multi-dot'}
-        markedDates={EventsCalendar}
-        style={styles.calendar}
+        {/* <TitleMainScreen title='Eventos do Mês' /> */}
+        <SelectDropdown
+          data={coursesList}
+          defaultButtonText={course.name ? course.name : 'Escolha um filtro'}
+          buttonStyle={styles.dropdownBtnStyle}
+          dropdownStyle={styles.dropdown}
+          buttonTextStyle={styles.dropdownBtnTxtStyle}
+          dropdownIconPosition={"right"}
+          rowStyle={styles.dropdownRowStyle}
+          rowTextStyle={styles.dropdownRowTxtStyle}
+          renderDropdownIcon={() => {
+            return (
+              <FontAwesome name="chevron-down" color={"#FFF"} size={18} style={styles.dropdownIcon} />
+            );
+          }}
+          onSelect={(selectedItem, index) => {
+            //console.log("SELECTED ITEM: ", selectedItem, index)
+            //console.log("SELECTED ID: ", selectedItem.id)
+            CurrentCourse(selectedItem)
+            console.log("curso: " + course)
+            if (selectedItem.id == -1) {
+              getEventsAll()
+            } else {
+              getEventsByCourse(selectedItem.id);
+            }
+          }}
+          buttonTextAfterSelection={(selectedItem, index) => {
+            // text represented after item is selected
+            // if data array is an array of objects then return selectedItem.property to render after item is selected
+            return selectedItem.name
+          }}
+          rowTextForSelection={(item, index) => {
+            // text represented for each item in dropdown
+            // if data array is an array of objects then return item.property to represent item in dropdown
+            return item.name
+          }}
+        />
+        <Calendar
+          // current={'2021-12-12'}
+          onDayPress={(day) => {
+            setSelectDate(day.dateString)
+            getEventsByDate(day.dateString)
+            navigation.navigate("Eventos")
+            // updateCallendar(day.dateString)
+            console.log('Selected date:', selectedDate)
+          }}
+          onDayLongPress={(day) => { console.log('selected day', day) }}
+          // monthFormat={'dd MM yyyy'}
+          onMonthChange={(month) => { console.log('month changed', month) }}
+          hideExtraDays={true}
+          disableMonthChange={false}
+          firstDay={1}
+          hideDayNames={false}
+          showWeekNumbers={false}
+          onPressArrowLeft={subtractMonth => subtractMonth()} rrr
+          onPressArrowRight={addMonth => addMonth()}
+          disableAllTouchEventsForDisabledDays={true}
+          // renderHeader={(date) => {<Text>Teste</Text> }}
+          enableSwipeMonths={true}
+          markingType={'multi-dot'}
+          markedDates={EventsCalendar}
+          style={styles.calendar}
 
-        theme={{
-          backgroundColor: 'black',
-          textSectionTitleColor: 'black',
-          textSectionTitleDisabledColor: '#d9e1e8',
-          selectedDayBackgroundColor: '#00adf5',
-          selectedDayTextColor: '#ffffff',
-          todayTextColor: '#00adf5',
-          dayTextColor: '#2d4150',
-          arrowColor: 'black',
-          monthTextColor: 'black',
-          textDayFontWeight: '300',
-          textMonthFontWeight: 'bold',
-          textDayHeaderFontWeight: '300',
-          textDayFontSize: 16,
-          textMonthFontSize: 18,
-        }}
-      />
-     
-      <Modal isVisible={isModalVisible} >
-        <View style={styles.modal}>
-          <LinearGradient colors={["#ffffff", "#ffffff"]}>
-            <Text style={styles.textModal} >Você realmente deseja sair da sua conta ?</Text>
+          theme={{
+            backgroundColor: 'black',
+            textSectionTitleColor: 'black',
+            textSectionTitleDisabledColor: '#d9e1e8',
+            selectedDayBackgroundColor: '#00adf5',
+            selectedDayTextColor: '#ffffff',
+            todayTextColor: '#00adf5',
+            dayTextColor: '#2d4150',
+            arrowColor: 'black',
+            monthTextColor: 'black',
+            textDayFontWeight: '300',
+            textMonthFontWeight: 'bold',
+            textDayHeaderFontWeight: '300',
+            textDayFontSize: 16,
+            textMonthFontSize: 18,
+          }}
+        />
 
-            <View style={styles.buttons}>
-              <TouchableOpacity
-                style={styles.buttonModalBack}
-                onPress={toggleModal}>
-                <TabBarIcon name="arrow-left" color={'white'} style={styles.icon} size={20} />
-              </TouchableOpacity>
-              <TouchableOpacity
-                style={styles.buttonModal}
-                onPress={handleSubmit}>
-                <Text style={styles.buttonText}>Sair</Text>
-              </TouchableOpacity>
+        <Modal isVisible={isModalVisible} >
+          <View style={styles.modal}>
+            <LinearGradient colors={["#ffffff", "#ffffff"]}>
+              <Text style={styles.textModal} >Você realmente deseja sair da sua conta ?</Text>
 
-            </View>
-          </LinearGradient>
-        </View>
-      </Modal>
+              <View style={styles.buttons}>
+                <TouchableOpacity
+                  style={styles.buttonModalBack}
+                  onPress={toggleModal}>
+                  <TabBarIcon name="arrow-left" color={'white'} style={styles.icon} size={20} />
+                </TouchableOpacity>
+                <TouchableOpacity
+                  style={styles.buttonModal}
+                  onPress={handleSubmit}>
+                  <Text style={styles.buttonText}>Sair</Text>
+                </TouchableOpacity>
+
+              </View>
+            </LinearGradient>
+          </View>
+        </Modal>
+        <FlatList
+          key={'_'}
+          data={buttons}
+          contentContainerStyle={{ flexGrow: 1, justifyContent: 'space-around', alignSelf: 'flex-end' }}
+          horizontal={true}
+          renderItem={({ item }) => {
+            return (
+              <ButtonNavigation
+                buttonText={item.buttonText}
+                destination={item.destination}
+                navigation={item.navigation}
+                backColor={item.backColor}
+              />
+            )
+          }}
+          keyExtractor={(item) => item.buttonText}
+          style={{
+            margin: 10,
+          }}
+
+        />
       </ScrollView>
-      <FlatList
-        key={'_'}
-        data={buttons}
-        contentContainerStyle={{ flexGrow: 1, justifyContent: 'space-around', alignSelf: 'flex-end' }}
-        horizontal={true}
-        renderItem={({ item }) => {
-          return (
-            <ButtonNavigation
-              buttonText={item.buttonText}
-              destination={item.destination}
-              navigation={item.navigation}
-              backColor={item.backColor}
-            />
-          )
-        }}
-        keyExtractor={(item) => item.buttonText}
-        style={{
-          margin: 10,
-        }}
-
-      />
     </MainView>
   );
 }
