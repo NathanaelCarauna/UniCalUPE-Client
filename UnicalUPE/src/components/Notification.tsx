@@ -34,7 +34,7 @@ export default function Notification({ title, category, date, event, notificatio
                         {category == "PESQUISA" ? 'Nova pesquisa: ' : 'Novo Evento: '} {title}
                     </Text>
                     <Text style={styles.data}>
-                        {notificationDate.getDate()}/{notificationDate.getMonth()}/{notificationDate.getFullYear()} {notificationDate.getHours()}:{notificationDate.getMinutes()}
+                        {notificationDate.getDate()+1}/{notificationDate.getMonth()+1}/{notificationDate.getFullYear()} {notificationDate.getHours()}:{notificationDate.getMinutes()}
                     </Text>
                 </View>
                 <View style={styles.optionsContainer}>
