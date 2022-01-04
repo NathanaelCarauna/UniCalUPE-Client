@@ -6,8 +6,8 @@ import { Text} from './Themed';
 import { LinearGradient } from 'expo-linear-gradient';
 import Colors from '../constants/Colors';
 import AppContext from '../contexts/appContext';
+import { propsType } from '../types';
 
-type propsType = { day: string, date: string, selected: boolean, month: string, year: string }
 
 export default function DateSquare({ day, date, selected, month, year}: propsType) {
     const { eventsList, setEventByDateRequested, getEventsByDate, selectedDate, setSelectDate} = useContext(AppContext)

@@ -6,18 +6,10 @@ import * as NotificationApi from '../services/NotificationApi';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import * as AuthSession from 'expo-auth-session';
 import { AxiosResponse } from 'axios';
-import { eventType } from '../types'
+import { AuthResponse, eventType, user, email } from '../types'
 import Colors from '../constants/Colors';
 
-type AuthResponse = {
-    type: string;
-    params: {
-        access_token: string;
-    }
-}
 
-type user = { email: string, name: string, id: number, accountType: string }
-type email = { email: string }
 export const AppContext = createContext({
     signed: false,
     user: {},

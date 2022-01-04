@@ -8,23 +8,8 @@ import Colors from '../constants/Colors'
 import { useNavigation } from '@react-navigation/native';
 import { useContext } from 'react';
 import AppContext from '../contexts/appContext';
+import { eventType } from '../types';
 
-type eventType = {
-    event: {
-        id: string,
-        title: string
-        local: string
-        presentor: string
-        course: string
-        category: string
-        description: string
-        endDate: string
-        endHour: string
-        link: string
-        startDate: string
-        startHour: string
-    }
-}
 export default function EventComponent({event}) {
 
     const navigation = useNavigation();
