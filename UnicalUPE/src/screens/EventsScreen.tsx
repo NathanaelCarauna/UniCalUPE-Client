@@ -36,7 +36,7 @@ export default function EventsScreen() {
     var currentDay: Date;
     if (selectedDate.length > 3) {
       currentDay = new Date(selectedDate)
-      currentDay.setDate(currentDay.getDate())
+      currentDay.setDate(currentDay.getDate()+1)      
       console.log('Data refresh:', selectedDate)
     } else {
       currentDay = new Date();
