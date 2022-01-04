@@ -24,6 +24,8 @@ export const AppContext = createContext({
     userNotifications: [],
     currentError: {},
     myEventsList: [],
+    signUpRequested: false,    
+    setSignUpRequested: () => {},
     setCurrentError: () => { },
     setLoading: () => { },
     getUser: (email: email) => { },
@@ -51,6 +53,7 @@ export const AppContext = createContext({
 export const AppProvider = ({ children }: { children: React.ReactNode }) => {
     const [loading, setLoading] = useState<boolean | undefined>()
     const [eventByDateRequested, setEventByDateRequested] = useState<boolean | undefined>()
+    const [signUpRequested, setSignUpRequested] = useState<boolean | undefined>()
     const [user, setUser] = useState({});
     const [userGAPI, setUserGAPI] = useState();
     const [userNotifications, setUserNotifications] = useState([]);
@@ -210,12 +213,13 @@ export const AppProvider = ({ children }: { children: React.ReactNode }) => {
         const userinfo = await response.json()
         // console.log(userinfo)
         getUser(userinfo.email).then(response => {
-            console.log('Setou com o que veio do back', response.data)
+            console.log('Setou com o que veio do back', response.data)            
             setUser(response.data)
             getEventsByCourse(response.data.course.id)
             getEventByUser(response.data.id)
             getNotificationByUserEmail(response.data.email)
         }).catch(err => {
+            setSignUpRequested(true)
             console.log('Deu erro no load')
             setUser({ name: userinfo.name, email: userinfo.email })
         })
@@ -697,6 +701,8 @@ export const AppProvider = ({ children }: { children: React.ReactNode }) => {
             userNotifications,
             currentError,
             myEventsList,
+            signUpRequested,
+            setSignUpRequested,
             setCurrentError,
             setEventByDateRequested,
             setLoading,

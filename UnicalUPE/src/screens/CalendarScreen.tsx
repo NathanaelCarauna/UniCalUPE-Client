@@ -48,6 +48,8 @@ export default function CalendarScreen({ navigation }) {
     selectedDate,
     loading,
     userNotifications,
+    signUpRequested,
+    setSignUpRequested,
     getEventsByCourse,
     getEventsAll,
     getEventsByDate,
@@ -81,13 +83,14 @@ export default function CalendarScreen({ navigation }) {
 
   useEffect(() => {
     setTimeout(() => {
-      if (user && !user.course) {
+      if (signUpRequested) {
+        setSignUpRequested(false)
         console.log("USUAAAARIO::::", user)
         navigation.navigate('EditProfile')
       }
 
     }, 200)
-  }, [])
+  }, [signUpRequested])
 
 
   const handleSubmit = () => {
